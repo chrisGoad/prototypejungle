@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .indent2 {
+		padding-left:40px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}
+  .plainText {
+		font-weight:normal;
+    font-size:12pt
+	}
+  .title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+  .source {
+    font-size:16pt;
+    text-align:center;
+	}
+ .section {
+   padding-top:30px;
+		font-weight:bold;
+    font-size:15pt;
+	}
+  .userDefinedText {
+  	font-weight:bold;
+    font-size:12pt;
+    color:rgb(200,0,0);
+   }
+   .userDefinedCode {
+    font-style:italic;
+    color:rgb(200,0,0);
+   }
+  .blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+td {
+  borderr: 1px solid rgb(190,190,190);
+  padding-left: 20px;
+}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+
+<p class="title">Method Modules</p>
+<p>A method module is something that adds a batch of methods to an image generator. Each supports the generation of a certain sort of image. For example grid.mjs enables the construction of visual grids, such as this one,</p> 
+ <p><img  src="grid_droplets.jpg" alt=media" style="bborder:thin black solid;cursor:pointer"  width="300" height="300" max-height="500"/></p>
+
+<p>and drop.mjs generates images by dropping elementary shapes onto the image at random, while avoiding collisions. </p>
+
+ <p><img  src="drop_ice.jpg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="300" height="300" max-height="500"/></p>
+<p>Modules appear in the directory <span class="textVar">&lt;prototypejungle&gt;/www/mlib</span>.   They can, and usually are, used together. They are described one by one in the following sections of this document.</p>
+</body>
+</html>

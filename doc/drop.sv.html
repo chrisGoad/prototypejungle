@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .indent2 {
+		padding-left:40px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}
+  .plainText {
+		font-weight:normal;
+    font-size:12pt
+	}
+  .title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+  .source {
+    font-size:16pt;
+    text-align:center;
+	}
+ .section {
+   padding-top:30px;
+		font-weight:bold;
+    font-size:15pt;
+	}
+  .blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+td {
+  borderr: 1px solid rgb(190,190,190);
+  padding-left: 20px;
+}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+<p> This module will be introduced via annotated code, which generates the image</p>
+ <p><img  src="/doc/drop_ice.jpg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="400" height="400" max-height="500"/></p>
+ <p>Here's the code:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+
+import {rs as linePP} from '/line/line.mjs';
+import {rs as basicsP} from '/generators/basics.mjs';
+import {rs as addDropMethods} from '/mlib/drop.mjs';
+import {rs as addSegsetMethods} from '/mlib/segsets.mjs';
+let rs = basicsP.instantiate();
+
+addDropMethods(rs);
+addSegsetMethods(rs);
+rs.setName('drop_ice');
+let wd = 200;
+
+let topParams = {width:wd,height:wd,dropTries:100,lineLength:2,frameStroke:'rgb(2,2,2)',framePadding:20,frameVisible:0,minSeparation:10}
+
+Object.assign(rs,topParams);
+
+
+rs.initProtos = function () {
+	this.lineP = linePP.instantiate();
+	this.lineP.stroke = 'yellow';
+	this.lineP['stroke-width'] = .3;
+}  
+
+rs.initialSegments = function () {
+  let {width,height} = this; 
+  // the rectangleSegments method is defined in the segsets module
+  let segs = this.rectangleSegments(width,height);
+  let lines = segs.map((sg) => this.genLine(sg));  
+  return [segs,lines];
+}
+
+rs.segParams = function () {
+  let r = Math.random();
+  let np = 4;
+  let angle = Math.floor(r*np)* (Math.PI/np)
+  let length = 2 + Math.floor(r*np)*4;
+  return {angle,length};
+} 
+
+rs.genSegments = function (p) {
+  let {minSeparation:sep,lineP} = this;
+  let {length,angle} = this.segParams();
+  let seg = this.genSegment(p,length,angle);
+  let ln = this.genLine(seg,lineP);
+  let eseg = this.genSegment(p,length+sep,angle);
+  return [[eseg],[ln]];
+}
+ 
+
+rs.initialize = function () {
+  core.root.backgroundColor = 'black';
+	this.initProtos();
+	this.initializeDrop();
+  	this.addFrame();
+
+}
+
+export {rs};
+
+
+</pre>
+<p> The DROP algorithm drops  things at random positions on the canvas. If a thing lands on top of another, it is thrown away.   I have used the vague word "thing". A thing is a pair [lineSegments,lines]. The lineSegments are used for detecting collisions. If a given drop does not intersect with the lineSegments already dropped, then the lines are displayed (by adding them to the shape tree).
+ The segsets method library is used to build sets of segments. </p>
+
+<p>Let rs be the generator object. Sets of line segments (and lines) are created by the method rs.genSegments. This method has the form: </p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+rs.genSegments = function (p) {
+...
+return [segs,lines];
+}
+</pre>
+<p>where p is a Point (the "anchor point"),   segs is an array of lineSegments, and lines an array of lines.  Elements of segs are added to the set of all segs dropped so far. As mentioned above, each time there is a new attempted drop, it is checked whether any of the new segs intersect any of those already dropped. If not, the drop succeeds, and the segs are added the already dropped array, and the lines are added to the set of lines to be displayed.  The relationship between segs and lines is up to the generator, but a typical case is where the ends of the lines are taken from the ends of the segs (so that they coincide, geometrically). A value of the form [segs:array(LineSegment),lines:array(Line)] is called a "segset" (even though lines are included as well as segs). </p>
+
+<p>Parameters: dropTries sets how many unsuccessful drops are tolerated before the algorithm is terminated. </p>
+
+
+</div>
+</div>
+</body>
+</html>
+
+
+

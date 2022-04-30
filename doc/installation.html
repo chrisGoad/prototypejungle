@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .indent2 {
+		padding-left:40px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}
+  .plainText {
+		font-weight:normal;
+    font-size:12pt
+	}
+  .title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+  .source {
+    font-size:16pt;
+    text-align:center;
+	}
+ .section {
+   padding-top:30px;
+		font-weight:bold;
+    font-size:15pt;
+	}
+  .userDefinedText {
+  	font-weight:bold;
+    font-size:12pt;
+    color:rgb(200,0,0);
+   }
+   .userDefinedCode {
+    font-style:italic;
+    color:rgb(200,0,0);
+   }
+  .blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+td {
+  borderr: 1px solid rgb(190,190,190);
+  padding-left: 20px;
+}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+
+
+<p class="title">Installation</a></p>
+
+
+<p>First download this zip, or clone from github:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+cd c:\
+git clone https://github.com/chrisGoad/prototypejungle.git
+</pre>
+ <p> You can place the PrototypeJungle directory anywhere you like. Install <a href="https://nodejs.org/node">node</a>, if it is not already present on your machine. In a shell, rev up the local server:</p>
+
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+cd &lt;prototypejungle&gt;
+node server/server.js
+</pre>
+
+<p>Then you can run an image generator by, for example, directing your browser to </p>
+<p class="textVar"><a href="http://localhost:8081/draw.html?source=/generators/lines_chaos_within_order.mjs">http://localhost:8081/draw.html?source=/generators/lines_chaos_within_order.mjs</a>. </p>
+<p> Then, clicking on the "Save Image", or "Save Image (High Res)" will result in the image chaos_within_order.jpg  being saved in the <span class="textVar">&lt;prototypejungle&gt;/www/images</span> or <span class="textVar">&lt;prototypejungle&gt;/www/images_hi_res</span> directories, respectively</p>
+<!-- <p>The source file for this generator is at <span class="textVar">&lt;prototypejungle&gt;/www/generators/lines_chaos_within_order.mjs--></p>
+<p> <span class="textVar"><a href="http://localhost:8081/index.html">http://localhost:8081/index.html</a></span> gets you to this documentation served from the local server you just started. Then <span class="textVar"><a href="http://localhost:8081/images.html">http://localhost:8081/images.html</a></span> yields a page from which you can access all of the image generators that come with this installation. You can modify the generators, or write new ones, by editing or creating files in the directory <span class="textVar">&lt;prototypejungle&gt;/www/generators/</span>. To rebuild them, click on the names of the images. <a href="../local_images.html">Local images</a> retrieves its images, if any, from the local images directory, whereas <a href="../local_images.html">Images</a> retreives them from the web.</p>
+
+ 
+
+
+ 
+</div>
+</div>
+</body>
+</html>
+

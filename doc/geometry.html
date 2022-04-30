@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .indent2 {
+		padding-left:40px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}
+  .plainText {
+		font-weight:normal;
+    font-size:12pt
+	}
+  .title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+  .source {
+    font-size:16pt;
+    text-align:center;
+	}
+ .section {
+   padding-top:30px;
+		font-weight:bold;
+    font-size:15pt;
+	}
+  .blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+td {
+  borderr: 1px solid rgb(190,190,190);
+  padding-left: 20px;
+}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+<p class="title">Geometry</p>
+<p>PrototypeJungle defines geometric types (implemented as prototypes) and methods that are directly accessible in any context. Geometic objects are used in the course of geometric computations, but do not have a visible form. <span class="textVar"><a href="shapes.html">shapes</a></span>, covered in the next section, are the visible elements.</p>
+<p>The geometric types and their properties and methods are specified below.</p>
+
+<p class="textVar" id="Point">Point</p>
+</p>
+<p>Constructor:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+Point.mk(x:&lt;number&gt;,y:&lt;number&gt;)
+</pre>
+<p> Properties of Point <span class="textVar">p</span>,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+p.x
+p.y
+</pre>
+<p>Methods for Point <span class="textVar">p</span>,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+p.plus(q:&lt;Point&gt;); // returns the vector sum p and q
+p.difference(q:&lt;Point&gt;); // returns the vector subtraction of q from p
+p.distance(q:&lt;Point&gt;); // returns distance from p to q
+p.normalize(); // returns p shrunk or extended to a unit vector with the same direction
+p.normal(); // returns a vector which is orthogonal to p
+p.times(s:&lt;number&gt;); // return p scaled by s
+</pre>
+<hr/>
+<p class="textVar">LineSegment</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+LineSegment.mk(end0:&lt;Point&gt;,end1:&lt;Point&gt;)
+</pre>
+<p> Properties of LineSegment <span class="textVar">s</span>,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+s.end0
+s.end1
+</pre>
+<p>Methods for LineSegment <span class="textVar">s</span>,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+s.length();
+s.pointAlong(n:&lt;number&gt;) // for 0&lt;=n&lt;=1, returns the point fraction n of the way from end0 to end1
+</pre>
+<hr/>
+<p class="textVar">Circle</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+Circle.mk(center:&lt;Point&gt;,radius:&lt;number&gt;)
+</pre>
+<p> Properties of Circle <span class="textVar">c</span>,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+c.center
+c.radius
+</pre>
+<hr/>
+<p class="textVar" id="Point3d">Point3d</p>
+
+</p>
+<p>Constructor:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+Point3d.mk(x:&lt;number&gt;,y:&lt;number&gt;,z:&lt;number&gt;)
+</pre>
+<p> Properties of Point3d <span class="textVar">p</span>,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+p.x
+p.y
+p.z
+</pre>
+<p>Methods for Point3d <span class="textVar">p</span>,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+p.plus(q:&lt;Point&gt;); // returns the vector sum p and q
+p.difference(q:&lt;Point&gt;); // returns the vector subtraction of q from p
+p.distance(q:&lt;Point&gt;); // returns distance from p to q
+p.times(s:&lt;number&gt;); // return p scaled by s
+</pre>
+<hr/>
+<p class="textVar" id="Camera">Camera</p>
+</p>
+
+
+<p>Constructor:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+Camera.mk(focalPoint:&lt;Point3d&gt;,focalLength:&lt;number&gt;,scaling:&lt;number&gt;,axis:&lt;string&gt;)
+</pre>
+<p><span class="textVar">axis</span> should be one of "x", "y", "z"
+<p> Properties of Camera <span class="textVar">c</span>,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+c.focalPoint
+c.focalLength
+p.scaling
+p.axis
+</pre>
+<p>Methods for Camera <span class="textVar">c</span>,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+c.project(p:&lt;Point3d&gt;); // returns the projection of p onto the focal plane
+</pre>
+
+
+
+</div>
+</div>
+</body>
+</html>
+

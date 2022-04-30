@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .indent2 {
+		padding-left:40px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}
+  .plainText {
+		font-weight:normal;
+    font-size:12pt
+	}
+  .title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+  .source {
+    font-size:16pt;
+    text-align:center;
+	}
+ .section {
+   padding-top:30px;
+		font-weight:bold;
+    font-size:15pt;
+	}
+  .userDefinedText {
+  	font-weight:bold;
+    font-size:12pt;
+    color:rgb(200,0,0);
+   }
+   .userDefinedCode {
+    font-style:italic;
+    color:rgb(200,0,0);
+   }
+  .blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+td {
+  borderr: 1px solid rgb(190,190,190);
+  padding-left: 20px;
+}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+<p> This module will be introduced via annotated code, which generates the image</p>
+ <p><img  src="/doc/lines_lights.jpg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="300" height="450" /></p>
+ <p>Here's the code:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+import {rs as linePP} from '/shape/line.mjs';
+import {rs as basicP} from '/generators/basics.mjs';
+import {rs as addLinesMethods} from '/mlib/lines.mjs';	
+
+let rs = basicP.instantiate();
+addLinesMethods(rs);
+rs.setName('lines_lights');
+let wd = 130;
+let ht = 1.5*wd;
+let topParams = {width:wd,height:ht,numLines:3000,framePadding:0.1*wd}
+Object.assign(rs,topParams);
+ 
+rs.initProtos = function () {
+  core.assignPrototypes(this,'lineP',linePP);
+  this.lineP.stroke = 'white';
+  this.lineP['stroke-width'] = .015; 	
+}  
+
+rs.initialize = function () {
+  let {numLines,lineP} = this;
+  this.addFrame();
+  this.initProtos();
+  let theLineSeg = LineSegment.mk(Point.mk(0,-80),Point.mk(0,80));
+  this.generateLines({src:Circle.mk(Point.mk(-50,40),5),dst:theLineSeg,numLines:numLines,lineP:this.lineP});
+  this.generateLines({src:Circle.mk(Point.mk(-50,-40),5),dst:theLineSeg,numLines:numLines,lineP:this.lineP});
+  this.generateLines({src:Circle.mk(Point.mk(50,0),10),srcOn:1,dst:theLineSeg,numLines:numLines,lineP:this.lineP});
+}	
+export {rs};
+
+</pre>
+<p> The calls of the form</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+  this.generateLines({src:geometricObject,srcOn:boolean=false,dst:geometricObject,dstOn:boolean=false,numLines:number,lineP:lineShape});
+</pre>
+<p>perform the work of drawing lines. In particular <span class="textVar">numLines</span> lines are drawn between the <a href="geometry.html">geometricObject</a>   <span class="textVar">src</span> and the geometricObject  <span class="textVar">dst</span>.  <span class="textVar">src</span> and  <span class="textVar">dst</span> can be  <span class="textVar">LineSegments, Rectangles,</span> or  <span class="textVar">Circles</span>. If  <span class="textVar">srcOn</span> is <a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>, then lines are drawn from random points on the periphery of the geometricObject, and if <a href="https://developer.mozilla.org/en-US/docs/Glossary/Falsy">falsy</a> (the default), from random  points in the interiors of those objects. Same for  <span class="textVar">dstOn</span>.  <span class="textVar">LineSegments</span> have no interior, so  <span class="textVar">srcOn</span> and  <span class="textVar">dstOn</span> have no effect in this case.
+</p>
+
+
+</div>
+</div>
+</body>
+</html>
+
+
+

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .indent2 {
+		padding-left:40px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}
+  .plainText {
+		font-weight:normal;
+    font-size:12pt
+	}
+  .title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+  .source {
+    font-size:16pt;
+    text-align:center;
+	}
+ .section {
+   padding-top:30px;
+		font-weight:bold;
+    font-size:15pt;
+	}
+  .userDefinedText {
+  	font-weight:bold;
+    font-size:12pt;
+    color:rgb(200,0,0);
+   }
+   .userDefinedCode {
+    font-style:italic;
+    color:rgb(200,0,0);
+   }
+  .blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+td {
+  borderr: 1px solid rgb(190,190,190);
+  padding-left: 20px;
+}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+
+<p class="title">Shapes</p>
+<p>A <i>shape tree</i> is a <a href="prototypetree.html">prototype tree</a> whose nodes are shapes. Shapes inherit from the prototype <span class="textVar">svg.Element</span>, and each shape corresponds to a particular element in the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG">SVG</a> library, a standardized API that is available in any web browser.  At any given time the content that is displayed by PrototypeJungle is  the shape tree 
+<span class="textVar">root</span>. When an image generator is loaded via, e.g.</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+<a href="http://localhost:8081/draw.html?source=/generators/lines_chaos_within_order.mjs">http://localhost:8081/draw.html?source=/generators/lines_chaos_within_order.mjs</a>
+</pre>
+<p>the object which it exports (conventionally named "rs") is bound to <span class="textVar">root</span>, and its content is made visible. </p>
+<p>A shape tree's internal nodes are created by the operations:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+containerShape.mk();
+</pre>
+<p>and</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+arrayShape.mk();
+</pre>
+<p>while its leaf nodes are elementary shapes like circles and lines.  The prototypes for these elementary shapes are found in /shape/&lt;shapeName&gt;</p>
+<p> The following operation applies to  nodes created by <span class="textVar">containerShape.mk()</span>:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+nd.set(name:string,shp:shape)
+</pre>
+<p>This adds <span class="textVar">shp</span> as a child of <span class="textVar">nd</span> under the given name. After this operation,
+<span class="textVar">nd.&lt;name&gt;</span> will evaluate to the newly added shape.</p>
+
+<p>For nodes created by <span class="textVar">arrayShape.mk()</span>, the operations</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+nd.push(shp.shape)
+</pre>
+
+<p>and</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+nd[n:number]
+</pre>
+
+<p>apply with their usual meantings.</p>
+
+<p>Operations that apply to any node <span class="textVar">nd</span> in a shape tree are</p>
+
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+nd.moveto(pnt:Point)
+nd.hide();
+nd.show();
+</pre>
+
+<p>See the documentatation of <a href="generators.html">image generators</a>, or the source files for any of the dozens of <a href="../images.html">images</a> that come with PrototypeJungle,  for examples of how shapes are created and used.</p>
+
+Here are the elementary shapes supported by PrototypeJungle, and their properties;</p>
+
+
+
+<hr/>
+<p class="textVar" id="Line">line</p>
+</p>
+<p>Acessed via:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+import {rs as linePP} from '/shape/line.mjs';
+</pre>
+
+<p> Properties of line <span class="textVar">ln</span>,</p>
+<table>
+
+<tbody>
+<tr class="pbot"><td>Property</td><td>Type</td></tr>
+<tr><td colspan="3">----------------------------------------</td></tr>
+<tr><td><span class="textVar">ln.stroke</td><td>color string such as 'blue', 'rgb(10,20,30)', or 'rgba(200,100,50,.5)'</td></tr>
+<tr><td><span class="textVar">ln.fill</span></td><td>color string</td></tr>
+<tr><td><span class="textVar">ln['stroke-width']</span></td><td>number</td></tr>
+<tr><td><span class="textVar">ln.end0</span></td><td>Point</td></tr>
+<tr><td><span class="textVar">ln.end1</span></td><td>Point</td></tr>
+</tbody>
+</table>
+
+<p>Operations:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+ln.setEnds(end0:Point,end1:Point) => null
+</pre>
+<p>
+This corresponds to the SVG <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/line">line</a> element.
+</p>
+
+<hr/>
+
+<p class="textVar" id="Point">rectangle</p>
+</p>
+<p>Acessed via:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+import {rs as rectPP} from '/shape/rectangle.mjs';
+</pre>
+<p> Properties of rectangle <span class="textVar">r</span>,</p>
+<table>
+
+<tbody>
+<tr class="pbot"><td>Property</td><td>Type</td></tr>
+<tr><td colspan="3">----------------------------------------</td></tr>
+<tr><td><span class="textVar">r.stroke</td><td>color string such as 'blue', 'rgb(10,20,30)', or 'rgba(200,100,50,.5)'</td></tr>
+<tr><td><span class="textVar">r.fill</span></td><td>color string</td></tr>
+<tr><td><span class="textVar">r['stroke-width']</span></td><td>number</td></tr>
+<tr><td><span class="textVar">r.width</span></td><td>number</td></tr>
+<tr><td><span class="textVar">r.height</span></td><td>number</td></tr>
+</tbody>
+</table>
+
+
+<p>This corresponds to the SVG <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/rect">rect</a> element.
+</p>
+
+<hr/>
+<p class="section" id="Point">circle</p>
+</p>
+<p>Acessed via:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+import {rs as circlePP} from '/shape/circle.mjs';
+</pre>
+<p> Properties of circle <span class="textVar">c</span>,</p>
+<table>
+
+<tbody>
+<tr class="pbot"><td>Property</td><td>Type</td></tr>
+<tr><td colspan="3">----------------------------------------</td></tr>
+<tr><td><span class="textVar">c.stroke</td><td>color string</td></tr>
+<tr><td><span class="textVar">c.fill</span></td><td>color string</td></tr>
+<tr><td><span class="textVar">c['stroke-width']</span></td><td>number</td></tr>
+<tr><td><span class="textVar">c.radius</span></td><td>number</td></tr>
+</tbody>
+</table>
+
+
+<p>This corresponds to the SVG <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle">circle</a> element.
+</p>
+
+<hr/>
+<p class="textVar" id="Line">polyline</p>
+</p>
+<p>Acessed via:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+import {rs as polylinePP} from '/shape/polyline.mjs';
+</pre>
+
+<p> Properties of polyline <span class="textVar">ln</span>,</p>
+<table>
+
+<tbody>
+<tr class="pbot"><td>Property</td><td>Type</td></tr>
+<tr><td colspan="3">----------------------------------------</td></tr>
+<tr><td><span class="textVar">ln.wayPoints</span></td><td>array of Points</td></tr>
+<tr><td><span class="textVar">ln.stroke</td><td>color string</td></tr>
+<tr><td><span class="textVar">ln['stroke-width']</span></td><td>number</td></tr>
+</tbody>
+</table>
+
+<p>
+This corresponds to the SVG <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polyline">polyline</a> element.
+</p>
+
+<hr/>
+<p class="textVar" id="Line">polygon</p>
+</p>
+<p>Acessed via:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+import {rs as polygonPP} from '/shape/polygon.mjs';
+</pre>
+
+<p> Properties of polygon <span class="textVar">pg</span>,</p>
+<table>
+
+<tbody>
+<tr class="pbot"><td>Property</td><td>Type</td></tr>
+<tr><td colspan="3">----------------------------------------</td></tr>
+<tr><td><span class="textVar">pg.corners</span></td><td>array of Points</td></tr>
+<tr><td><span class="textVar">pg.fill</td><td>color string</td></tr>
+<tr><td><span class="textVar">pg.stroke</td><td>color string</td></tr>
+<tr><td><span class="textVar">pg['stroke-width']</span></td><td>number</td></tr>
+</tbody>
+</table>
+
+<p>
+This corresponds to the SVG <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polygon">polygon</a> element.
+</p>
+
+</div>
+</div>
+</body>
+</html>
+

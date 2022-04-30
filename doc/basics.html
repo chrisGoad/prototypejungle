@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .indent2 {
+		padding-left:40px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}
+  .plainText {
+		font-weight:normal;
+    font-size:12pt
+	}
+  .title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+  .source {
+    font-size:16pt;
+    text-align:center;
+	}
+ .section {
+   padding-top:30px;
+		font-weight:bold;
+    font-size:15pt;
+	}
+  .userDefinedText {
+  	font-weight:bold;
+    font-size:12pt;
+    color:rgb(200,0,0);
+   }
+   .userDefinedCode {
+    font-style:italic;
+    color:rgb(200,0,0);
+   }
+  .blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+td {
+  borderr: 1px solid rgb(190,190,190);
+  padding-left: 20px;
+}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+
+<p class = 'title'>basics</p>
+
+<p>The module <span class='textVar'>/mlib/basics.mjs</span>  is present in every image generator. The methods defined by this module are as follows:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+setName(nm:string);
+</pre>
+<p><span class='textVar'>nm</span>  determines where the image will be placed when the <span class='textVar'>Save Image</span>  and <span class='textVar'>Save Image (High Res)</span> buttons are pressed. For example,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+rs.setName('grid_droplets');
+</pre>
+<p> means that, when the image generator containing this call is loaded into PrototypeJungle, and the <span class='textVar'>Save Image</span>   button is pressed, the image will be saved at  <span class='textVar'>&lt;prototypejungle&gt;/www/images/grid_droplets.jpg</span> . The <span class='textVar'>Save Image (High Res)</span> button saves a higher resolution variant of the same image at 
+ <span class='textVar'>&lt;prototypejungle&gt;/www/images_hi_res/grid_droplets.jpg</span>. The lower resolution variant is adequate for web display, but the higher resolution variant is needed for some image printing purposes (e.g. by <a href="https://mpix.com">mpix.com</a>).</p>
+ <hr/>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+this.addFrame();
+</pre>
+<p> is called from within the <span class='userDefinedText'>initialize</span> method of an image generator, and takes its parameters from the image generation object (the <span class='textVar'>this</span> of <span class='textVar'>initialize</span>). The image generator may set the frame parameters <span class='textVar'>frameStroke</span>, <span class='textVar'>frameFill</span>, and  <span class='textVar'>framePadding</span>.  Then the method <span class='textVar'>addFrame()</span> will generate a rectangular  frame around the image as determined by these parameters. Here is their meaning:</p>
+<p><span class='textVar'>frameStroke</span> and <span class='textVar'>frameFill</span> are the stroke and fill respectively of the frame. The default value for <span class='textVar'>frameFill</span> is "transparent", and for <span class='textVar'>frameStroke</span>, "rgb(2,2,2)" These defaults produce a frame which is  undetectable by the human eye against a black background. However, it is detectable by software which automatically adjusts image scaling for fit in the process of display or printing. Hence the frame facility can be used to control this scaling. I use it in this way for printing at <a href="https://mpix.com">mpix.com</a>.  </p>
+<p> <span class='textVar'>framePadding</span> determines the amount of excess width and height of the frame relative to the image. This utilizes the  <span class='textVar'>width</span> and  <span class='textVar'>height</span> parameters of the image, so they must be defined for this to work.</p>
+<p>The following more general routine 
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+this.addRectangle({width:number,height:number,stroke_width:number,position:Point=Point(0,0),stroke:color='white',fill:color='Transparent':});
+</pre>
+is also available.
+<p>
+Here are the relevant lines of code from the <a href="grid.html">grid example</a></p>
+
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+
+import {rs as basicsP} from '/generators/basics.mjs'; // /generators/basics.mjs imports in turn from /mlib/basics.mjs
+
+let rs = basicsP.instantiate();
+
+let nr = 64;
+let wd = 200;
+let topParams = {numRows:nr,numCols:nr,width:wd,height:wd,pointJiggle:4,framePadding:0.15*wd,frameStroke:'white'};
+Object.assign(rs,topParams);
+
+....
+
+rs.initialize = function () {
+   this.setupRandomGridForBoundaries('v',{step:30,min:100,max:250}); 
+   this.initProtos();
+   this.addFrame();
+  this.initializeGrid();
+}
+
+</pre>
+
+
+</div>
+</div>
+</body>
+</html>
+
+
+

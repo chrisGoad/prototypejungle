@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .indent2 {
+		padding-left:40px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}
+  .plainText {
+		font-weight:normal;
+    font-size:12pt
+	}
+  .title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+  .source {
+    font-size:16pt;
+    text-align:center;
+	}
+ .section {
+   padding-top:30px;
+		font-weight:bold;
+    font-size:15pt;
+	}
+  .blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+td {
+  borderr: 1px solid rgb(190,190,190);
+  padding-left: 20px;
+}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+<p> Any image generator may set the frame parameters frameStroke, frameFill, framePadding.  Then the method addFrame() will generate a rectangular  frame around the image as determined by these parameters. Here is their meaning:</p>
+<p>frameStroke and frameFill are the stroke and fill respectively of the frame. The default value for frameFill is "transparent", and for frameFill, "rgb(2,2,2)" These defaults produce a frame which is  undetectable by the human eye against a black background. However, it is detectable by software which automatically adjusts image scaling for fit in the process of display or printing. Hence the frame facility can be used to control this scaling. I use it in this way for printing at Mpix.com.  </p>
+<p>framePadding - the amount of excess width and height of the frame relative to the image. This utilizes the width and height parameters of the image, so they must be defined for this to work.</p>
+<p>frameVisible - if this is not set, the frameStroke is set to "rgb(2,2,2)", that is a gray sothe amount of excess width and height of the frame relative to the image. This utilizes the width and height parameters of the image, so they must be defined for this to work. The frame methods are defined in the basics.mjs module, and are thereby available to all image generators.</p>
+<p>
+Here are the relevant lines of code from the grid example</p>
+
+ <p><img  src="/doc/grid_example1.jpg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="600" height="400" max-height="500"/></p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+
+import {rs as basicsP} from '/generators/basics.mjs';
+
+let rs = basicsP.instantiate();
+
+let nr = 64;
+let wd = 200;
+let topParams = {numRows:nr,numCols:nr,width:wd,height:wd,frameColor:'rgb(2,2,2)',pointJiggle:4,framePadding:0.15*wd,frameVisible:1};
+Object.assign(rs,topParams);
+
+rs.initialize = function () {
+   this.setupRandomGridForBoundaries('v',{step:30,min:100,max:250}); 
+   this.initProtos();
+   this.addFrame();
+  this.initializeGrid();
+}
+
+</pre>
+
+
+</div>
+</div>
+</body>
+</html>
+
+
+

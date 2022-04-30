@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .indent2 {
+		padding-left:40px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}
+  .plainText {
+		font-weight:normal;
+    font-size:12pt
+	}
+  .title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+  .source {
+    font-size:16pt;
+    text-align:center;
+	}
+ .section {
+   padding-top:30px;
+		font-weight:bold;
+    font-size:15pt;
+	}
+  .blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+td {
+  borderr: 1px solid rgb(190,190,190);
+  padding-left: 20px;
+}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+<p class="title">Type Notation</p>
+<p> In these documents, I will use the notation exemplified below to indicate the types of functions:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+nd.set(name:string,shp:shape) => shape
+</pre></span>
+
+<p>This means that the first argument to the method <span class="textVar">nd.set</span> is meant to be a <span class="textVar">string</span>, and the second a <span class="textVar">shape</span>, and that the output is a <span class="textVar">shape</span>. The variable names <span class="textVar">nm</span> and <span class="textVar">shp</span> serve only as a way to reference the arguments in subsequent text, and have no other significance. The types string and shape are not formal, but rather informal names of a kinds of JavaScript values. Of course JavaScript is not a statically typed language, so you will see
+things like </p>
+
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+nd.set('a',shp);
+</pre>
+
+in code, but never the types.
+
+
+
+</div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .indent2 {
+		padding-left:40px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}
+  .plainText {
+		font-weight:normal;
+    font-size:12pt
+	}
+  .title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+  .source {
+    font-size:16pt;
+    text-align:center;
+	}
+ .section {
+   padding-top:30px;
+		font-weight:bold;
+    font-size:15pt;
+	}
+  .userDefinedText {
+  	font-weight:bold;
+    font-size:12pt;
+    color:rgb(200,0,0);
+   }
+   .userDefinedCode {
+    font-style:italic;
+    color:rgb(200,0,0);
+   }
+  .blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+td {
+  borderr: 1px solid rgb(190,190,190);
+  padding-left: 20px;
+}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+<p class="title">Web</p>
+<p> A web is a set of lines drawn between given points, in such a way that intersections do not occur. </p>
+
+<p> As customary, webs will be introduced via annotated code, which generates this image:</p>
+ <p><img  src="/doc/web_wheel.jpg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="300" height="300" /></p>
+ <p>Here's the code:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+import {rs as linePP} from '/shape/line.mjs';
+import {rs as basicP} from '/generators/basics.mjs';
+import {rs as addPointMethods} from '/mlib/pointGen.mjs';	
+import {rs as addWebMethods} from '/mlib/web.mjs';	
+
+let rs = basicP.instantiate();
+addPointMethods(rs);
+addWebMethods(rs);
+rs.setName('web_wheel');
+let rd= 3000;
+
+let  topParams = {webTries:1000,numRings:20,radius:rd,numPointsPerRing:20,framePadding:1.2*rd,minConnectorLength:0,maxConnectorLength:2000}
+
+Object.assign(rs,topParams);
+
+rs.initProtos = function () {	
+  let lineP = this.set('lineP',linePP.instantiate()).hide();
+  this.lineP.stroke = 'white';
+  this.lineP['stroke-width'] = 5;
+}  
+
+rs.initialize = function () {
+  this.initProtos();
+  let pnts = this.genRings(this);
+  this.generateWeb({points:pnts});
+  this.addFrame();
+}
+
+export {rs};
+</pre>
+<p> A web is a set of lines ("connectors") obeying the length constraints which connect given points without intersecting. <span class="textVar">generateWeb</span>  successively adds new connectors until it impossible to add a connector without intersection.   <span class="textVar">generateWeb</span>  has this type:
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+generateWeb({points:arrayOf(Point),minConnectorLength:number,maxConnectorLength,lineP:line});
+</pre>
+
+<p><span class="textVar">generateWeb</span> will take its parameters from <span class="textVar">this</span>  if they are not found in the parameter  object. 
+
+
+</div>
+</div>
+</body>
+</html>
+
+
+

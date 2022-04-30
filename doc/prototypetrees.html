@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}.title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+ <p>By a “prototype tree” I mean a structure that is a tree from the standpoint of the object-to-own-property-value relation, but in which prototype chains and functions may appear. Here is an example of such a structure:</p>
+ <img id="diagram" src="/doc/prototypeDiagram1_withText.svg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="550" height="250"/>
+
+<b>instantiate</b> is the core operation of prototypejungle. </p>
+
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+let x = y.instantiate();
+</pre>
+
+<p>has an effect similar to </p>
+
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+let x = <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a>(y);
+</pre>
+
+<p>in both cases <b>x</b> is a new object that inherits, prototype-style, from <b>y</b>.  The difference is that while <b>Object.create</b> operates at only one level, <b>y.instantiate()</b> does a deep copy of <b>y</b> as a tree, and returns a structure in which all of the copied nodes inherit prototype-wise from the nodes from which they were copied. </p>
+
+
+
+</div>
+</div>
+</body>
+</html>

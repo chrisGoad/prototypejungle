@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+
+<style>
+	.theGrid {
+		display:grid;
+		padding-top:10px;
+		grid-template-columns:1fr 4fr 1fr;
+	}
+  .indent {
+		padding-left:20px;
+	}
+  .indent2 {
+		padding-left:40px;
+	}
+  .codeVar {
+		font-style:italic;
+	}  
+  
+  .textVar {
+		font-weight:bold;
+    font-size:12pt
+	}
+  .plainText {
+		font-weight:normal;
+    font-size:12pt
+	}
+  .title {
+		font-weight:bold;
+    font-size:16pt;
+    text-align:center;
+	}
+  .source {
+    font-size:16pt;
+    text-align:center;
+	}
+ .section {
+   padding-top:30px;
+		font-weight:bold;
+    font-size:15pt;
+	}
+  .userDefinedText {
+  	font-weight:bold;
+    font-size:12pt;
+    color:rgb(200,0,0);
+   }
+   .userDefinedCode {
+    font-style:italic;
+    color:rgb(200,0,0);
+   }
+  .blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+td {
+  borderr: 1px solid rgb(190,190,190);
+  padding-left: 20px;
+}
+</style>
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<div class="theGrid">
+<div></div>
+<div>
+
+
+<p class="title">Bounded Random Grids</p>
+ <p>The principal methods of this module create grids of random numbers, which are constrained to vary by only so much per step in the <span class="textVar">x</span> or <span class="textVar">y</span> directions, and to lie within given bounds. That is, they create  smooth, bounded surfaces. The details.
+There are two principal routines:</p>
+
+<p id="setupRandomGridForShapes"><span class="textVar">this.setupRandomGridForShapes(nm,params)</span> where</p>
+<p><span class="textVar">nm</span> is of type <span class="textVar">string</span> - the name of the grid</p>
+<p>and  <span class="textVar">params</span> has the form <span class="textVar">{step:number,min:number,max:number}</span></p>
+<p><span class="textVar">step</span> is the maximum amount that the random value can vary in one step of <span class="textVar">x</span> or <span class="textVar">y</span> on the grid. 
+It is assumed that <span class="textVar">this</span> has properties <span class="textVar">numRows</span> and <span class="textVar">numCols</span>. A bounded random grid of this size is produced.</p>
+
+<p><span class="textVar">this.setupRandomGridForBoundaries(nm,params)</span> is the same, except that a random grid of dimensions <span class="textVar">this.numRows+1</span> and <span class="textVar">this.numCols+1</span> is produced (thus one for each boundary line in a grid).</p> 
+
+<p>When several such grids, named, say <span class="textVar">a,b,c</span>  have been setup by <span class="textVar">setupRandomGridForShapes</span>, 
+they are used to produce the <span class="textVar">rvs</span>  argument  to <a href="/doc/grid.html#shapeGenerator"><span class="userDefinedText">shapeGenerator</span></a> in the grid module. Specifically, <span class="userDefinedText">shapeGenerator</span> will be called, for each grid cell, with <span class="textVar">rvs</span> set to <span class="textVar">{a:&lt;va&gt;,b:&lt;vb&gt;,c:&lt;vc&gt;}</span> where <span class="textVar">va,vb,</span> and <span class="textVar">vc</span> are the values at the given cell in the grids that have been setup by the calls:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+<p>this.setupRandomGridForShapes('a',params); </p>
+<p>this.setupRandomGridForShapes('b',params);</p>
+<p>this.setupRandomGridForShapes('c',params); </p>
+</pre>
+
+<p>Similarly, <span class="textVar">setupRandomGridForBoundaries(nm,params)</span> sets up grids which are used to produce the <span class="textVar">rvs</span> argument to <a href="/doc/grid.html#boundaryLineGenerator"><span class="userDefinedText">boundaryLineGenerator</span></a>.</p>
+
+<p> This is how the methods in this module are added to an the image generator <span class="textVar">ig</span>:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+import {rs as addRandomMethods} from '/mlib/boundedRandomGrids.mjs';
+addRandomMethods(ig);
+</pre>	
+<p> Sometimes, instead of fixing bounding parameters for the entire grid, it is desirable to have them vary with grid coordinates. For this case, the params can be formulated as a function of type
+<span class="textVar">(i:number,j:number) => {step:number,min:number,max:number}</span>. Here is an example
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+ 
+
+rs.initialize = function () {
+  this.initProtos();
+  let {numRows,numCols,lowJiggle,highJiggle,lowJiggleStep,highJiggleStep} = this;
+  this.addFrame();
+  let root2 = Math.sqrt(2);
+  let hnr = numRows/2;
+  const computeParams =  (i,j) => {
+    let di = i - hnr;
+    let dj = j - hnr;
+    let maxFromCenter = root2*hnr;
+    let fromCenter = Math.sqrt(di*di + dj*dj);
+    let factor = 1 - fromCenter/maxFromCenter;// 0 at corners, up to 1 at center
+    let jiggleMax = factor * highJiggle;
+    let jiggleStep = factor * highJiggleStep;
+    return {step:jiggleStep,min:-jiggleMax,max:jiggleMax,bias:i};
+  }
+  this.pointJiggleParams = computeParams;
+  this.generateGrid();
+}
+
+</pre>
+<p> in the context of <a href="/generators/grid_distortion_field.mjs">/generators/grid_distortion_field.mjs</a> </p>
+
+<p> This produdes the following image, in which the jiggle increases towards the center:</p>
+ <p><img  src="/doc/grid_distortion_field_square.jpg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="400" height="400" max-height="500"/></p>
+
+</body>
+</html>

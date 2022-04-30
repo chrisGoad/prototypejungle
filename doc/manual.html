@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/images/favicon.ico" />
+</head>
+<body style="background-color:white;font-size:14pt"> <!-- from 12 6/8/19 -->
+
+<p>Let's start with an example. Consider the following code:</p>
+
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+import {rs as rectPP} from '/shape/rectangle.mjs';
+import {rs as basicsP} from '/generators/basics.mjs';
+let rs = basicsP.instantiate();
+
+rs.setName('example1');
+
+
+rs.initProtos = function () {
+  let rectP = this.rectP = rectPP.instantiate();
+  rectP.fill = 'red';
+  rectP.stroke = 'yellow';
+  rectP['stroke-width'] = 1;
+  rectP.width = 40;
+  rectP.height = 20;
+}  
+
+rs.initialize = function () {
+  this.initProtos();
+  let {rectP} = this;
+  let rect1 = rectP.instantiate();
+  let rect2 = rectP.instantiate();
+  rect2.fill = 'blue';
+  rect2.height = 40;
+  this.set('rect1',rect1);
+  this.set('rect2',rect2);
+  rect1.moveto(Point.mk(-40,0));
+  rect2.moveto(Point.mk(40,0));
+ }
+
+export {rs};
+</pre>
+<p>This code appears in the file <a href="/doc/example1.mjs">/doc/example1.mjs</a>, and assuming you have installed and activated protopatt on this device, can be run via the following link</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+<a href = "http://localhost:8081/draw.html?source=/doc/example1.mjs">http://localhost:8081/draw.html?source=/doc/example1.mjs</a>
+</pre>
+<p>Now, let's walk through the code, which already illustrates the main aspects of the system.  First of all example1.mjs defines a JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">module</a>, as indicated by the mjs extension. The first two lines import other modules, first the one that defines the rectangle element, and second one that defines some basic capabilites needed by most pattern-defining code (more on that later). Then we have the line</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+let rs = basicsP.instantiate();
+</pre>
+<p>
+<b>instantiate</b> is the core operation of prototypejungle. </p>
+
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+let x = y.instantiate();
+</pre>
+
+<p>has an effect similar to </p>
+
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+let x = <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a>(y);
+</pre>
+
+<p>in both cases <b>x</b> is a new object that inherits, prototype-style, from <b>y</b>.  The difference is that while <b>Object.create</b> operates at only one level, <b>y.instantiate()</b> does a deep copy of <b>y</b> as a tree, and returns a structure in which all of the copied nodes inherit prototype-wise from the nodes from which they were copied. </p>
+
+<p> I mentioned <i>tree</i> in  the above paragraph. It is a little more complicated than that. Prototypejungle's objects (called prototype trees) do have tree structure over their <a  href="https://www.javascripttutorial.net/javascript-own-properties/">own-property</a> edges , but they also admit prototype chains, and cross-tree links. The details can be found <a href="/doc/tech.html">here</a>. </p>
+
+
+
+<p>The method <b>initProtos</b> takes the externally defined objects (here rectangles) and constructs internal variants which inherit from those external objects. 
+Here <b>this.rectP</b> inherits from the externally defined <b>rectPP</b>. <b>rectP</b> in turn is assigned various properties: stroke, fill, stroke-width, width, and height. Prototypejungle implements visible shapes via <a href="https://developer.mozilla.org/en-US/docs/Web/SVG">SVG</a>, and their accessible properties are the same as those of the underlying SVG elements. </p>
+
+
+<p>The initialize method (called automatically by the prototypejungle machinery when a module is loaded), does the actual work. In this case, two rectangles are defined, each of which inherit from <b>this.rectP</b>. <b>rect1</b> is unaltered, so its properties are the same as those of <b>rectP</b> (except for position). <b>initialize</b>, however, alters some properties of <b>rect2</b>. The lines</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">   
+this.set('r1',rect1);
+this.set('r2',rect2); 
+</pre>
+  
+  <p>stitch <b>rect1</b> and <b>rect2</b> into the main tree under names <b>r1</b> and <b>r2</b>, thus making them visible. The main tree, by the way, can always be accessed </p>
+
+
+
+</body>
+</html>
