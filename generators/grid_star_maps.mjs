@@ -7,13 +7,11 @@ rs.setName('grid_star_maps');
 
 let grid0 = rs.set('grid0',starMapP.instantiate());
 let grid1 = rs.set('grid1',starMapP.instantiate());
-grid0.spacing = 3
-grid0.chance = 0.02;
-grid1.spacing = 5;
-grid1.chance = 0.02;
-let ht  = 1.3*200;
+Object.assign(grid0,{spacing:3,chance:0.02});
+Object.assign(grid1,{spacing:5,chance:0.02});
 
-let topParams = {frameVisible:0,frameWidth:1.5*1.2*ht,frameHeight:1.2*ht}
+let ht  = 300;
+let topParams = {frameWidth:1.5*ht,frameHeight:1.2*ht}
 Object.assign(rs,topParams);
 
 rs.initialize = function () {

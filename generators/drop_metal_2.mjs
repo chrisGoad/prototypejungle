@@ -9,7 +9,8 @@ addDropMethods(rs);
 addSegsetMethods(rs);
 rs.setName('drop_metal_2');
 let wd = 400;
-let topParams = {width:wd,height:wd,dropTries:40,framePadding:0.1*wd,frameVisible:0}
+let topParams = {width:wd,height:wd,dropTries:40,framePadding:0.1*wd}
+let dropParams = {dropTries:40}
 
 Object.assign(rs,topParams);
 
@@ -51,11 +52,10 @@ rs.initialDrop = function () {
   return [segs,lines];
 }
 
-  
 rs.initialize = function () {
   this.initProtos();
   this.addFrame();
-  this.generateDrop();
+  this.generateDrop(dropParams);
 }
 
 export {rs};

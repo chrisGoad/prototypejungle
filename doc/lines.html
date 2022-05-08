@@ -98,18 +98,20 @@ rs.initialize = function () {
   this.addFrame();
   this.initProtos();
   let theLineSeg = LineSegment.mk(Point.mk(0,-80),Point.mk(0,80));
-  this.generateLines({src:Circle.mk(Point.mk(-50,40),5),dst:theLineSeg,numLines:numLines,lineP:this.lineP});
-  this.generateLines({src:Circle.mk(Point.mk(-50,-40),5),dst:theLineSeg,numLines:numLines,lineP:this.lineP});
-  this.generateLines({src:Circle.mk(Point.mk(50,0),10),srcOn:1,dst:theLineSeg,numLines:numLines,lineP:this.lineP});
+  this.generateLines({src:Circle.mk(Point.mk(-50,40),5),dst:theLineSeg});
+  this.generateLines({src:Circle.mk(Point.mk(-50,-40),5),dst:theLineSeg});
+  this.generateLines({src:Circle.mk(Point.mk(50,0),10),srcOn:1,dst:theLineSeg});
 }	
 export {rs};
 
 </pre>
 <p> The calls of the form</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-  this.generateLines({src:geometricObject,srcOn:boolean=false,dst:geometricObject,dstOn:boolean=false,numLines:number,lineP:lineShape});
+  this.generateLines(params:{src:geometricObject,srcOn:boolean=false,dst:geometricObject,dstOn:boolean=false,numLines:number,lineP:lineShape});
 </pre>
-<p>perform the work of drawing lines. In particular <span class="textVar">numLines</span> lines are drawn between the <a href="geometry.html">geometricObject</a>   <span class="textVar">src</span> and the geometricObject  <span class="textVar">dst</span>.  <span class="textVar">src</span> and  <span class="textVar">dst</span> can be  <span class="textVar">LineSegments, Rectangles,</span> or  <span class="textVar">Circles</span>. If  <span class="textVar">srcOn</span> is <a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>, then lines are drawn from random points on the periphery of the geometricObject, and if <a href="https://developer.mozilla.org/en-US/docs/Glossary/Falsy">falsy</a> (the default), from random  points in the interiors of those objects. Same for  <span class="textVar">dstOn</span>.  <span class="textVar">LineSegments</span> have no interior, so  <span class="textVar">srcOn</span> and  <span class="textVar">dstOn</span> have no effect in this case.
+<p>perform the work of drawing lines.  In particular <span class="textVar">numLines</span> lines are drawn between the <a href="geometry.html">geometricObject</a>   <span class="textVar">src</span> and the geometricObject  <span class="textVar">dst</span>.  <span class="textVar">src</span> and  <span class="textVar">dst</span> can be  <span class="textVar">LineSegments, Rectangles,</span> or  <span class="textVar">Circles</span>. If  <span class="textVar">srcOn</span> is <a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>, then lines are drawn from random points on the periphery of the geometricObject, and if <a href="https://developer.mozilla.org/en-US/docs/Glossary/Falsy">falsy</a> (the default), from random  points in the interiors of those objects. Same for  <span class="textVar">dstOn</span>.  <span class="textVar">LineSegments</span> have no interior, so  <span class="textVar">srcOn</span> and  <span class="textVar">dstOn</span> have no effect in this case.</p>
+<p>Like all the other generators, <span class="textVar">generateLines</span> will take its parameters from <span class="textVar">this</span>, if not present in <span class="textVar">params</span>.
+
 </p>
 
 

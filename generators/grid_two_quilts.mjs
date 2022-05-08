@@ -5,7 +5,9 @@ let rs = basicsP.instantiate();
 let ht = 450;
 let topParams = {width:1.5*ht,height:ht,framePadding:0.1*ht,frameVisible:0};
 Object.assign(rs,topParams);
+
 rs.setName('grid_two_quilts');
+
 rs.initialize = function() {
   this.addRectangle(this.backFill);
   let grid0 = rs.set('grid0',quiltP.instantiate());

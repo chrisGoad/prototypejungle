@@ -23,10 +23,11 @@ rs.initialize = function () {
   this.addFrame();
   this.initProtos();
   let theLineSeg = LineSegment.mk(Point.mk(0,-80),Point.mk(0,80));
-  this.generateLines({src:Circle.mk(Point.mk(-50,40),5),dst:theLineSeg,numLines:numLines,lineP:this.lineP});
-  this.generateLines({src:Circle.mk(Point.mk(-50,-40),5),dst:theLineSeg,numLines:numLines,lineP:this.lineP});
-  this.generateLines({src:Circle.mk(Point.mk(50,0),10),srcOn:1,dst:theLineSeg,numLines:numLines,lineP:this.lineP});
+  this.generateLines({src:Circle.mk(Point.mk(-50,40),5),dst:theLineSeg});
+  this.generateLines({src:Circle.mk(Point.mk(-50,-40),5),dst:theLineSeg});
+  this.generateLines({src:Circle.mk(Point.mk(50,0),10),srcOn:1,dst:theLineSeg});
 }	
+
 export {rs};
 
       

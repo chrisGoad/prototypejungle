@@ -773,10 +773,13 @@ item.preliminaries = function (irect) {
 	
 }
 	
-item.generateLines = function (params) {
+item.generateLines = function (iparams) {
   debugger;
+  let params = {};
+  let props = ['src','srcOn','dst','dstOn','numLines','lineP','excludeSegFunction'];
+   core.transferProperties(params,this,props);
+   core.transferProperties(params,iparams,props);
   let {src,srcOn,dst,dstOn,numLines,lineP,excludeSegFunction} = params;
-  //let {width,height,backgroundPadding,rectP,includeRect,boardRows,numLines,backgroundColor,excludeSegFunction} = this;
   let lines = this.lines;
   if (!lines) {
  	  lines = this.set('lines',core.ArrayNode.mk());

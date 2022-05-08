@@ -50,9 +50,9 @@ item.excludeLineFunction = function (sg) {
 item.initialize = function () {
   this.initProtos();
   let circle = Circle.mk(Point.mk(0,0),this.radius);
-  this.generateLines({src:circle,srcOn:1,dst:circle,dstOn:1,lineP:this.lineP,numLines:this.numLines});
- 
+  this.generateLines({src:circle,srcOn:1,dst:circle,dstOn:1});                                                  
 }	
+
 export {item as rs};
 
 

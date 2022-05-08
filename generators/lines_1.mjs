@@ -1,5 +1,4 @@
 
-import {rs as linePP} from '/line/line.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
 import {rs as fromCenterP} from '/generators/lines_from_center.mjs';	
 import {rs as cobwebP} from '/generators/lines_cobweb.mjs';	
@@ -22,7 +21,6 @@ rs.initialize = function () {
   let quad10 = this.set('quad10',fromCenterP.instantiate().show());
   quad10.width = quad10.height = 0.5*wd;
   quad10.lineColor = 'black';
-  debugger;
   quad10.backFill = 'white';
   quad10.initialize();
   quad10.moveto(Point.mk(mv,-mv));

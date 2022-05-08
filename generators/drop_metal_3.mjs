@@ -7,9 +7,9 @@ let rs = basicsP.instantiate();
 
 addDropMethods(rs);
 addSegsetMethods(rs);
-rs.setName('drop_metal_2');
+rs.setName('drop_metal_3');
 let wd = 400;
-let topParams = {width:wd,height:wd,dropTries:40,framePadding:0.1*wd,lineLength:20,dir0L:0,dir0H:Math.PI/2,dir1L:Math.PI/2,dir1H:Math.PI};
+let topParams = {width:wd,height:wd,dropTries:40,maxDrops:1000,framePadding:0.1*wd,lineLength:20,dir0L:0,dir0H:Math.PI/2,dir1L:Math.PI/2,dir1H:Math.PI};
 
 Object.assign(rs,topParams);
 

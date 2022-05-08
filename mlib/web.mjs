@@ -14,7 +14,8 @@ let defaults = {webTries:5,maxLoops:Infinity};//,maxTriesPerEnd:20};
 Object.assign(rs,defaults);
 
 rs.pairFilter = function (i,j) {
-	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,cPoints} = this;
+	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0} = this.webParameters
+  let {cPoints} = this;
 	let pi = cPoints[i];
 	let pj = cPoints[j];
 	let d = pi.distance(pj);
@@ -118,8 +119,9 @@ rs.generateWeb = function (iparams) {
   let params = {};
   core.transferProperties(params,this,props);
   core.transferProperties(params,iparams,props);
+  this.webParameters = params;
 	let {points:pnts,lineP,minConnectorLength,maxConnectorLength,webTries,shortenBy=10,maxLoops=Infinity} = params;
-  
+    debugger;
 	if (pnts) {
 		this.initWeb(pnts);
 	}
@@ -151,7 +153,7 @@ rs.generateWeb = function (iparams) {
 			});
 		}
 	}
-	
+	debugger;
 	computeNears();
 	
 	const copyNbp = function () {
@@ -257,7 +259,7 @@ const removeFromNears = function (i,ni) {
 	for (let ii=0;ii<maxLoops;ii++)  {
 		// debugger;
 	   let [randI,numCandidates] = randomI();
-		 console.log('numCandidates',numCandidates,'tries',tries);
+		// console.log('numCandidates',numCandidates,'tries',tries);
 		if (numCandidates === 0) {
 			console.log ('no candidates');
 			debugger;
@@ -293,12 +295,12 @@ const removeFromNears = function (i,ni) {
 				let csg = connectSegs[i];
 				if (rseg.intersects(csg)) {
 					fnd = 1;
-					console.log('intersects','lnc',lnc);
+				//	console.log('intersects','lnc',lnc);
 					break;
 				}
 			}
 			if ( !fnd) {
-				console.log('added segment',this.numDropped);
+			//	console.log('added segment',this.numDropped);
 				this.beforeAddSeg(ri,rj);
 				tries = 0;
 				rseg.index0 = ri;

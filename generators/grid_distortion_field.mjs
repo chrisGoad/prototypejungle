@@ -65,7 +65,7 @@ rs.initialize = function () {
     let jiggleStep = factor * highJiggleStep;
     return {step:jiggleStep,min:-jiggleMax,max:jiggleMax,bias:i};
   }
-  this.pointJiggleParams = computeParams;
+  this.jiggleParams = computeParams;
   this.generateGrid();
 }
 

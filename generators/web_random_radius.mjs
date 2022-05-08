@@ -12,14 +12,17 @@ addDropMethods(rs);
 addWebMethods(rs);
 
 
-rs.setName('web_random_radius');
+rs.setName('web_random_radius',3);
 let ht= 2000;
 ht = 6000;
 let nrc = 100;
-let topParams = {maxFringeTries:10,numRows:nrc,numCols:nrc,width:ht,height:ht,maxLoops:20000,dropTries:100,webTries:1000000,lineLength:2,framePadding:0.1*ht:20,minConnectorLength:0,maxConnectorLength:300,shortenBy:10,sphereCenter:Point3d.mk(0,0,-0.3*ht),sphereDiameter:0.5*ht,focalPoint:Point3d.mk(0,0,ht),focalLength:10,cameraScaling:1000}
+let topParams = {numRows:nrc,numCols:nrc,width:ht,height:ht,framePadding:0.1*ht}
+
+let dropParams = {dropTries:50,radius:60}
+
+let webParams = {webTries:100,lineLengthh:2,minConnectorLength:0,maxConnectorLength:300}
 
 Object.assign(rs,topParams);
-
 
 rs.initProtos = function () {
   let lineP = this.lineP = linePP.instantiate();
@@ -69,9 +72,9 @@ rs.initialize = function () {
   this.initProtos();
   //let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,width,lineP} = this;
   let shapes = this.set('shapes',arrayShape.mk());
-  this.setiupRandomGridForShapes('radius',{step:10,min:10,max:100});
+  this.setupRandomGridForShapes('radius',{step:10,min:10,max:100});
   this.addFrame();
-  let drop =  this.generateDrop();
+  let drop =  this.generateCircleDrop(dropParams);
   let {points,radii} = drop;
   let ln  = points.length;
   for (let i=0;i<ln;i++) {
@@ -83,9 +86,9 @@ rs.initialize = function () {
  // return;
  // let points = this.pointsFromCircleDrops();
   let p = points[0];
-  p.onFringe = 1
+ // p.onFringe = 1
   //this.generateWeb(pnts,lineP);
-  this.generateWeb({points});
+  this.generateWeb(Object.assign({points},webParams));
 }
 
 export {rs};

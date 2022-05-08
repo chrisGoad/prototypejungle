@@ -1,27 +1,18 @@
 
 //active
-import {rs as rectPP} from '/shape/rectangle.mjs';
+//import {rs as rectPP} from '/shape/rectangle.mjs';
 
 const rs = function (item) {
 let defaultTopParams = {numRows:10,numCols:10,width:100,height:100,pointJiggle:0,includeLetters:0,letterWidth:4,letterHeight:4,fractionInked:0.4};
 Object.assign(item,defaultTopParams);
 
 
-/* three prototypes are expected to be available: blineP (for boundary lines), rlineP (for region lines), and shapeP (unless a shape generation function is specified */
 
 let points = [];
 
 
-item.defaultPositionFunction = function (i,j) {
+item.defaultPositionMethod = function (i,j) {
   let {deltaX,deltaY,numRows,numCols,width,height,points3d,camera} = this;
-/*	if (points3d) { // cg 3/26/22
-		let idx = this.pcoordsToIndex(i,j);
-		let p3d = points3d[idx];
-		//debugger;
-		let rs = camera.project(p3d);
-		rs.category = p3d.category;
-		return rs;
-	}*/
   let botx = -0.5 * width;
   let boty = -0.5 * height;
   return Point.mk(botx + deltaX*i,boty + deltaY*j);
@@ -41,11 +32,9 @@ item.linearInterpolator = function (a,b,fr) {
 }
 	
 item.sidesPositionMethod = function (i,j) {
-	//let {numRows,numCols,sideA,sideB,Interpolator} = grid;
 	let {numRows,numCols,sideA:sideAi,sideB:sideBi,Interpolator} = this;
   let sideA = (typeof sideAi === 'function')?sideAi:function(fr) {return sideAi.pointAlong(fr);}
   let sideB = (typeof sideBi === 'function')?sideBi:function(fr) {return sideBi.pointAlong(fr);}
-	//let I = Interpolator?Interpolator:grid.linearInterpolator;
 	let I = Interpolator?Interpolator:this.linearInterpolator;
 	let a = sideA.call(this,(i/(numCols - 1)));
 	let b = sideB.call(this,(i/(numCols - 1)));
@@ -57,14 +46,8 @@ item.sidesPositionMethod = function (i,j) {
 	
 	
 
- item.radialPositionFunction = function (i,j) {
- //item.radialPositionFunction = function (grid,i,j) {
-    let {numRows,numCols,angleMin=-180,angleMax=180,
-	       innerRadius,outerRadius,center,rotation=0} = this;
-	    //   innerRadius,outerRadius,center} = grid;
-  if (i>10) {
-  //  debugger;
-  }
+ item.radialPositionMethod = function (i,j) {
+  let {numRows,numCols,angleMin=-180,angleMax=180, innerRadius,outerRadius,center,rotation=0} = this;
   let rotPerRow = (rotation * Math.PI)/(numCols*180);
   let rot = rotPerRow * j;
 	let aMinR = (angleMin * Math.PI)/180;
@@ -87,15 +70,13 @@ item.sidesPositionMethod = function (i,j) {
 
 item.genPointsFunction0 = function () {
   let {numRows,numCols,positionMethod,points,rpoints} = this;
-  //let pf = positionMethod?positionMethod:defaultPositionFunction;
 	let lx = Infinity;
 	let ly = Infinity;
 	let hx = -Infinity;
 	let hy = -Infinity;
   for (let i = 0;i <= numCols; i++) {
     for (let j = 0;j <= numRows; j++) {
-			//console.log('genPoints i j',i,j);
-      let p = this.positionMethod?this.positionMethod(i,j):this.defaultPositionFunction(i,j);
+      let p = this.positionMethod?this.positionMethod(i,j):this.defaultPositionMethod(i,j);
 			let {x,y} = p;
 			if (x<lx) {
 				lx = x;
@@ -120,29 +101,20 @@ item.genPointsFunction0 = function () {
   }
   if (this.genPoint3d) {
     this.thePoints = this.thePoints.map((p) => this.camera.project(this.genPoint3d(p)));
-    //let points3d = this.thePoints.map((p) => this.camera.project(this.genPoint3d(p)));
-    //let points3d = this.thePoints.map((p) => p.times(1));
-    //this.thePoints = points3d;
   }
 	this.lowX = lx;
 	this.lowY = ly;
 	this.highX = hx;
 	this.highY = hy;
 }
-      
-      
-    
-
 
 item.genPoints3d = function () {
 	let {numRows,numCols,deltaX,deltaY} = this;
-	//debugger;
 	let points3d = this.set("points3d",[]);
 	for (let i = 0;i<=numCols;i++) {
 		for (let j=0;j<=numRows;j++) {
 	    let p = Point.mk(deltaX*(i-numCols/2),deltaY*(j-numRows/2));
 			let p3d = this.genPoint3d(p);
-//			let p3d = this.genPoint3d(i,j);
 			points3d.push(p3d);
 		}
 	}
@@ -164,7 +136,7 @@ item.genPoints = function () {
   } else {
     this.genPointsFunction0();
   }
-	console.log('lowX highX lowY highY',this.lowX,this.highX,this.lowY,this.highY);
+	//console.log('lowX highX lowY highY',this.lowX,this.highX,this.lowY,this.highY);
 }
 
 // i = column (corresponds to x)  j = row (corresponds to y) //column major // point coords
@@ -222,7 +194,6 @@ item.coordToPoint = function (p) {
 // i, j are cell coords
 item.centerPnt = function (i,j) {
 	let {isPointJiggle,thePoints:points} = this; // cg 3/26/22
-  //let points = isPointJiggle  ?this.rpoints:this.points;
   let pnt00 =  this.pointAt(points,i,j);
   let pnt11 = this.pointAt(points,i+1,j+1);
   if (pnt00 && pnt11) {
@@ -236,27 +207,21 @@ item.centerPnt = function (i,j) {
 
 item.addCellBoundaries = function (frame,fraction) {
   let hcontainer = this.hcontainer;
-  //let points = this.rpoints;
   let points = this.thePoints; // cg  3/26/22
 	let lines = this.lines;
 	this.updating = !!lines;
-	//this.prevLines = this.lines;
 	if (!lines) {
     lines = this.set('lines',core.ArrayNode.mk()); 
 	}
- // let lines = this.lines = [];
- //debugger;
   let {numRows,numCols,deltaX,deltaY,boundaryLineGenerator,randomGridsForBoundaries,
 	  isPointJiggle} = this;
   let xdim = numCols * deltaX;
   let ydim = numRows * deltaY;
   let ly = -0.5 * ydim;
   this.lineIndex = 0
-  
   for (let i = 0;i <= numCols; i++) {
     for (let j = 0;j <=  numRows; j++) {
 		 	let rvs = (this.randomValuesAtCell)?this.randomValuesAtCell(randomGridsForBoundaries,i,j):{};
-      //let points = isPointJiggle?this.rpoints:this.points;
       let points = this.thePoints; // cg 3/26/22
       let cell = {x:i,y:j};
       let p11 = this.pointAt(points,i,j);
@@ -267,28 +232,24 @@ item.addCellBoundaries = function (frame,fraction) {
       if (p12) {
 				rs = this.boundaryLineGenerator(p11,p12,rvs,cell,'vertical');
 				if (rs) {
-          lines.push(rs);  // added 3/22/22
-          rs.update();// added 3/22/22
+          lines.push(rs); 
+          rs.update();
 					if (this.boundaryLineUpdater) {
 					  this.boundaryLineUpdater(rs,p11,p12,rvs,cell,'vertical');
 					}
 				  this.lineIndex++;
-			  } else {
-				//	debugger;
-				}
+			  } 
       }     
       if (p21) {
  				rs = this.boundaryLineGenerator(p11,p21,rvs,cell,'horizontal');
 		   if (rs) {
-				 lines.push(rs); // added 3/22/22
-         rs.update(); // added 3/22/22
+				 lines.push(rs); 
+         rs.update(); 
 				 if (this.boundaryLineUpdater) {
             this.boundaryLineUpdater(rs,p11,p21,rvs,cell,'horizontal');
 				 }
 				  this.lineIndex++;
-			  } else {
-					//debugger;
-				}
+			  } 
       }
 		
     }
@@ -296,8 +257,7 @@ item.addCellBoundaries = function (frame,fraction) {
 }
 
 item.hideThisCell = function (cell) {
-	//let {points:pnts} = this;
-	let {thePoints:pnts} = this; // cg 3/26/22
+	let {thePoints:pnts} = this; 
 	let {x,y} = cell;
 	let rs = (this.pointAt(pnts,x,y).hideMe)||(this.pointAt(pnts,x,y+1).hideMe)||(this.pointAt(pnts,x+1,y).hideMe)||(this.pointAt(pnts,x+1,y+1).hideMe);
 	return rs;
@@ -306,13 +266,11 @@ item.hideThisCell = function (cell) {
 	
 item.cellCorners = function (cell) {
 	let {rpoints,thePoints:pnts,isPointJiggle} = this;
-	//let pnts = isPointJiggle?rpoints:points;// cg 3/26/22
 	let {x,y} = cell;
 	let p11 = this.pointAt(pnts,x,y);
 	let p12 =  this.pointAt(pnts,x,y+1);
 	let p21 =  this.pointAt(pnts,x+1,y);
 	let p22 =  this.pointAt(pnts,x+1,y+1);
-	//let corners = [p11,p12,p22,p21];
 	let corners = [p11,p21,p22,p12];
 	return corners;
 }
@@ -332,24 +290,17 @@ item.scaleArray = function (a,scaleX,scaleY) {
 	return rs;
 }
 
-
-
-
 item.updateCellBoundaries = function (frame,fraction) { 
   let points = this.rpoints;
- // let lines = this.lines = [];
   let {numRows,numCols,deltaX,deltaY,lines,boundaryLineGenerator,randomGridsForBoundaries} = this;
   let xdim = numCols * deltaX;
   let ydim = numRows * deltaY;
   let ly = -0.5 * ydim;
-  //this.lineIndex = 0
   let idx = 0;
   for (let i = 0;i <= numCols; i++) {
     for (let j = 0;j <=  numRows; j++) {
 			let boundaryLine; 
-		 	//let rvs = this.randomValuesAtCell(randomGridsForBoundaries,i,j);
 			let rvs = (this.randomValuesAtCell)?this.randomValuesAtCell(randomGridsForBoundaries,i,j):{};
-    //  let points = this.pointJiggle?this.rpoints:this.points;
       let points = this.thePoints; // cg 3/26/22
       let cell = {x:i,y:j};
       let p11 = this.pointAt(points,i,j);
@@ -393,7 +344,6 @@ item.genRandomPoint = function (rect) {
     return [Point.mk(cellX,cellY),Point.mk(x,y)];
 }
 
-
 item.genRect = function () {
 	let {width,height} = this;
 	let corner = Point.mk(-0.5*width,-0.5*height);
@@ -401,7 +351,6 @@ item.genRect = function () {
   let rect = geom.Rectangle.mk(corner,extent);
 	return rect;
 }
-
 
 item.inRandomOrder = function (n) {
   let rs = []; 
@@ -536,7 +485,6 @@ item.perturbArray = function (ar,n) {
 item.addShapes = function () { 
   let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,
        randomizeOrder,orderByOrdinal,spatterGenerator,randomGridsForShapes,shapes:ishapes} = this;
-  //debugger;
 	if (this.timeStep === undefined) {
 		 this.timeStep = 0;
 	}
@@ -549,11 +497,9 @@ item.addShapes = function () {
 	}
 	this.shapeIndex = 0;
 	let sln = numRows * numCols;
-  //shapes.length = sln;
 	let shapeDs = this.set('shapeDescriptors',core.ArrayNode.mk());
   shapeDs.length = sln;	
   const addAshape =  (idx) => {
-       //console.log('idx ',idx);
 		if (!(typeof idx === 'number')) {
 			debugger; //keep
 		}
@@ -562,18 +508,15 @@ item.addShapes = function () {
     let x = Math.floor(idx/nr);
     let y = idx % nr;
     let cnt = this.centerPnt(x,y);
-		//console.log('idx',idx,'cnt',cnt);
     let cell = {x,y,index:idx};
 	  let rvs = (this.randomValuesAtCell)?this.randomValuesAtCell(randomGridsForShapes,x,y):{};
-		//let rvs = this.randomValuesAtCell(randomGridsForShapes,x,y);
     let  shp;
-   // debugger;
 		if (this.shapeGenerator) {
 			shp = this.shapeGenerator(rvs,cell,cnt,idx);
       if (shp) {
-        shapes.push(shp); // added 3/22/22
+        shapes.push(shp);
         if (shp.update) {
-          shp.update(); // added 3/22/22
+          shp.update();
         }
       }
 			if (shp && this.shapeUpdater) {
@@ -590,33 +533,23 @@ item.addShapes = function () {
 				shp.moveto(cnt);
 			}
 			this.shapeIndex++;
-		 // shp.show();
 		}  
 	}
-	
- // if (randomizeOrder || orderByOrdinal) {
   if (randomizeOrder) {
     let numShapes = numRows * numCols;
     let order;
     if (this.theShapeOrder) {
       order = this.theShapeOrder;
-    // this.rotateArray(order);
-    } else {
-			
+    } else {		
       this.theShapeOrder = order = randomizeOrder?this.inRandomOrder(numShapes):this.computeOrdinalOrder(1);
 			this.inverseShapeOrder = this.invertMap(order); 
-      //this.shapeOrder = order = this.inSequence(numShapes);
     }
     for (let idx = 0; idx < numShapes;idx++) {
-      //addAshape(idx);
       addAshape(order[idx]);
-     // addAshape(order[idx]);
     }
     return;
   }
-	//if (orderByOrdinal && 0) {
 	if (orderByOrdinal) {
-		//debugger;
 		this.computeCellsByOrdinal();
 		let {maxOrdinal,cellsByOrdinal} = this;
 		for (let o = 0;o<=maxOrdinal;o++) {
@@ -644,32 +577,22 @@ item.addShapes = function () {
 
 item.updateShapes = function () { 
   let {numRows,numCols,numDrops,width,height,shapeP,shapeGenerator,spatterGenerator,randomGridsForShapes,shapes,inverseShapeOrder,randomizeOrder} = this;
-	//this.updating = !!ishapes
   const updateAshape =  (shape,idx) => {
 	  let nr = this.numRows;
     let x = Math.floor(idx/nr);
     let y = idx % nr;
     let cnt = this.centerPnt(x,y);
     let cell = {x,y,index:idx};
-		//let rvs = this.randomValuesAtCell(randomGridsForShapes,x,y);
 		let rvs = (this.randomValuesAtCell)?this.randomValuesAtCell(randomGridsForShapes,x,y):{};
-	this.shapeUpdater(shape, rvs,cell,cnt,idx);
+	  this.shapeUpdater(shape, rvs,cell,cnt,idx);
   }
-		
-	//this.shapeIndex = 0;
 	let sln = numRows * numCols;
-  //shapes.length = sln;
-	//let shapeDs = this.set('shapeDescriptors',core.ArrayNode.mk());
-  //shapeDs.length = sln;	
-	
   for (let i = 0;i < numCols; i++) {
     for (let j = 0;j <  numRows; j++) {
       let cnt = this.centerPnt(i,j);
       let idx = i*numRows + j;
 			let shape = randomizeOrder?shapes[inverseShapeOrder[idx]]:shapes[idx];
 			let rvs = (this.randomValuesAtCell)?this.randomValuesAtCell(randomGridsForShapes,i,j):{};
-
-			//let rvs = this.randomValuesAtCell(randomGridsForShapes,i,j);
 			let cell = {x:i,y:j,index:idx};
 			let  shp;
 			if (this.shapeUpdater && shape) {
@@ -679,8 +602,6 @@ item.updateShapes = function () {
 			  if (!this.updatersDoMoves) {
 				  shp.moveto(cnt);
 			  }
-				//this.shapeIndex++;
-	 		 // shp.show();
 			}  
 	  }
   }
@@ -690,7 +611,6 @@ item.updateShapes = function () {
 item.updateAtRandomPoint = function (shape) {
   let cell = shape.cell;
   let {x,y} = cell;
-  //let rvs = this.randomValuesAtCell(this.randomGridsForShapes,x,y);
   let rvs = (this.randomValuesAtCell)?this.randomValuesAtCell(this.randomGridsForShapes,x,y):{};
 	this.shapeUpdater(shape,rvs,cell);
 }
@@ -725,51 +645,32 @@ item.jigglePoints = function () {
      }
   }
 }
-
-  
- item.computeJiggleParams = function (jiggle) {
+ 
+item.computeJiggleParams = function (jiggle) {
   let hj = 0.5*jiggle;
   let jiggleStep = 0.3 * hj;
   return {stept:jiggleStep,step:jiggleStep,min:-hj,max:hj};
 }
 
 item.setupPointJiggle = function () {     
-  let {numRows,numCols,pointJiggle,pointJiggleParams} = this;
-  if (pointJiggle || pointJiggleParams) {
-		let jParams = pointJiggleParams?pointJiggleParams:this.computeJiggleParams(pointJiggle);
+  let {numRows,numCols,pointJiggle,jiggleParams} = this;
+  if (pointJiggle || jiggleParams) {
+		let jParams = jiggleParams?jiggleParams:this.computeJiggleParams(pointJiggle);
     this.setupRandomGridForBoundaries('jiggleX',jParams);
     this.setupRandomGridForBoundaries('jiggleY',jParams);
 	}
 }
 
-//item.initializeGrid = function (randomizer) {
 item.backgroundPadding = 0;
 item.generateGrid = function () {
-  let {numRows,numCols,pointJiggle,pointJiggleParams,spatter,outerRadius} = this;
-	//,backgroundColor,backgroundPadding,backgroundPos,width,height,
-	//backgroundWidth,backgroundHeight} = this;
- //this.initBackgroundProtos();
- //debugger;
- this.isPointJiggle = pointJiggle || pointJiggleParams;
- //this.addBackground();
-// this.addBackStripe();
+  let {numRows,numCols,pointJiggle,jiggleParams,spatter,outerRadius} = this;
+ this.isPointJiggle = pointJiggle || jiggleParams;
 	this.setupPointJiggle();
   this.deltaX = this.width/numCols;
   this.deltaY = this.height/numRows;
   core.tlog('initialize');
-	/*if (this.genPoint3d) {
-		this.genPoints3d();
-	} cg 3/26/22 */
   this.genPoints();
-    core.tlog('genPoints');
-	/*if (this.isPointJiggle) {
-    this.jigglePoints();
-    core.tlog('randomizePoints');
-	} cg 3/26/22 */
-  //if (this.boundaryLineGenerator) {
- //   this.addCellBoundaries();
-//  }
- // if (this.generative) {
+  core.tlog('genPoints');
   if (this.regionLineGenerator) {
     this.set('rlines',core.ArrayNode.mk());
     while (this.addRegions()) {
@@ -807,7 +708,6 @@ item.generateGrid = function () {
   }
     core.tlog('randomizeLines');
   this.show();
- //   core.tlog('show');
   //console.log('lowX',this.lowX,'lowY',this.lowY,'highX',this.highX,'highY',this.highY);
 }
 
@@ -822,7 +722,6 @@ item.interpolate = function (cDomain,domainL,domainH,rangeL,rangeH) {
 
 item.updateGrid = function () {
   let {numRows,numCols,pointJiggle} = this;
- // this.initializeProtos();
   if (this.boundaryLineUpdater) {
     this.updateCellBoundaries();
   }

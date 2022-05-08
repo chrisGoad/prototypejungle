@@ -70,7 +70,7 @@ item.addSignature = function() {
 item.numFrames = 0;
 item.numRects =0;
 item.addRectangle  = function (iparams) {
-	debugger;
+//	debugger;
   if (!iparams) {
     return;
   }
@@ -106,7 +106,7 @@ item.addRectangle  = function (iparams) {
 
 // add a stripe around the image, to control the size of the jpg when saved
 item.addFrame = function (params) {
-	debugger;
+//	debugger;
   let {width,height} = this;
   let fparams = params?params:this;
 	let {frameStroke:frs,frameFill:frf,framePadding:frp,
@@ -173,7 +173,7 @@ item.addFramee = function (params) {
 item.addBackground = function () {
 	let {backgroundColor:bkc,backgroundPadding:bkp=0} =  this;
 	//let {backgroundColor:bkc,width,height,backgroundPadding:bkp=0} =  this;
-  debugger;
+ // debugger;
 	if (!bkc) {
 		return;
 	}
@@ -365,7 +365,7 @@ item.horizontalize = function (p,noFrame) {
   debugger;
 }
 item.pointsTo3dAndBack = function (pnts) {
-  debugger;
+  //debugger;
 	let rs = [];
 	pnts.forEach((p) => {
 		let p3d = this.genPoint3d(p);

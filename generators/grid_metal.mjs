@@ -24,10 +24,7 @@ let topParams ={numRows:nr,numCols:nr,width:wd,height:wd,framePadding:0.15*wd};
 Object.assign(rs,topParams);
 
 rs.shapeGenerator = function (rvs) {
-  debugger;
-  let shapes = this.shapes;
   let shape = containerShape.mk();
-  // shapes.push(shape);
   let line0 = this.lineP.instantiate();
   let line1 = this.lineP.instantiate();
   shape.set('line0',line0);

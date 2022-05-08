@@ -23,7 +23,6 @@ rs.initProtos = function () {
 
 rs.shapeGenerator = function (rvs,cell) {
   let {shapes,rectP,numRows,numCols} = this;
-  debugger;
   this.addFrame();
   let rOw = rvs.redOrWhite;
   let shape = rectP.instantiate();
@@ -40,7 +39,7 @@ rs.shapeGenerator = function (rvs,cell) {
 
 rs.initialize = function () {
   this.initProtos();
-  this.setiupRandomGridForShapes('redOrWhite',{step:0.5,min:0,max:2});
+  this.setupRandomGridForShapes('redOrWhite',{step:0.5,min:0,max:2});
   this.generateGrid();
 }
     

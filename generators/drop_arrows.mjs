@@ -3,19 +3,19 @@ import {rs as linePP} from '/shape/line.mjs';
 import {rs as basicsP} from '/generators/basics.mjs';
 import {rs as addDropMethods} from '/mlib/drop.mjs';
 import {rs as addSegsetMethods} from '/mlib/segsets.mjs';
-import {rs as addRandomMethods} from '/mlib/boundedRandomGrids.mjs';
 import {rs as addInterpolateMethods} from '/mlib/interpolate.mjs';
 
 let rs = basicsP.instantiate();
 
-addRandomMethods(rs);
 addDropMethods(rs);
 addSegsetMethods(rs);
 addInterpolateMethods(rs);
 
 rs.setName('drop_arrows');
 let ht = 400;
-let topParams = {width:1.0*ht,height:ht,dropTries:40,segLength:2,framePadding:0.1*ht}
+let topParams = {width:ht,height:ht,framePadding:0.1*ht};
+
+let dropParams = {dropTries:40,segLength:2};
 
 Object.assign(rs,topParams);
 
@@ -97,7 +97,7 @@ rs.dropAt = function (p) {
 rs.initialize = function () {
   this.addFrame();
   this.initProtos();
-  this.generateDrop();
+  this.generateDrop(dropParams);
 }
 
 export {rs};

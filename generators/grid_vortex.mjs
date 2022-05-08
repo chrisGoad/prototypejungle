@@ -28,12 +28,13 @@ rs.powerParams  = {
   ]
 };
     
-
 let wd = 400 
 let outer = 200;
-let topParams = {width:wd, height:wd, framePadding:.1*wd, numRows : 96, numCols : 96, center:Point.mk(0,0), rotation : 45, outerRadius : outer, innerRadius:0.05*outer, angleMin : -180, angleMax : 180, center : Point.mk(0,0)};
+let topParams = {width:wd, height:wd, framePadding:.1*wd, numRows : 96, numCols : 96};
+let radialPositionParams = {center:Point.mk(0,0), rotation : 45, outerRadius : outer, innerRadius:0.05*outer};
 
 Object.assign(rs,topParams);
+Object.assign(rs,radialPositionParams);
  
 rs.initProtos = function () {
   this.circleP = circlePP.instantiate().show();
@@ -45,7 +46,7 @@ rs.initProtos = function () {
   this.lineP['stroke-width'] = 0.5;
 }
 
-rs.positionMethod = rs.radialPositionFunction;
+rs.positionMethod = rs.radialPositionMethod;
 
 rs.boundaryLineGenerator = function (p11,p21,rvs) {
   let line = this.lineP.instantiate().show();

@@ -22,7 +22,7 @@ let nr = 64;
 let topParams = {numRows:nr,numCols:nr,outerRadius:OR,innerRadius:0.5*OR,angleMin:-180,angleMax:180,center:Point.mk(0,0),rotation:30,pointJiggle:1,pathLength:10,fadeIn:false,fractionToOccupy: 0.9,framePadding:1.3*OR,frameVisible:0};
 Object.assign(rs,topParams);
   
-rs.positionMethod = rs.radialPositionFunction;
+rs.positionMethod = rs.radialPositionMethod;
 
 rs.initProtos = function () {
   this.bLineP = linePP.instantiate();

@@ -32,8 +32,6 @@ rs.positionMethod = function(i,j) {
   return rs;
  }
 
-
-
 export {rs};
 
 

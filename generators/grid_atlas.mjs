@@ -23,8 +23,6 @@ rs.initProtos = function () {
   this.rectP.height = sqd;
 }  
 
-
-
 rs.shapeGenerator = function (rvs,cell) {
   let {shapes,rectP,numRows,numCols} = this;
   let rOw = rvs.redOrWhite;

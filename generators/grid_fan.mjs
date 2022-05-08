@@ -22,7 +22,6 @@ const pointAlongL = function (startPnt,endPnt,x) {
   return p;
 }
 
-
 rs.positionMethod = function (i,j) {
   let {width,numRows,delta,fromLeft,up} = this;
   let ci = numRows - i - 1;
@@ -36,7 +35,6 @@ rs.positionMethod = function (i,j) {
   return p;
 }
     
-     
 rs.initProtos = function () {	
   let circleP = this.circleP = circlePP.instantiate();
   circleP['stroke-width'] = 0;
@@ -44,6 +42,7 @@ rs.initProtos = function () {
   circleP.dimension = 30;
   circleP.fill = 'rgba(255,255,0,0.4)';
 }
+
 let scale = 10;
 
 rs.shapeGenerator = function (rvs,cell) {
@@ -54,12 +53,8 @@ rs.shapeGenerator = function (rvs,cell) {
   let cdx = Math.abs((x-hr)/hr);
   let cdy = Math.abs((y-hc)/hc);
   let cdist =  Math.sqrt(cdx*cdx+cdy*cdy);
-  
- // let level = Math.floor(rvs.level);
-//  let opacity = level/255;
- // let {shapes,circleP} = this;
   let shape = this.circleP.instantiate().show();
-  shape.dimension = scale*cdist;//+ 5;
+  shape.dimension = scale*cdist;
   return shape;
 }
 

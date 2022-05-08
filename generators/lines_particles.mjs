@@ -6,7 +6,7 @@
 
 
 
-import {rs as linePP} from '/line/line.mjs';
+import {rs as linePP} from '/shape/line.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
 import {rs as addLinesMethods} from '/mlib/lines.mjs';	
 
@@ -17,27 +17,6 @@ rs.setName('lines_particles');
 
 rs.initializeProtos= function () {
     this.lineP = linePP.instantiate();
- /*   this.elementP1.fill = 'rgb(140,140,140)';
-    this.elementP1.fill = 'transparent';
-    this.elementP1.stroke = 'transparent';
-
-   core.assignPrototypes(this,'elementP2',elementPP2);
-  this.elementP2.fill = 'red';
-  core.assignPrototypes(this,'elementP3',elementPP3);
-  this.elementP3.stroke = 'rgb(220,220,220)';  
-  this.elementP3.stroke = 'black';  
-  //this.elementP3.stroke = 'black';  
- // this.elementP3.stroke = 'magen';  
-  this.elementP3['stroke-width'] = 0.5;
-  core.assignPrototypes(this,'lineP2',elementPP3);
-  this.lineP2.stroke = 'white';  
-  this.lineP2.stroke = 'rgb(200,200,200)';  
-  this.lineP2.stroke = 'red';  
-  //this.elementP3.stroke = 'black';  
- // this.elementP3.stroke = 'magenta';  
-  this.lineP2['stroke-width'] =.5;
-  this.lineP = this.elementP3;
-  */
 }
 
   

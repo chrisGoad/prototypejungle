@@ -82,8 +82,8 @@ setName(nm:string);
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
 rs.setName('grid_droplets');
 </pre>
-<p> means that, when the image generator containing this call is loaded into PrototypeJungle, and the <span class='textVar'>Save Image</span>   button is pressed, the image will be saved at  <span class='textVar'>&lt;prototypejungle&gt;/www/images/grid_droplets.jpg</span> . The <span class='textVar'>Save Image (High Res)</span> button saves a higher resolution variant of the same image at 
- <span class='textVar'>&lt;prototypejungle&gt;/www/images_hi_res/grid_droplets.jpg</span>. The lower resolution variant is adequate for web display, but the higher resolution variant is needed for some image printing purposes (e.g. by <a href="https://mpix.com">mpix.com</a>).</p>
+<p> means that, when the image generator containing this call is loaded into PrototypeJungle, and the <span class='textVar'>Save Image</span>   button is pressed, the image will be saved at  <span class='textVar'>&lt;prototypejungle&gt;/images/grid_droplets.jpg</span> . The <span class='textVar'>Save Image (High Res)</span> button saves a higher resolution variant of the same image at 
+ <span class='textVar'>&lt;prototypejungle&gt;/images_hi_res/grid_droplets.jpg</span>. The lower resolution variant is adequate for web display, but the higher resolution variant is needed for some image printing purposes (e.g. by <a href="https://mpix.com">mpix.com</a>).</p>
  <hr/>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
 this.addFrame();
@@ -95,7 +95,7 @@ this.addFrame();
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
 this.addRectangle({width:number,height:number,stroke_width:number,position:Point=Point(0,0),stroke:color='white',fill:color='Transparent':});
 </pre>
-is also available.
+is also available. Any parameters that are missing from the argument are taken from <span class='textVar'>this</span>.
 <p>
 Here are the relevant lines of code from the <a href="grid.html">grid example</a></p>
 
@@ -113,14 +113,18 @@ Object.assign(rs,topParams);
 ....
 
 rs.initialize = function () {
-   this.setupRandomGridForBoundaries('v',{step:30,min:100,max:250}); 
-   this.initProtos();
-   this.addFrame();
+  this.setupRandomGridForBoundaries('v',{step:30,min:100,max:250}); 
+  this.initProtos();
+  this.addFrame();
   this.initializeGrid();
 }
 
 </pre>
-
+<p> The method </p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+setBackgroundColor(clr:color_string)
+</pre>
+<p> where <span class='textVar'>clr</span> is a string like 'pink' or 'rgb(100,50,200)' sets the  overall background color of the image, however it is zoomed in or out. The default background color is 'black'.</p>
 
 </div>
 </div>

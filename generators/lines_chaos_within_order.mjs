@@ -49,7 +49,7 @@ rs.drawGrid = function () {
 
 rs.initialize = function () {
   this.initProtos();
-  let {lineP,circleP,circleRadius,numLines} = this;
+  let {circleP,circleRadius} = this;
   this.addFrame();
   this.drawGrid();
   let circleShape =  this.set('visCircle',this.circleP.instantiate().show());
@@ -58,7 +58,7 @@ rs.initialize = function () {
   let circle = geom.Circle.mk(Point.mk(0,0),circleRadius);
   circle.onCircle=1;
   let lines = this.set('lines',arrayShape.mk());
-  this.generateLines({src:circle,srcOn:1,dst:circle,dstOn:1,numLines,lineP:lineP});
+  this.generateLines({src:circle,srcOn:1,dst:circle,dstOn:1});
 }	
 
 export {rs};

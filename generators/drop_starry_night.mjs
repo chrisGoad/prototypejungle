@@ -9,7 +9,7 @@ addSegsetMethods(rs);
 rs.setName('drop_starry_night');
 let ht = 200;
 let topParams = {width:1.5*ht,height:ht,dropTries:50,segLength:2,framePadding:0.17*ht,}
-
+let dropParams = {dropTries:50};
 Object.assign(rs,topParams);
 
 rs.initProtos = function () {
@@ -54,7 +54,7 @@ rs.initialDrop = function () {
 rs.initialize = function () {
   this.addFrame();
   this.initProtos();
-  this.generateDrop();
+  this.generateDrop(dropParams);
 }
 
 export {rs};

@@ -5,11 +5,11 @@ import {rs as basicsP} from '/generators/basics.mjs';
 
 
 let rs = basicsP.instantiate();
-rs.setName('grid_grid_3_i_1',3);
+rs.setName('grid_grid_3_i_1',1);
 let wd = 400;
 let nr = 20;
 let fwd = 1.2  * wd;
-let topParams = {saveState:1,width:fwd,height:fwd,numRows:nr,numCols:nr,innerRows:2,innerCols:2,pointJiggle:10,innerRows:5,backgroundColor:'rgb(0,0,100)',framePadding:0.75*fwd,frameStrokee:'white'};
+let topParams = {saveState:0,width:fwd,height:fwd,numRows:nr,numCols:nr,innerRows:2,innerCols:2,pointJiggle:10,innerRows:5,backgroundColor:'rgb(0,0,100)',framePadding:0.75*fwd,frameStrokee:'white'};
 
 Object.assign(rs,topParams);
 

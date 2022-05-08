@@ -1096,7 +1096,9 @@ Rectangle.mk = function (a0,a1) {
     e = a0.extent;
   }
   rs.__setPoint("corner",c);
-  rs.__setPoint("extent",e);
+//  rs.corner = c;
+   rs.__setPoint("extent",e);
+ // rs.extent = e;
   return rs;
 }
 

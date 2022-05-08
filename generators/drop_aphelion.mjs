@@ -1,4 +1,4 @@
-
+OBSOLETE
 import {rs as linePP} from '/shape/line.mjs';
 import {rs as circlePP} from '/shape/circle.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
@@ -30,6 +30,7 @@ rs.initProtos = function () {
 }  
  
 rs.initialize = function () {
+  debugger;
   this.initProtos();
   let {focalPoint,focalLength,cameraScaling,lineP} = this;
   this.zone = geom.Circle.mk(Point.mk(0,0),0.5*this.width);

@@ -24,14 +24,13 @@ let topParams = {numRows:nr,numCols:nr,width:wd,height:ht,framePadding:0.1*wd,
                  positionMethod:rs.sidesPositionFunction};
 Object.assign(rs,topParams);
 
-rs.positionFunctionn = function(i,j) {
+rs.positionMethod = function(i,j) {
   let {width,height,numRows,numCols} = this;
   let cellht = height/numRows;
   let cellwd = width/numCols;
   let frd = i/numRows;  //fraction down
   let cwd = frd*width; // current width
   let ccellwd = frd*cellwd; // currect width of a cell
-  //let rs = Point.mk(-0.5*widt + j*incx,-0.5* height + i*celldimy);;
   let rs = Point.mk(-0.5*cwd + j*ccellwd,-0.5* height + i*cellht);;
   return rs;
  }
@@ -39,20 +38,16 @@ rs.positionFunctionn = function(i,j) {
 rs.boundaryLineGenerator= function (end0,end1,rvs,cell) {
 	let {blineP,numRows,showMissing,lines,updating,lineIndex} =this;
 	let line = blineP.instantiate().show();
-	// lines.push(line);
   line.setEnds(end0,end1);
 	return line;
 }
 
-
 rs.initialize = function () {
   debugger;
   this.initProtos();
- this.addFrame();
+  this.addFrame();
   this.generateGrid();
 }
-
-
 
 export {rs};
 

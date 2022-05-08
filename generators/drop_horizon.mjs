@@ -8,7 +8,8 @@ let rs = basicsP.instantiate();
 addDropMethods(rs);
 addSegsetMethods(rs);
 rs.setName('drop_horizon');
-let topParams = {width:200,height:200,maxDrops:100000,dropTries:50,segLength:2,backFill:undefined}
+let topParams = {width:200,height:200}
+let dropParams = {dropTries:50,segLength:2}
 
 Object.assign(rs,topParams);
 
@@ -58,7 +59,7 @@ rs.dropAt = function (p) {
 rs.initialize = function () {
   this.addFrame();
   this.initProtos();
-  this.generateDrop();
+  this.generateDrop(dropParams);
 }
 
 export {rs};

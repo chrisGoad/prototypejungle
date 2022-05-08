@@ -46,6 +46,15 @@
 		font-weight:bold;
     font-size:15pt;
 	}
+  .userDefinedText {
+  	font-weight:bold;
+    font-size:12pt;
+    color:rgb(200,0,0);
+   }
+   .userDefinedCode {
+    font-style:italic;
+    color:rgb(200,0,0);
+   }
   .blank_row
 {
     height: 10px !important; /* overwrites any other rules */
@@ -70,46 +79,63 @@ td {
 </p>
 <p>Constructor:</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-Point.mk(x:&lt;number&gt;,y:&lt;number&gt;)
+Point.mk(x:number&gt;,y:number&gt;)
 </pre>
 <p> Properties of Point <span class="textVar">p</span>,</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-p.x
-p.y
+p.x:number;
+p.y:number;
 </pre>
 <p>Methods for Point <span class="textVar">p</span>,</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-p.plus(q:&lt;Point&gt;); // returns the vector sum p and q
-p.difference(q:&lt;Point&gt;); // returns the vector subtraction of q from p
-p.distance(q:&lt;Point&gt;); // returns distance from p to q
-p.normalize(); // returns p shrunk or extended to a unit vector with the same direction
-p.normal(); // returns a vector which is orthogonal to p
-p.times(s:&lt;number&gt;); // return p scaled by s
+p.plus(q:Point):Point; // returns the vector sum p and q
+p.difference(q:Point):Point; // returns the vector subtraction of q from p
+p.distance(q:Point):number; // returns distance from p to q
+p.normalize():Point; // returns p shrunk or extended to a unit vector with the same direction
+p.normal():Point; // returns a vector which is orthogonal to p
+p.times(s:number):Point; // return p scaled by s
 </pre>
+
 <hr/>
 <p class="textVar">LineSegment</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-LineSegment.mk(end0:&lt;Point&gt;,end1:&lt;Point&gt;)
+LineSegment.mk(end0:Point,end1:Point)
 </pre>
 <p> Properties of LineSegment <span class="textVar">s</span>,</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-s.end0
-s.end1
+s.end0:Point;
+s.end1:Point;
 </pre>
 <p>Methods for LineSegment <span class="textVar">s</span>,</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-s.length();
-s.pointAlong(n:&lt;number&gt;) // for 0&lt;=n&lt;=1, returns the point fraction n of the way from end0 to end1
+s.length():number;
+s.pointAlong(n:number):Point; // for 0&lt;=n&lt;=1, returns the point fraction n of the way from end0 to end1
 </pre>
+
+<hr/>
+<p class="textVar">Rectangle</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+Rectangle.mk(corner:Point:extent:Point)
+</pre>
+<p> Properties of Rectangle <span class="textVar">r</span>,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+s.corner:Point;
+s.extent:Point;
+</pre>
+<p>Methods for Rectangle <span class="textVar">r</span>,</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+r.contains(p:Point):boolean;
+</pre>
+
 <hr/>
 <p class="textVar">Circle</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-Circle.mk(center:&lt;Point&gt;,radius:&lt;number&gt;)
+Circle.mk(center:Point,radius:number)
 </pre>
 <p> Properties of Circle <span class="textVar">c</span>,</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-c.center
-c.radius
+c.center:Point
+c.radius:number;
 </pre>
 <hr/>
 <p class="textVar" id="Point3d">Point3d</p>
@@ -117,20 +143,20 @@ c.radius
 </p>
 <p>Constructor:</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-Point3d.mk(x:&lt;number&gt;,y:&lt;number&gt;,z:&lt;number&gt;)
+Point3d.mk(x:number,y:number,z:number)
 </pre>
 <p> Properties of Point3d <span class="textVar">p</span>,</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-p.x
-p.y
-p.z
+p.x:number;
+p.y:number;
+p.z:number;
 </pre>
 <p>Methods for Point3d <span class="textVar">p</span>,</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-p.plus(q:&lt;Point&gt;); // returns the vector sum p and q
-p.difference(q:&lt;Point&gt;); // returns the vector subtraction of q from p
-p.distance(q:&lt;Point&gt;); // returns distance from p to q
-p.times(s:&lt;number&gt;); // return p scaled by s
+p.plus(q:Point):Point3d; // returns the vector sum p and q
+p.difference(q:Point):Point3d;; // returns the vector subtraction of q from p
+p.distance(q:Point):number; // returns distance from p to q
+p.times(s:number):Point3d;; // return p scaled by s
 </pre>
 <hr/>
 <p class="textVar" id="Camera">Camera</p>
@@ -139,19 +165,19 @@ p.times(s:&lt;number&gt;); // return p scaled by s
 
 <p>Constructor:</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-Camera.mk(focalPoint:&lt;Point3d&gt;,focalLength:&lt;number&gt;,scaling:&lt;number&gt;,axis:&lt;string&gt;)
+Camera.mk(focalPoint:Point3d,focalLength:number,scaling:number,axis:string)
 </pre>
 <p><span class="textVar">axis</span> should be one of "x", "y", "z"
 <p> Properties of Camera <span class="textVar">c</span>,</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
 c.focalPoint
-c.focalLength
-p.scaling
-p.axis
+c.focalLength:number;
+p.scaling:number;
+p.axis:string; // one of 'x','y','z'
 </pre>
 <p>Methods for Camera <span class="textVar">c</span>,</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-c.project(p:&lt;Point3d&gt;); // returns the projection of p onto the focal plane
+c.project(p:Point3d); // returns the projection of p onto the focal plane
 </pre>
 
 

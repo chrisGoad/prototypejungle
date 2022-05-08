@@ -55,11 +55,11 @@ rs.shapeGenerator = function (rvs,cell) {
 rs.initialize = function () {
   this.initProtos();
   this.addFrame();
-	this.setupRandomGridForShapes('length',  {step:5,min:20,max:30});
-	this.setupRandomGridForShapes('direction', {step:0.2* Math.PI,min:1.95*Math.PI,max:2*Math.PI});
-	this.setupRandomGridForShapes('shade', {step:30,min:50,max:250});
+  this.setupRandomGridForShapes('length',  {step:5,min:20,max:30});
+  this.setupRandomGridForShapes('direction', {step:0.2* Math.PI,min:1.95*Math.PI,max:2*Math.PI});
+  this.setupRandomGridForShapes('shade', {step:30,min:50,max:250});
   this.addSpatter();
-}	
+}  
 
 export {rs};
 

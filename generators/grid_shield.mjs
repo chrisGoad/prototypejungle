@@ -46,7 +46,7 @@ let topParams = {
 }
 
 Object.assign(rs,topParams);
-rs.positionMethod = rs.radialPositionFunction;
+rs.positionMethod = rs.radialPositionMethod;
 
 rs.initProtos = function () {
   this.circleP = circlePP.instantiate().show();

@@ -18,12 +18,11 @@ rs.initProtos = function () {
   this.blineP = linePP.instantiate();
   this.blineP.stroke = 'rgb(100,100,100)';
   this.blineP['stroke-width'] = 0.4;  
-  this.shapeP = linePP.instantiate();
-  this.shapeP.stroke = 'white';
+  this.lineP = linePP.instantiate();
+  this.lineP.stroke = 'white';
 }  
 
 rs.shapeGenerator = function (rvs) {
-  let shapes = this.shapes;
   let rs = containerShape.mk();
   let factor2 = 1;
   const setup = (nm,shp,idx,count) => {
@@ -37,12 +36,11 @@ rs.shapeGenerator = function (rvs) {
     shp.update();
     shp.show();
   } 
-  let r0,r1;
   let disp = this.deltaX * 0.25;
   const num = Math.floor(Math.random()* 7.999)+1;
   if (num > 4) return;
   for (let i=0;i<num;i++) {
-    let r = this.shapeP.instantiate();
+    let r = this.lineP.instantiate();
     setup('r'+i,r,i,num);
   } 
   return rs;
@@ -52,7 +50,6 @@ rs.boundaryLineGenerator = function (end0,end1,rvs,cell) {
   let {blineP,showMissing,lines,updating,lineIndex} = this;
   let line = this.genLine({end0:end0,end1:end1},blineP);
   let c = rvs.color
-  // lines.push(line);
   line.setEnds(end0,end1);
   line.stroke = `rgb(0,${Math.floor(c)},${Math.floor(c)})`;
   line.show();

@@ -15,15 +15,14 @@ Object.assign(rs,topParams);
 let numStripes = 5;
 
 rs.initialize = function () {
-  
   this.addFrame();
   let stripes = this.set('stripes',arrayShape.mk());
   for (let i = 0;i<numStripes;i++) {
-   let stripe = stripeP.instantiate().show();
-	 stripes.push(stripe);
-   let clr = (i%2 == 0)?'white':'blue';
-   stripe.initialize(clr);
-	 stripe.moveto(Point.mk(0,(i-2)*sht));
+  let stripe = stripeP.instantiate().show();
+  stripes.push(stripe);
+  let clr = (i%2 == 0)?'white':'blue';
+  stripe.initialize(clr);
+  stripe.moveto(Point.mk(0,(i-2)*sht));
   }   
 }
 

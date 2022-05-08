@@ -8,7 +8,7 @@ addGridMethods(rs);
 addRandomMethods(rs);
 rs.setName('grid_code');
 let ht = 400;
-let topParams = {width:1.5*ht,height:ht,numRows:100,numCols:100,pointJiggle:0,factorX:0.25,factorY:0.05,crossColor:'yellow',framePadding:0.17*ht,frameVisible:0};
+let topParams = {width:1.5*ht,height:ht,numRows:100,numCols:100,pointJiggle:0,factorX:0.25,factorY:0.05,crossColor:'yellow',framePadding:0.17*ht};
 
 Object.assign(rs,topParams);
 	
@@ -43,7 +43,7 @@ rs.shapeGenerator = function (rvs,cell) {
   if (((mr0<y) && (y<mr1)) || ((mc0 < x) && (x < mc1))) {
     shape.stroke = crossColor;
   }
-  shape.thePoints = [p0,p1,p2,p3];
+  shape.wayPoints = [p0,p1,p2,p3];
   shape.update();
   shape.show()
   return shape;

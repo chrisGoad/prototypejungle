@@ -23,7 +23,7 @@ rs.initProtos = function () {
 let nr = 64;
 let wd = 200;
 let ht = 150;
-let topParams = {saveState:0,numRows:nr,numCols:nr,width:wd,height:ht,pointJiggle:0,framePadding:0.20*wd,sideA:geom.LineSegment.mk(Point.mk(0,-0.5*ht),Point.mk(-0.5*wd,0.5*ht)),sideB:geom.LineSegment.mk(Point.mk(0,-0.5*ht),Point.mk(0.5*wd,0.5*ht)),positionMethod:rs.sidesPositionFunction};
+let topParams = {saveState:0,numRows:nr,numCols:nr,width:wd,height:ht,pointJiggle:0,framePadding:0.20*wd,sideA:geom.LineSegment.mk(Point.mk(0,-0.5*ht),Point.mk(-0.5*wd,0.5*ht)),sideB:geom.LineSegment.mk(Point.mk(0,-0.5*ht),Point.mk(0.5*wd,0.5*ht)),positionMethod:rs.sidesPositionMethod};
 
 Object.assign(rs,topParams);
 

@@ -12,11 +12,15 @@ addSegsetMethods(rs);
 rs.setName('drop_iris');
 let ht = 160;
  ht = 700;
-let topParams = {saveState:0,width:ht,height:ht,numRows:20,numCols:30,dropTries:20,segLength:10,framePadding:0.1*ht,fromEnds:1,sepNext:.1,lineExt:.2,extendWhich:'random','numSeedss':100}
+ let ringRadius = 0.3 * 0.5 * ht;
+ 
+let topParams = {saveState:0,width:ht,height:ht,numRows:20,numCols:30,segLength:10,framePadding:0.1*ht}
+
+let dropParams = {dropTries:10,fromEnds:1,sepNext:.1,extendWhich:'random',exclusionZones:[geom.Circle.mk(Point.mk(0,0),ringRadius)],doNotExit:[geom.Circle.mk(Point.mk(0,0),0.5*ht)]}
 
 let fanParams = {randomDirectionChange:0.3*Math.PI,sepNext:.1,splitChance:0.5,splitAmount:0.08 * Math.PI,directionChange:0.025 * Math.PI}
 	
-let ringParams = {numSeeds:100,ringRadius:0.3 * 0.5 * ht,stroke:'transparent'};
+let ringParams = {numSeeds:100,ringRadius};
 
 Object.assign(rs,topParams);
 
@@ -24,12 +28,20 @@ rs.initProtos = function () {
   this.lineP = linePP.instantiate();
   this.lineP.stroke = 'white';
   this.lineP['stroke-width'] = 2;
+  this.linePinvisible = linePP.instantiate();
+  this.linePinvisible.stroke = 'transparent';
+  this.linePinvisible['stroke-width'] = 0;
+
 }  
 
 rs.dropAt = function (p,rvs) {
   let {r,g,b} = rvs;
   let clr = `rgb(${r},${g},${b})`;
-  return this.genFan(Object.assign({startingPoint:p,stroke:clr},fanParams));
+  //let rs =  this.generateFan(Object.assign({startingPoint:p,stroke:clr},fanParams));
+  let rs =  this.generateFan(Object.assign({startingPoint:p},fanParams));
+  let lines = rs[1];
+  lines.forEach((line) => line.stroke = clr);
+  return rs;
 }
 
 rs.initialDrop = function () {
@@ -48,6 +60,7 @@ rs.computeState  = function () {
 
 rs.initialize = function () {
   this.initProtos();
+  ringParams.lineP = this.linePinvisible;
   this.addFrame();
   if (this.saveState) {
     this.setupColorGridsForShapes({step:10,min:100,max:240});
@@ -55,7 +68,7 @@ rs.initialize = function () {
     this.generateDrop();
   } else {
     this.getTheState(() => {
-      this.generateDrop();
+      this.generateDrop(dropParams);
     });
   }
 }

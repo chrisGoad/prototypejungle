@@ -16,16 +16,9 @@ let versions = require("./versions.js");
  
 let fs = require('fs');
 let zlib = require('zlib');
-//const { minify } = require("terser");    
-//const { minify } = require("terser");    
-//import { minify } from "terser";
-//let UglifyJS = require("uglify-js");
-//let babel = require("babel-core");
-//const minify = require("babel-minify");
 
 
 let fileLists = {};
-//let publicModules = ['core','geom','dom','harness','minimal'];
 let publicModules = [];
 
 let prepend = function (what,arr) {
@@ -35,36 +28,15 @@ let prepend = function (what,arr) {
 
 fileLists.core = prepend('core',["root","tree","exception","update","instantiate","serialize","deserialize","pageutils",
                   "install","xpath","log","replace","spread","diff","history"]);//,"geom","geometric_object","replace"]); 
+
+fileLists.core = prepend('core',["root","tree","exception","update","instantiate","pageutils",
+                  "xpath","log","replace","spread","diff"]);//,"geom","geometric_object","replace"]); 
 fileLists.geom = prepend("geom",["geom","three_d","geometric_object"]); //linted with eslint 11/22/17
 fileLists.dom = prepend('dom',["environment","data","dom1","jxon","svg","html","domstringify","svg_serialize"]);
-fileLists.firebase = ["firebase/firebase","firebase/actions"]; // code cleaned
-fileLists.chooser = ["chooser/chooser"];// code cleaned
-fileLists.tree = ["tree/tree1","tree/tree2"]
-fileLists.catalog = ["catalog/catalog"]; // code cleaned
-fileLists.svg = ["svg/svg"]
-fileLists.uistub = ["uistub/uistub"];
-fileLists.graph = prepend('graph',['environment','graph','periphery_ops','edge_ops']);
-fileLists.ui  = prepend('ui',["environment","browser","ui","save","dom2","controls","svgx","image","grid"]);// "history"
-fileLists.harness = ['harness/environment','harness/install','harness/page','harness/init_page'];
-fileLists.lightbox = ["lightbox/lightbox"];
-
-let editorCommon = ["editor/environment","editor/page_top","editor/page_common"];//linted 
-fileLists.editor = editorCommon.concat(prepend('editor',
-                   ["install","check_json","page","insert","edit_data","save",
-                    "actions","catalog","misc","init_page","animate","to_image","buildCatalog"]));//linted; code cleaned
-/*fileLists.draw = prepend('draw',
-                   ["environment","page_top","page_common","install","check_json","page","insert","edit_data","save",
-                    "actions","catalog","misc","init_page","animate","to_image","buildCatalog"]);//linted; code cleaned*/
+fileLists.dom = prepend('dom',["environment","data","dom1","jxon","svg","html"]);
 fileLists.draw = prepend('draw',
                    ["environment","svgx","page_common","install","page",//"misc","page_top",
                     "init_page","to_image"]);//linted; code cleaned
-fileLists.code_editor = editorCommon.concat(["editor/install","code_editor/page","editor/init_page"]);//linted
-
-fileLists.text_editor = editorCommon.concat(["editor/install","editor/check_json","text_editor/page","editor/init_page"]);//linted
-fileLists.catalog_editor = editorCommon.concat(["catalog_editor/page","catalog_editor/init_page"]);//linted
-                               
-fileLists.minimal  = ["core/root","core/pageutils"];
-fileLists.firebase_only = ["firebase/firebase","firebase/actions","ui/save","firebase/account_page"];
 
 
 function doGzip(file,cb) {
@@ -79,7 +51,6 @@ function doGzip(file,cb) {
 
 let isPublic = false;
 function fullName(f) {
- //return `../prototypejungle/js/${f}.js`;
   return `js/${f}.js`;
 }
 
@@ -102,7 +73,7 @@ function mextract(fls) {
 
 function mkPath(which,version,mini) {
   if (1 ||mini) {
-    return `www/js/${which}-${version}.js`;
+    return `js/${which}-${version}.js`;
   } else {
     return `staging/${which}-${version}.js`;
   }
@@ -133,6 +104,7 @@ async function mkModule(which,version,contents) {
 //}).code;// for some reason plain old babel.transformmm couldn't find .babelrc
  //  console.log(minified);
   }
+  //return;
  // console.log('minified[',minified,']');
  // return;
   fs.writeFileSync(minpath,minified);
@@ -170,23 +142,13 @@ function mk_combo() {
 }
 */
 /*
+cd c:\prototypejungle\public
  
- node admin/assemble minimal;
  node admin/assemble core;
  node admin/assemble geom;
  node admin/assemble dom;
- node admin/assemble harness;
- node admin/assemble firebase;
- node admin/assemble firebase_only;
- node admin/assemble graph;
- node admin/assemble ui;
- node admin/assemble tree;
-  node admin/assemble catalog;
- node admin/assemble editor;
- node admin/assemble code_editor;
-node admin/assemble text_editor;
- node admin/assemble chooser;
- node admin/assemble lightbox;
+ node admin/assemble draw;
+ 
 
 
 
