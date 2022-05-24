@@ -2,71 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<meta name="description" content="Image Generation via Prototype Trees">
 <title>PrototypeJungle</title>
 <link rel="stylesheet" type="text/css"  href="style.css"/>
 <link rel="stylesheet" type="text/css"  href="spectrum.css"/>
-<link rel="icon" href="/images/favicon.ico" />
+<link rel="icon" href="/favicon.ico" />
 
-<style>
-	.theGrid {
-		display:grid;
-		padding-top:10px;
-		grid-template-columns:1fr 4fr 1fr;
-	}
-  .indent {
-		padding-left:20px;
-	}
-  .indent2 {
-		padding-left:40px;
-	}
-  .codeVar {
-		font-style:italic;
-	}  
-  
-  .textVar {
-		font-weight:bold;
-    font-size:12pt
-	}
-  .plainText {
-		font-weight:normal;
-    font-size:12pt
-	}
-  .title {
-		font-weight:bold;
-    font-size:16pt;
-    text-align:center;
-	}
-  .source {
-    font-size:16pt;
-    text-align:center;
-	}
- .section {
-   padding-top:30px;
-		font-weight:bold;
-    font-size:15pt;
-	}
-  .userDefinedText {
-  	font-weight:bold;
-    font-size:12pt;
-    color:rgb(200,0,0);
-   }
-   .userDefinedCode {
-    font-style:italic;
-    color:rgb(200,0,0);
-   }
-  .blank_row
-{
-    height: 10px !important; /* overwrites any other rules */
-    background-color: #FFFFFF;
-}
-td {
-  borderr: 1px solid rgb(190,190,190);
-  padding-left: 20px;
-}
-</style>
 </head>
 <body style="background-color:white;font-size:14pt"> 
+<script src = "docSupport.js"></script>
+
+<div class="topGrid">
+<div></div>
+<div ><span id ="prevSpan" class="button"> &lt;</span></div>
+<div><span class="textVar"><a style="color:black" href="../index.html">PrototypeJungle</a></span></div>
+<div></div>
+<div><span style="padding-top:0px"> <img  src="logo.svg" width="30" height="30" /></span></div>
+<div><span id="nextSpan" class="button"> &gt; </span></div>
+</div>
+<hr/>
 <div class="theGrid">
 <div></div>
 <div>
@@ -88,9 +42,9 @@ If <span class="textVar">numRows</span> and <span class="textVar">numCols</span>
 <p>When several such grids, named, say <span class="textVar">a,b,c</span>  have been setup by <span class="textVar">setupRandomGridForShapes</span>, 
 they are used to produce the <span class="textVar">rvs</span>  argument  to <a href="/doc/grid.html#shapeGenerator"><span class="userDefinedText">shapeGenerator</span></a> in the grid module. Specifically, <span class="userDefinedText">shapeGenerator</span> will be called, for each grid cell, with <span class="textVar">rvs</span> set to <span class="textVar">{a:&lt;va&gt;,b:&lt;vb&gt;,c:&lt;vc&gt;}</span> where <span class="textVar">va,vb,</span> and <span class="textVar">vc</span> are the values at the given cell in the grids that have been setup by the calls:</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-<p>this.setupRandomGridForShapes('a',params); </p>
-<p>this.setupRandomGridForShapes('b',params);</p>
-<p>this.setupRandomGridForShapes('c',params); </p>
+this.setupRandomGridForShapes('a',params); 
+this.setupRandomGridForShapes('b',params);
+this.setupRandomGridForShapes('c',params); 
 </pre>
 
 <p>Similarly, <span class="textVar">setupRandomGridForBoundaries(nm,params)</span> sets up grids which are used to produce the <span class="textVar">rvs</span> argument to <a href="/doc/grid.html#boundaryLineGenerator"><span class="userDefinedText">boundaryLineGenerator</span></a>.</p>
@@ -105,7 +59,7 @@ addRandomMethods(ig);
 let topParams = {width:wd,height:wd,numRows:nr,numCols:nr,pointJiggle:5,framePadding:0.15*wd};
 Object.assign(rs,topParams);
 </pre>
-These grids are named <span class="textVar">xJiggle</span> and <span class="textVar">yJiggle</span>. The points in the main grid are jiggled by the amounts specified in those bounded grids. The maximum amount of jiggle is given by the <span class="textVar">pointJiggle</span> parameter. Instead of <span class="textVar">pointJiggle, jiggleParams</span> may be specified instead as in</p>
+<p>These grids are named <span class="textVar">xJiggle</span> and <span class="textVar">yJiggle</span>. The points in the main grid are jiggled by the amounts specified in those bounded grids. The maximum amount of jiggle is given by the <span class="textVar">pointJiggle</span> parameter. Instead of <span class="textVar">pointJiggle, jiggleParams</span> may be specified instead as in</p>
  <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
  let topParams = {...,jiggleParams:{step:1,min:-5,max:5}...};
 </pre>
@@ -138,8 +92,9 @@ rs.initialize = function () {
 </pre>
 <p> in the context of <a href="/generators/grid_distortion_field.mjs">/generators/grid_distortion_field.mjs</a> </p>
 
-<p> This produdes the following image, in which the jiggle increases towards the center:</p>
- <p><img  src="/doc/grid_distortion_field_square.jpg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="400" height="400" max-height="500"/></p>
-
+<p> This produces the following image, in which the jiggle increases towards the center:</p>
+ <p><img  src="https://kingdomofpattern.com/thumbs/grid_distortion_field.jpg" style="cursor:pointer"  width="400" height="400"/></p>
+</div>
+</div>
 </body>
 </html>

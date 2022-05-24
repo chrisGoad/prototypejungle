@@ -2,71 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<meta name="description" content="Image Generation via Prototype Trees">
 <title>PrototypeJungle</title>
 <link rel="stylesheet" type="text/css"  href="style.css"/>
 <link rel="stylesheet" type="text/css"  href="spectrum.css"/>
-<link rel="icon" href="/images/favicon.ico" />
+<link rel="icon" href="/favicon.ico" />
 
-<style>
-	.theGrid {
-		display:grid;
-		padding-top:10px;
-		grid-template-columns:1fr 4fr 1fr;
-	}
-  .indent {
-		padding-left:20px;
-	}
-  .indent2 {
-		padding-left:40px;
-	}
-  .codeVar {
-		font-style:italic;
-	}  
-  
-  .textVar {
-		font-weight:bold;
-    font-size:12pt
-	}
-  .plainText {
-		font-weight:normal;
-    font-size:12pt
-	}
-  .title {
-		font-weight:bold;
-    font-size:16pt;
-    text-align:center;
-	}
-  .source {
-    font-size:16pt;
-    text-align:center;
-	}
- .section {
-   padding-top:30px;
-		font-weight:bold;
-    font-size:15pt;
-	}
-  .userDefinedText {
-  	font-weight:bold;
-    font-size:12pt;
-    color:rgb(200,0,0);
-   }
-   .userDefinedCode {
-    font-style:italic;
-    color:rgb(200,0,0);
-   }
-  .blank_row
-{
-    height: 10px !important; /* overwrites any other rules */
-    background-color: #FFFFFF;
-}
-td {
-  borderr: 1px solid rgb(190,190,190);
-  padding-left: 20px;
-}
-</style>
 </head>
 <body style="background-color:white;font-size:14pt"> 
+<script src = "docSupport.js"></script>
+
+<div class="topGrid">
+<div></div>
+<div ><span id ="prevSpan" class="button"> &lt;</span></div>
+<div><span class="textVar"><a style="color:black" href="../index.html">PrototypeJungle</a></span></div>
+<div></div>
+<div><span style="padding-top:0px"> <img  src="logo.svg" width="30" height="30" /></span></div>
+<div><span id="nextSpan" class="button"> &gt; </span></div>
+</div>
+<hr/>
 <div class="theGrid">
 <div></div>
 <div>
@@ -75,9 +29,9 @@ td {
 <p class="title">powerGrid</p>
 
 <p> This module will be introduced, as usual, via annotated code, which generates the image</p>
- <p><img  src="grid_void.jpg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="400" height="400" max-height="500"/></p>
+ <p><img  src="https://kingdomofpattern.com/thumbs/grid_void.jpg?alt=media" style="cursor:pointer"  width="400" height="400"/></p>
  <p>First, here's a simplified variant of the  code, which generates</p>
-  <p><img  src="grid_void_variant.jpg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="400" height="400" max-height="500"/></p>
+  <p><img  src="https://kingdomofpattern.com/thumbs/grid_void_variant.jpg?alt=media" style="cursor:pointer"  width="400" height="400"/></p>
 
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
 import {rs as rectPP} from '/shape/rectangle.mjs';
@@ -140,7 +94,7 @@ input         0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16
 
 
 <p> To generate the final image, we need to adjust <span class="textVar">widthFactor</span> and <span class="textVar">heightFactor</span> so that they go to zero near the center.</p>
- <p class="title"><img  src="grid_void.jpg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="300" height="300" max-height="500"/></p>
+ <p class="title"><img  src="https://kingdomofpattern.com/thumbs/grid_void.jpg?alt=media" style="cursor:pointer"  width="300" height="300"/></p>
 
 <p>This is done by the following code:</p>
 

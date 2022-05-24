@@ -14,7 +14,7 @@ let defaults = {webTries:5,maxLoops:Infinity};//,maxTriesPerEnd:20};
 Object.assign(rs,defaults);
 
 rs.pairFilter = function (i,j) {
-	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0} = this.webParameters
+	let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0} = this.webParameters;
   let {cPoints} = this;
 	let pi = cPoints[i];
 	let pj = cPoints[j];
@@ -46,7 +46,9 @@ rs.initWeb = function (pnts) {
 }
 
 rs.addSegs = function (lineP) {
-	let {connectSegs,shortenBy=10} = this;
+	let {connectSegs,webParameters} = this;
+  let {lengthenBy=0}  = webParameters;
+  debugger;
   let ln = connectSegs.length;
 	for (let i=0;i<ln;i++) {
 		for (let j=i+1;j<ln;j++) {
@@ -61,7 +63,8 @@ rs.addSegs = function (lineP) {
 			
 	for (let i=0;i<ln;i++) {
 		let sg = connectSegs[i];
-		let ssg = sg.lengthen(shortenBy);
+		//let ssg = sg.lengthen(lengthenBy);
+		let ssg = sg;
 		ssg.index0 = sg.index0;
 		ssg.index1 = sg.index1;
 	  let line = this.genLine(ssg,lineP);
@@ -115,12 +118,12 @@ rs.rnearsIndex2NearsIndexViaIndexOf = function (nears,rnears,ri) {
 	
 	
 rs.generateWeb = function (iparams) {
-  let props = ['points','lineP','minConnectorLength','maxConnectorLength','webTries','shortenBy','maxLoops'];
+  let props = ['points','lineP','minConnectorLength','maxConnectorLength','webTries','lengthenBy','maxLoops'];
   let params = {};
   core.transferProperties(params,this,props);
   core.transferProperties(params,iparams,props);
   this.webParameters = params;
-	let {points:pnts,lineP,minConnectorLength,maxConnectorLength,webTries,shortenBy=10,maxLoops=Infinity} = params;
+	let {points:pnts,lineP,minConnectorLength,maxConnectorLength,webTries,lengthenBy=-0.1,maxLoops=Infinity} = params;
     debugger;
 	if (pnts) {
 		this.initWeb(pnts);
@@ -282,7 +285,11 @@ const removeFromNears = function (i,ni) {
 			if ((!rip) || (!rjp)) {
 				debugger;
 			}
-			let rseg  = geom.LineSegment.mk(rip,rjp).lengthen(-10);
+			let iseg  = geom.LineSegment.mk(rip,rjp);
+      debugger;
+      //let rseg = iseg.lengthen(-0.1);
+      //let rseg = iseg.lengthen(-0.01);
+      let rseg = iseg.lengthen(lengthenBy);
 			/*if (lineP) {
 				rseg.lineP = lineP;
 			}*/
@@ -311,6 +318,7 @@ const removeFromNears = function (i,ni) {
 		});
 	}
 	if (pnts) {
+   debugger;
 	  this.addSegs(lineP);
 	}
   debugger;

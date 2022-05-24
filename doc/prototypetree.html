@@ -2,71 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<meta name="description" content="Image Generation via Prototype Trees">
 <title>PrototypeJungle</title>
 <link rel="stylesheet" type="text/css"  href="style.css"/>
 <link rel="stylesheet" type="text/css"  href="spectrum.css"/>
-<link rel="icon" href="/images/favicon.ico" />
+<link rel="icon" href="/favicon.ico" />
 
-<style>
-	.theGrid {
-		display:grid;
-		padding-top:10px;
-		grid-template-columns:1fr 4fr 1fr;
-	}
-  .indent {
-		padding-left:20px;
-	}
-  .indent2 {
-		padding-left:40px;
-	}
-  .codeVar {
-		font-style:italic;
-	}  
-  
-  .textVar {
-		font-weight:bold;
-    font-size:12pt
-	}
-  .plainText {
-		font-weight:normal;
-    font-size:12pt
-	}
-  .title {
-		font-weight:bold;
-    font-size:16pt;
-    text-align:center;
-	}
-  .source {
-    font-size:16pt;
-    text-align:center;
-	}
- .section {
-   padding-top:30px;
-		font-weight:bold;
-    font-size:15pt;
-	}
-  .userDefinedText {
-  	font-weight:bold;
-    font-size:12pt;
-    color:rgb(200,0,0);
-   }
-   .userDefinedCode {
-    font-style:italic;
-    color:rgb(200,0,0);
-   }
-  .blank_row
-{
-    height: 10px !important; /* overwrites any other rules */
-    background-color: #FFFFFF;
-}
-td {
-  borderr: 1px solid rgb(190,190,190);
-  padding-left: 20px;
-}
-</style>
 </head>
 <body style="background-color:white;font-size:14pt"> 
+<script src = "docSupport.js"></script>
+
+<div class="topGrid">
+<div></div>
+<div ><span id ="prevSpan" class="button"> &lt;</span></div>
+<div><span class="textVar"><a style="color:black" href="../index.html">PrototypeJungle</a></span></div>
+<div></div>
+<div><span style="padding-top:0px"> <img  src="logo.svg" width="30" height="30" /></span></div>
+<div><span id="nextSpan" class="button"> &gt; </span></div>
+</div>
+<hr/>
 <div class="theGrid">
 <div></div>
 <div>
@@ -74,10 +28,14 @@ td {
 
 <p class="title">Prototype Trees</p>
 
-<p>The objects manipulated by PrototypeJungle, for the most part, possess  a structure called a "prototype tree". By this I mean a JavaScript object  that is a tree from the standpoint of the <a  href="https://www.javascripttutorial.net/javascript-own-properties/">object-to-own-property-value</a> relation, but in which <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">prototype chains</a> and functions may appear. Here is an example of such a structure:</p>
- <img id="diagram" src="prototypeDiagram1_withText.svg?alt=media" style="bborder:thin black solid;cursor:pointer"  width="550" height="250"/>
+<p>In current practice, the prototype mechanism in JavaScript only supports the instantiation of components at a single level. If <span class="textVar">x</span> is a component which we wish to instantiate via prototypical inheritance, our first option is to invoke 
+<span class="textVar">y=<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a>(x)</span>. The newly created object <span class="textVar">y</span> only inherits from its prototype, <span class="textVar">x</span>, at the top level. All other structure is shared. So, if <span class="textVar">x</span> has any depth of structure, we have created something that is radically entangled with its prototype, and in this sense does not fulfill the purpose of instantiation: creation of a new copy of the component which inherits its functionality, but can be altered freely to suit its role. The second prototype-spawning option, <span class="textVar"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new">new</a></span>, has the same problem - it only operates at a single level.</p>
+<p>By a "prototype tree" I mean a structure that is a tree from the standpoint of the  
+<a  href="https://www.javascripttutorial.net/javascript-own-properties/">object-to-own-property-value</a> relation, but in which 
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">prototype chains</a> and functions may appear. Here is an example of such a structure:</p>
+ <img id="diagram" src="prototypeDiagram1_withText.svg" style="cursor:pointer"  width="550" height="250"/>
 
-<p><span class="textVar">instantiate</span> is the core method of this structure. For a prototype tree y, </p>
+<p><span class="textVar">instantiate</span> is the core method of this structure. For a prototype tree <span class="textVar">y</span>, </p>
 
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
 let x = y.instantiate();
@@ -86,10 +44,10 @@ let x = y.instantiate();
 <p>has an effect similar to </p>
 
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
-let x = <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a>(y);
+let x =Object.create(y);
 </pre>
 
-<p>In both cases <span class="textVar">x</span> is a new object that inherits, prototype-style, from <span class="textVar">y</span>.  The difference is that while <span class="textVar">Object.create</span> operates at only one level, <span class="textVar">y.instantiate()</span> does a deep copy of <span class="textVar">y</span> as a tree, and returns a structure in which all of the copied nodes inherit prototype-wise from the nodes from which they were copied, and in which the prototype chains of <span class="textVar">y</span> have also been copied into <span class="textVar">x</span>. Full detail can be found <a href="/doc/tech.html">here.<a></p>
+<p>In both cases <span class="textVar">x</span> is a new object that inherits, prototype-style, from <span class="textVar">y</span>.  The difference is that while <span class="textVar">Object.create</span> operates at only one level, <span class="textVar">y.instantiate()</span> does a deep copy of <span class="textVar">y</span> as a tree, and returns a structure in which all of the copied nodes inherit prototype-wise from the nodes from which they were copied, and in which the prototype chains of <span class="textVar">y</span> have also been copied into <span class="textVar">x</span>. Full detail can be found <a href="instantiation.html">here.</a></p>
 
 
 

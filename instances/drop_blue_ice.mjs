@@ -1,5 +1,5 @@
 
-import {rs as linePP} from '/line/line.mjs';
+import {rs as linePP} from '/shape/line.mjs';
 import {rs as generatorP} from '/generators/drop_ice.mjs';
 
 let rs = generatorP.instantiate();

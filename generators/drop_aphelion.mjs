@@ -16,7 +16,7 @@ let ht= 2000;
 ht = 6000;
 let wd = ht;
 
-let topParams = {width:ht,height:ht,maxDrops:60000,dropTries:50,webTries:1000,segLength:2,frameColor:'rgb(2,2,2)',framePadding:0.1*ht,minConnectorLength:300,maxConnectorLength:600,shortenBy:20}
+let topParams = {width:ht,height:ht,maxDrops:60000,dropTries:50,webTries:1000,segLength:2,frameColor:'rgb(2,2,2)',framePadding:0.1*ht,minConnectorLength:300,maxConnectorLength:600}
 
 Object.assign(rs,topParams);
 

@@ -1,5 +1,4 @@
 
-import {rs as linePP} from '/line/line.mjs';
 import {rs as generatorP} from '/generators/grid_distortion_field.mjs';
 
 let rs = generatorP.instantiate();

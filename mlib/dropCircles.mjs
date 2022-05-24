@@ -57,7 +57,6 @@ rs.collides = function (point,radius,points,radii) {
 
 
 rs.genRandomPoint = function (rect) {
-	//debugger;
   if (rect) {
     let {corner,extent} = rect;
     let lx = corner.x;
@@ -112,6 +111,9 @@ rs.generateCircleDrop = function (iparams) {
 		let pnt = this.genRandomPoint();
     if (this.radiusGenerator) {
       radius = this.radiusGenerator(pnt);
+    }
+    if (radius <= 0) {
+      continue;
     }
 		let cl = this.collides(pnt,radius,points,radii);
     //console.log('tries',tries,'collide',cl);

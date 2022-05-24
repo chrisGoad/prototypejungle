@@ -8,7 +8,7 @@ import {rs as addRandomMethods} from '/mlib/boundedRandomGrids.mjs';
 let rs = basicsP.instantiate();
 addGridMethods(rs);
 addRandomMethods(rs);
-rs.setName('grid_distortion_field2');
+rs.setName('grid_distortion_field');
 let nr = 40;
 let dim = 400;
 let topParams = {numRows:nr,numCols:nr,width:dim,height:dim,highJiggle:10,highJiggleStep:5};

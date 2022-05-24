@@ -2,71 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Diagramming basedd on an open repository of prototype structures.">
+<meta name="description" content="Image Generation via Prototype Trees">
 <title>PrototypeJungle</title>
 <link rel="stylesheet" type="text/css"  href="style.css"/>
 <link rel="stylesheet" type="text/css"  href="spectrum.css"/>
-<link rel="icon" href="/images/favicon.ico" />
+<link rel="icon" href="/favicon.ico" />
 
-<style>
-	.theGrid {
-		display:grid;
-		padding-top:10px;
-		grid-template-columns:1fr 4fr 1fr;
-	}
-  .indent {
-		padding-left:20px;
-	}
-  .indent2 {
-		padding-left:40px;
-	}
-  .codeVar {
-		font-style:italic;
-	}  
-  
-  .textVar {
-		font-weight:bold;
-    font-size:12pt
-	}
-  .plainText {
-		font-weight:normal;
-    font-size:12pt
-	}
-  .title {
-		font-weight:bold;
-    font-size:16pt;
-    text-align:center;
-	}
-  .source {
-    font-size:16pt;
-    text-align:center;
-	}
- .section {
-   padding-top:30px;
-		font-weight:bold;
-    font-size:15pt;
-	}
-  .userDefinedText {
-  	font-weight:bold;
-    font-size:12pt;
-    color:rgb(200,0,0);
-   }
-   .userDefinedCode {
-    font-style:italic;
-    color:rgb(200,0,0);
-   }
-  .blank_row
-{
-    height: 10px !important; /* overwrites any other rules */
-    background-color: #FFFFFF;
-}
-td {
-  borderr: 1px solid rgb(190,190,190);
-  padding-left: 20px;
-}
-</style>
 </head>
 <body style="background-color:white;font-size:14pt"> 
+<script src = "docSupport.js"></script>
+
+<div class="topGrid">
+<div></div>
+<div ><span id ="prevSpan" class="button"> &lt;</span></div>
+<div><span class="textVar"><a style="color:black" href="../index.html">PrototypeJungle</a></span></div>
+<div></div>
+<div><span style="padding-top:0px"> <img  src="logo.svg" width="30" height="30" /></span></div>
+<div><span id="nextSpan" class="button"> &gt; </span></div>
+</div>
+<hr/>
 <div class="theGrid">
 <div></div>
 <div>
@@ -117,13 +71,13 @@ nd.show();
 
 <p>See the documentatation of <a href="generators.html">image generators</a>, or the source files for any of the dozens of <a href="../images.html">images</a> that come with PrototypeJungle,  for examples of how shapes are created and used.</p>
 
-Here are the elementary shapes supported by PrototypeJungle, and their properties;</p>
+<p>Here are the elementary shapes supported by PrototypeJungle, and their properties;</p>
 
 
 
 <hr/>
 <p class="textVar" id="Line">line</p>
-</p>
+
 <p>Acessed via:</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
 import {rs as linePP} from '/shape/line.mjs';
@@ -134,8 +88,8 @@ import {rs as linePP} from '/shape/line.mjs';
 
 <tbody>
 <tr class="pbot"><td>Property</td><td>Type</td></tr>
-<tr><td colspan="3">----------------------------------------</td></tr>
-<tr><td><span class="textVar">ln.stroke</td><td>color string such as 'blue', 'rgb(10,20,30)', or 'rgba(200,100,50,.5)'</td></tr>
+<tr><td colspan="2">----------------------------------------</td></tr>
+<tr><td><span class="textVar">ln.stroke</span></td><td>color string such as 'blue', 'rgb(10,20,30)', or 'rgba(200,100,50,.5)'</td></tr>
 <tr><td><span class="textVar">ln.fill</span></td><td>color string</td></tr>
 <tr><td><span class="textVar">ln['stroke-width']</span></td><td>number</td></tr>
 <tr><td><span class="textVar">ln.end0</span></td><td>Point</td></tr>
@@ -153,8 +107,8 @@ This corresponds to the SVG <a href="https://developer.mozilla.org/en-US/docs/We
 
 <hr/>
 
-<p class="textVar" id="Point">rectangle</p>
-</p>
+<p class="textVar" id="rectangle">rectangle</p>
+
 <p>Acessed via:</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
 import {rs as rectPP} from '/shape/rectangle.mjs';
@@ -164,8 +118,8 @@ import {rs as rectPP} from '/shape/rectangle.mjs';
 
 <tbody>
 <tr class="pbot"><td>Property</td><td>Type</td></tr>
-<tr><td colspan="3">----------------------------------------</td></tr>
-<tr><td><span class="textVar">r.stroke</td><td>color string such as 'blue', 'rgb(10,20,30)', or 'rgba(200,100,50,.5)'</td></tr>
+<tr><td colspan="2">----------------------------------------</td></tr>
+<tr><td><span class="textVar">r.stroke</span></td><td>color string such as 'blue', 'rgb(10,20,30)', or 'rgba(200,100,50,.5)'</td></tr>
 <tr><td><span class="textVar">r.fill</span></td><td>color string</td></tr>
 <tr><td><span class="textVar">r['stroke-width']</span></td><td>number</td></tr>
 <tr><td><span class="textVar">r.width</span></td><td>number</td></tr>
@@ -178,8 +132,8 @@ import {rs as rectPP} from '/shape/rectangle.mjs';
 </p>
 
 <hr/>
-<p class="section" id="Point">circle</p>
-</p>
+<p class="section" id="circle">circle</p>
+
 <p>Acessed via:</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
 import {rs as circlePP} from '/shape/circle.mjs';
@@ -189,8 +143,8 @@ import {rs as circlePP} from '/shape/circle.mjs';
 
 <tbody>
 <tr class="pbot"><td>Property</td><td>Type</td></tr>
-<tr><td colspan="3">----------------------------------------</td></tr>
-<tr><td><span class="textVar">c.stroke</td><td>color string</td></tr>
+<tr><td colspan="2">----------------------------------------</td></tr>
+<tr><td><span class="textVar">c.stroke</span></td><td>color string</td></tr>
 <tr><td><span class="textVar">c.fill</span></td><td>color string</td></tr>
 <tr><td><span class="textVar">c['stroke-width']</span></td><td>number</td></tr>
 <tr><td><span class="textVar">c.radius</span></td><td>number</td></tr>
@@ -202,8 +156,8 @@ import {rs as circlePP} from '/shape/circle.mjs';
 </p>
 
 <hr/>
-<p class="textVar" id="Line">polyline</p>
-</p>
+<p class="textVar" id="polyline">polyline</p>
+
 <p>Acessed via:</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
 import {rs as polylinePP} from '/shape/polyline.mjs';
@@ -214,9 +168,9 @@ import {rs as polylinePP} from '/shape/polyline.mjs';
 
 <tbody>
 <tr class="pbot"><td>Property</td><td>Type</td></tr>
-<tr><td colspan="3">----------------------------------------</td></tr>
+<tr><td colspan="2">----------------------------------------</td></tr>
 <tr><td><span class="textVar">ln.wayPoints</span></td><td>array of Points</td></tr>
-<tr><td><span class="textVar">ln.stroke</td><td>color string</td></tr>
+<tr><td><span class="textVar">ln.stroke</span></td><td>color string</td></tr>
 <tr><td><span class="textVar">ln['stroke-width']</span></td><td>number</td></tr>
 </tbody>
 </table>
@@ -226,8 +180,7 @@ This corresponds to the SVG <a href="https://developer.mozilla.org/en-US/docs/We
 </p>
 
 <hr/>
-<p class="textVar" id="Line">polygon</p>
-</p>
+<p class="textVar" id="polygon">polygon</p>
 <p>Acessed via:</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
 import {rs as polygonPP} from '/shape/polygon.mjs';
@@ -238,10 +191,10 @@ import {rs as polygonPP} from '/shape/polygon.mjs';
 
 <tbody>
 <tr class="pbot"><td>Property</td><td>Type</td></tr>
-<tr><td colspan="3">----------------------------------------</td></tr>
+<tr><td colspan="2">----------------------------------------</td></tr>
 <tr><td><span class="textVar">pg.corners</span></td><td>array of Points</td></tr>
-<tr><td><span class="textVar">pg.fill</td><td>color string</td></tr>
-<tr><td><span class="textVar">pg.stroke</td><td>color string</td></tr>
+<tr><td><span class="textVar">pg.fill</span></td><td>color string</td></tr>
+<tr><td><span class="textVar">pg.stroke</span></td><td>color string</td></tr>
 <tr><td><span class="textVar">pg['stroke-width']</span></td><td>number</td></tr>
 </tbody>
 </table>

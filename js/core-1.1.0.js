@@ -3015,6 +3015,22 @@ const loadjs = function (iurl,requester) {
 
 let afterLoadTop;   
 
+const httpPost = function (url,data,cb) {
+	let request = new XMLHttpRequest();
+	request.open('POST',url, true);// meaning async
+	//request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	request.setRequestHeader("Content-Type", "text/plain");
+	request.onreadystatechange = function() { // Call a function when the state changes.
+		 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+			// Request finished. Do processing here.
+			//debugger;
+			if (cb) {
+				cb('ok');
+			}
+		 }
+	};
+	request.send(data);	
+}
 
 const loadTopDefs = function (cb) {
   debugger;
@@ -3029,7 +3045,7 @@ vars.mapUrl = mapUrl;
 vars.inverseMapUrl = function (url) {return url;}
 
 
-export {loadedUrls,loadjs,loadTopDefs,debugMode,httpGet,saveJson,beginsWith,endsIn,afterLastChar,beforeLastChar,parseQuerystring,pathExceptLast,pathLast,transferProperties,afterLoadTop};
+export {loadedUrls,loadjs,httpPost,loadTopDefs,debugMode,httpGet,saveJson,beginsWith,endsIn,afterLastChar,beforeLastChar,parseQuerystring,pathExceptLast,pathLast,transferProperties,afterLoadTop};
 // Copyright 2019 Chris Goad
 // License: MIT
 

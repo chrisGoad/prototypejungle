@@ -1,9 +1,7 @@
 // a quad tree node has the form {rectangle,UL:quadNode,UR:quadNode,LL:quadNode,QLR
 const rs =function (rs) {
 
-//topLevel = {levels:4,chance:0.75};
 rs.extendQuadOneLevel = function (qd) {
- //  debugger;
    if (qd.UL) {
      return;
    }
@@ -34,39 +32,90 @@ rs.extendQuadNLevels = function (qd,params,i=0) {
    this.extendQuadNLevels(qd.LR,params,i+1);
  }
  
- rs.rectangleToShape  = function (r,rectP) {
-   let shapes = this.shapes;
+ rs.rectangleToRectangle  = function (r,depth) {
+   let {shapes,levels}= this;
    if (!shapes) {
      shapes = this.set('shapes',arrayShape.mk());
    }
    let {extent} = r;
    let c = r.center();
-   let shape = rectP.instantiate();g 
+   let shape = this.rectP.instantiate();g 
    const shade = ()=> Math.floor(255*Math.random());
-   let v = shade();
-   //let clr = `rgb(${shade()},${shade()},${shade()})`;
- //  let clr = `rgb(${v},${v},${v})`;
-   let clr = `rgb(${v},0,${v})`;
-  // let clr = `rgb(0,0,${v})`;
-   shape.fill = clr;
+   let fill = this.computeFill(depth);
+   shape.fill = fill;
    let fc = 0.8;
    shape.width = fc*extent.x;
    shape.height = fc*extent.y;
    this.shapes.push(shape);
    shape.moveto(c);
  }
+ 
+ rs.rectangleToShape  = function (r,polygonP,depth) {
+   let {shapes,levels}= this;
+   if (!shapes) {
+     shapes = this.set('shapes',arrayShape.mk());
+   }
+   /*if (shapes.length >= 7000) {
+     return;
+   }*/
+   let lastLevel;// = depth===levels;
+   let {extent,corner} = r;
+   let c = r.center();
+   let corners;
+   let {x:ex,y:ey} = extent;
+   let top = corner.plus(Point.mk(0.5*ex,0));;
+   let left = corner.plus(Point.mk(0,ey));
+   let right = corner.plus(extent);
+   corners = [top,right,left,top];
+   let shape = polygonP.instantiate(); 
+   let fill = this.computeFill();
+   shape.corners = corners;
+   shape.fill = fill;
+   if (lastLevel) {
+     shape.stroke = 'black';
+   }
+   this.shapes.push(shape);
+   shape.moveto(c);
+   shape.update();
+ }
+
+
+ rs.rectangleToCircle  = function (r,depth) {
+   let {shapes,levels}= this;
+   if (!shapes) {
+     shapes = this.set('shapes',arrayShape.mk());
+   }
+   let lastLevel;// = depth===levels;
+   let c = r.center();
+   let {extent,corner} = r;
+   let {x:ex,y:ey} = extent;
+   let shape = this.circleP.instantiate(); 
+   shape.dimension = 0.7*ex;
+   let fill = this.computeFill();
+   shape.fill = fill;
+   this.shapes.push(shape);
+   shape.moveto(c);
+   shape.update();
+ }   
    
-   
- rs.displayQuad = function (qd,rectP) {
+rs.rectangleToShape  = function (r,depth) {
+  if (this.chooseCircle(r,depth)) {
+   this.rectangleToCircle(r,depth);
+  } else {
+   this.rectangleToRectangle(r,depth);
+  }
+}
+ 
+ rs.displayQuad = function (qd,depth=0) {
    let {shapes} = this;
    if (qd.UL) {
-     this.displayQuad(qd.UL,rectP);
-     this.displayQuad(qd.UR,rectP);
-     this.displayQuad(qd.LL,rectP);
-     this.displayQuad(qd.LR,rectP);
+     this.displayQuad(qd.UL,depth+1);
+     this.displayQuad(qd.UR,depth+1);
+     this.displayQuad(qd.LL,depth+1);
+     this.displayQuad(qd.LR,depth+1);
      return;
    }
-   this.rectangleToShape(qd.rectangle,rectP);
+   this.rectangleToShape(qd.rectangle,depth);
 }
 }
 

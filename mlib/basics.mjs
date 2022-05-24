@@ -75,7 +75,7 @@ item.addRectangle  = function (iparams) {
     return;
   }
   let params = (typeof iparams === 'string')?{fill:iparams}:iparams;
-  let {width,height,fill,stroke,stroke_width=0,position} = params;
+  let {width,height,fill='transparent',stroke,stroke_width,position} = params;
   if (!width) {
     width = this.width;
    }

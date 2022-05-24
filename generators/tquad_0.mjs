@@ -1,24 +1,23 @@
 
 
-import {rs as rectPP} from '/shape/rectangle.mjs';
+import {rs as polygonPP} from '/shape/polygon.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
-import {rs as addQuadMethods} from '/mlib/quadTree.mjs';	
+import {rs as addQuadMethods} from '/mlib/tquadTree.mjs';	
 
 let rs = basicP.instantiate();
 addQuadMethods(rs);
-rs.setName('quad_0',16);
+rs.setName('tquad_0',1);
 
 let wd = 100;
 let topParams = {width:wd,height:wd,levels:7,chance:0.8,framePadding:0.1*wd,backFill:'red'}
 Object.assign(rs,topParams);
 
 rs.initProtos = function () {
-  this.rectP =  rectPP.instantiate();
-  this.rectP.stroke = 'blue';
-  this.rectP.stroke = 'white';
- this.rectP.stroke = 'yellow';
-  this.rectP.fill = 'transparent';
-  this.rectP['stroke-width'] = .1; 	
+  this.polygonP =  polygonPP.instantiate();
+  this.polygonP.stroke = 'red';
+  this.polygonP.stroke = 'black';
+ // this.rectP.stroke = 'black';
+  this.polygonP['stroke-width'] = .1; 	
 }  
 
 rs.initialize = function () {
@@ -32,7 +31,7 @@ rs.initialize = function () {
   let qd = {rectangle:r};
   this.extendQuadNLevels(qd,this);
   
-  this.displayQuad(qd,this.rectP);
+  this.displayQuad(qd,this.polygonP);
   console.log(this.shapes.length,' squares ');
 }	
 

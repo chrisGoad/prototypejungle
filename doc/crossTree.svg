@@ -1,0 +1,236 @@
+<svg id="svg" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style = "background:white" viewBox="0 0 400 177.5051081479349">
+<g id="outerG" transform = "translate(178.45269137508785 71.46612884975303)scale(0.45459633600666605)">
+<g id="treeV" transform="translate(-113.55428 -52.26694)">
+<g id="treeV_vertices" >
+<g id="treeV_vertices_x0" transform="translate(0 -50.8942)">
+<g id="treeV_vertices_x0_borderProperties" >
+
+</g>
+<g id="treeV_vertices_x0_connectedEdges" >
+
+</g>
+<g id="treeV_vertices_x0___descendants" >
+
+</g>
+<circle visibility="inherit" stroke="black" stroke-width="1" fill="grey" r="15" id="border"></circle>
+</g>
+<g id="treeV_vertices_x1" transform="translate(-53.35912 50.44945)">
+<g id="treeV_vertices_x1_borderProperties" >
+
+</g>
+<g id="treeV_vertices_x1_connectedEdges" >
+
+</g>
+<circle visibility="inherit" stroke="black" stroke-width="1" fill="grey" r="15" id="border"></circle><g id="treeV_vertices_x1___descendants" >
+
+</g>
+
+</g>
+<g id="treeV_vertices_x2" transform="translate(131.29072 51.7931)">
+<g id="treeV_vertices_x2_borderProperties" >
+
+</g>
+<g id="treeV_vertices_x2_connectedEdges" >
+
+</g>
+<circle visibility="inherit" stroke="black" stroke-width="1" fill="grey" r="15" id="border"></circle><g id="treeV_vertices_x2___descendants" >
+
+</g>
+
+</g>
+<g id="treeV_vertices_x" transform="translate(8.55429 142.26694)">
+<g id="treeV_vertices_x_borderProperties" >
+
+</g>
+<circle visibility="inherit" stroke="black" stroke-width="1" fill="green" r="15" id="border"></circle><g id="treeV_vertices_x_connectedEdges" >
+
+</g>
+
+</g>
+<g id="treeV_vertices_x3" transform="translate(-123.06189 151.12127)">
+<g id="treeV_vertices_x3_borderProperties" >
+
+</g>
+<circle visibility="inherit" stroke="black" stroke-width="1" fill="grey" r="15" id="border"></circle><g id="treeV_vertices_x3_connectedEdges" >
+
+</g>
+<g id="treeV_vertices_x3___descendants" >
+
+</g>
+
+</g>
+<g id="treeV_vertices_x4" transform="translate(-124.43519 231.47985)">
+<g id="treeV_vertices_x4_borderProperties" >
+
+</g>
+<circle visibility="inherit" stroke="black" stroke-width="1" fill="green" r="15" id="border"></circle><g id="treeV_vertices_x4_connectedEdges" >
+
+</g>
+
+</g>
+<g id="treeV_vertices_x5" transform="translate(158.55429 142.26694)">
+<g id="treeV_vertices_x5_borderProperties" >
+
+</g>
+<circle visibility="inherit" stroke="black" stroke-width="1" fill="green" r="15" id="border"></circle><g id="treeV_vertices_x5_connectedEdges" >
+
+</g>
+
+</g>
+<g id="treeV_vertices_x6" transform="translate(68.55429 142.26694)">
+<g id="treeV_vertices_x6_borderProperties" >
+
+</g>
+<circle visibility="inherit" stroke="black" stroke-width="1" fill="green" r="15" id="border"></circle><g id="treeV_vertices_x6_connectedEdges" >
+
+</g>
+
+</g>
+
+</g>
+<g id="treeV_edges" >
+<g id="treeV_edges_E0" >
+<line visibility="inherit" stroke="black" stroke-width="3" x1="-10.249483649785642" y1="-31.427608943921626" x2="-41.246094389607805" y2="27.443481579861164" id="shaft"></line><path visibility="inherit" stroke-width="0" fill="black" d="M -45.08711 18.64026 L -31.81444 25.62855 L -44.04140 32.75255 L -45.08711 18.64026 " id="head"></path><text visibility="inherit" stroke="black" stroke-width="0.2" fill="black" y="4" font-style="normal" font-weight="normal" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="textItem" transform="translate(-13.425079404151864 6.756331389179108)scale(1)">a</text>
+</g>
+<g id="treeV_edges_E1" >
+<line visibility="inherit" stroke="black" stroke-width="3" x1="17.583817190205732" y1="-37.68768399632052" x2="117.82788191861988" y2="31.221067339797926" id="shaft"></line><path visibility="inherit" stroke-width="0" fill="black" d="M 108.63483 34.00277 L 117.13200 21.64162 L 122.77234 34.61993 L 108.63483 34.00277 " id="head"></path><text visibility="inherit" stroke="black" stroke-width="0.2" fill="black" y="4" font-style="normal" font-weight="normal" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="textItem" transform="translate(77.23226566091344 -13.561146912116888)scale(1)">b</text>
+</g>
+<g id="treeV_edges_E" >
+<path visibility="inherit" stroke-width="0" fill="black" d="M -15.55461 119.92838 L -3.11789 111.54219 L -2.62730 125.68465 L -15.55461 119.92838 " id="head"></path><line visibility="inherit" stroke="black" stroke-width="3" x1="-41.05937084480759" y1="68.68995903296904" x2="-5.981778046765557" y2="120.7099719354316" id="shaft"></line>
+</g>
+<g id="treeV_edges_E2" >
+<path visibility="inherit" stroke-width="0" fill="black" d="M -108.56272 123.06342 L -96.03584 131.31431 L -108.89999 137.21037 L -108.56272 123.06342 " id="head"></path><line visibility="inherit" stroke="black" stroke-width="3" x1="-64.30831660511498" y1="69.5092353116511" x2="-105.59963936118498" y2="132.19962439768048" id="shaft"></line><text visibility="inherit" stroke="black" stroke-width="0.2" fill="black" y="4" font-style="normal" font-weight="normal" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="textItem" transform="translate(-73.6841971456775 110.67217411512371)scale(1)">c</text>
+</g>
+<g id="treeV_edges_E3" >
+<path visibility="inherit" stroke-width="0" fill="black" d="M -131.38730 199.35636 L -116.38949 199.61267 L -124.09344 211.48276 L -131.38730 199.35636 " id="head"></path><line visibility="inherit" stroke="black" stroke-width="3" x1="-123.43780746975388" y1="173.11806250215355" x2="-123.99092511958023" y2="205.48364392180358" id="shaft"></line>
+</g>
+<g id="treeV_edges_E4" >
+<path visibility="inherit" stroke-width="0" fill="black" d="M 142.14040 113.79178 L 156.50247 109.46388 L 152.78375 123.11749 L 142.14040 113.79178 " id="head"></path><line visibility="inherit" stroke="black" stroke-width="3" x1="137.6383008529293" y1="72.85748018449264" x2="151.0525992864687" y2="117.37266754818532" id="shaft"></line>
+</g>
+<g id="treeV_edges_E5" >
+<path visibility="inherit" stroke-width="0" fill="black" d="M 80.62555 111.69678 L 92.95201 120.24420 L 79.95085 125.83165 L 80.62555 111.69678 " id="head"></path><line visibility="inherit" stroke="black" stroke-width="3" x1="118.75449897444115" y1="69.87190511357231" x2="83.36981968831834" y2="120.90107445018208" id="shaft"></line>
+</g>
+
+</g>
+
+</g>
+<g id="arrow" transform="translate(95.71765 -85.6912)">
+<path visibility="inherit" stroke-width="0" fill="blue" d="M -189.24242 1.83753 L -193.83351 8.38901 L -199.72731 -0.62558 L -189.24242 1.83753 " id="head"></path><line visibility="inherit" stroke="blue" stroke-width="2" x1="-94.10728062252329" y1="73.38993840492158" x2="-195.63264460141923" y2="2.2438442465933806" id="shaft"></line>
+</g>
+<g id="arrow1" transform="translate(111.84143 -54.7873)">
+<path visibility="inherit" stroke-width="0" fill="blue" d="M -297.67726 74.03344 L -304.20424 69.40758 L -295.15842 63.56179 L -297.67726 74.03344 " id="head"></path><line visibility="inherit" stroke="blue" stroke-width="2" x1="-345.478786688885" y1="134.56253456164058" x2="-298.0495902690927" y2="67.64115367685595" id="shaft"></line>
+</g>
+<g id="arrow2" transform="translate(115.87237 -15.14968)">
+<path visibility="inherit" stroke-width="0" fill="blue" d="M -247.35362 -68.56608 L -254.40293 -72.34858 L -246.15015 -79.26896 L -247.35362 -68.56608 " id="head"></path><line visibility="inherit" stroke="blue" stroke-width="2" x1="-286.0031180667507" y1="-4.996550679097407" x2="-248.51421457970915" y2="-74.86314874016063" id="shaft"></line>
+</g>
+<g id="arrow3" transform="translate(90.00001 15)">
+<path visibility="inherit" stroke-width="0" fill="blue" d="M 95 79 L 95 71 L 105 75 L 95 79 " id="head"></path><line visibility="inherit" stroke="blue" stroke-width="2" x1="60" y1="75" x2="100" y2="75" id="shaft"></line>
+</g>
+<g id="arrow4" transform="translate(135.51701 49.34544)">
+<path visibility="inherit" stroke-width="0" fill="red" d="M -272.40209 -54.94452 L -272.46031 -46.94473 L -282.43094 -51.01739 L -272.40209 -54.94452 " id="head"></path><line visibility="inherit" stroke="red" stroke-width="2" x1="-137.7800449751769" y1="-49.96480560780346" x2="-277.4310734565305" y2="-50.98100934316944" id="shaft"></line>
+</g>
+<g id="arrow5" transform="translate(105.00001 -105)">
+<path visibility="inherit" stroke-width="0" fill="red" d="M 80 109 L 80 101 L 90 105 L 80 109 " id="head"></path><line visibility="inherit" stroke="red" stroke-width="2" x1="45" y1="105" x2="85" y2="105" id="shaft"></line>
+</g>
+<g id="arrow6" transform="translate(167.64945 8.36417)">
+<path visibility="inherit" stroke-width="0" fill="magenta" d="M -370.87594 -15.36279 L -370.94969 -7.36313 L -380.91239 -11.45515 L -370.87594 -15.36279 " id="head"></path><line visibility="inherit" stroke="magenta" stroke-width="2" x1="-349.53053514076385" y1="-11.165834364206638" x2="-375.9126071237976" y2="-11.40905934944766" id="shaft"></line>
+</g>
+<g id="arrow7" transform="translate(175.03952 27.84707)">
+<path visibility="inherit" stroke-width="0" fill="magenta" d="M -121.77016 -24.88125 L -121.89642 -32.88025 L -111.83453 -29.03857 L -121.77016 -24.88125 " id="head"></path><line visibility="inherit" stroke="magenta" stroke-width="2" x1="-142.30495324661362" y1="-28.557632784943685" x2="-116.83391689167475" y2="-28.959665714498684" id="shaft"></line>
+</g>
+<g id="arrow8" transform="translate(180.00001 45)">
+<path visibility="inherit" stroke-width="0" fill="magenta" d="M 5 79 L 5 71 L 15 75 L 5 79 " id="head"></path><line visibility="inherit" stroke="magenta" stroke-width="2" x1="-30" y1="75" x2="10" y2="75" id="shaft"></line>
+</g>
+<g id="arrow9" transform="translate(127.34001 16.42606)">
+<path visibility="inherit" stroke-width="0" fill="magenta" d="M -397.87692 76.55840 L -397.78085 84.55782 L -407.82817 80.67820 L -397.87692 76.55840 " id="head"></path><line visibility="inherit" stroke="magenta" stroke-width="2" x1="-378.80865166770093" y1="80.32969406386096" x2="-402.828530931733" y2="80.61815900495986" id="shaft"></line>
+</g>
+<g id="arrow10" transform="translate(185.11688 1.64593)">
+<path visibility="inherit" stroke-width="0" fill="orange" d="M -193.87017 12.51902 L -196.78026 5.06708 L -186.01029 5.15544 L -193.87017 12.51902 " id="head"></path><line visibility="inherit" stroke="orange" stroke-width="2" x1="-403.10320286135544" y1="89.9332011379385" x2="-190.6677587530532" y2="6.974250954294875" id="shaft"></line>
+</g>
+<g id="arcArrow1" transform="translate(-283.03582 -41.01489)">
+<path visibility="inherit" stroke="orange" stroke-opacity="1" stroke-width="2" stroke-linecap="round" fill="none" d="M 29.56026 122.27198 A 172.31047 172.31047 1 0 1 137.80947 -59.38281926426944" id="shaft"></path><path visibility="inherit" stroke-width="0" fill="orange" d="M 134.63540 -53.76873 L 131.72183 -61.21931 L 142.49184 -61.13598 L 134.63540 -53.76873 " id="head"></path>
+</g>
+<g id="text" transform="translate(-227.44514 -3.3586)">
+<text visibility="inherit" stroke-width="0" fill="black" y="0" font-style="normal" font-weight="normal" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="singleLine">"a"</text>
+</g>
+<g id="text1" transform="translate(-297.31182 96.82767)">
+<text visibility="inherit" stroke-width="0" fill="black" y="0" font-style="normal" font-weight="normal" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="singleLine">"c"</text>
+</g>
+<g id="text2" transform="translate(78.24077 -0.718172)">
+<text visibility="inherit" stroke-width="0" fill="black" y="0" font-style="normal" font-weight="normal" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="singleLine">"b"</text>
+</g>
+<g id="arrow13" transform="translate(100.00001 -75)">
+<path visibility="inherit" stroke-width="0" fill="black" d="M 85 111 L 85 99 L 95 105 L 85 111 " id="head"></path><line visibility="inherit" stroke="black" stroke-width="3" x1="50" y1="105" x2="90" y2="105" id="shaft"></line>
+</g>
+<g id="text3" transform="translate(285.00001 0)">
+<g id="text3_textarea" >
+<g id="text3_textarea_words" >
+<g id="text3_textarea_words_marks" >
+<text visibility="inherit" stroke-width="0" fill="black" font-style="normal" font-weight="bold" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="m0" transform="translate(-2.022656249999997 -14.484375)scale(1)" y="4">Object-to-its-prototype</text><text visibility="inherit" stroke-width="0" fill="black" font-style="normal" font-weight="bold" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="m1" transform="translate(-52.32734375 1)scale(1)" y="4">Edge</text>
+</g>
+
+</g>
+<g id="text3_textarea_widths" >
+
+</g>
+<g id="text3_textarea_lines" >
+
+</g>
+
+</g>
+
+</g>
+<g id="text4" transform="translate(243.33768 30)">
+<text visibility="inherit" stroke-width="0" fill="black" y="0" font-style="normal" font-weight="bold" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="singleLine">Tree Edge</text>
+</g>
+<g id="text5" transform="translate(250.00001 90)">
+<text visibility="inherit" stroke-width="0" fill="black" y="0" font-style="normal" font-weight="bold" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="singleLine">__parent Edge</text><g id="text5_connectedEdges" >
+
+</g>
+
+</g>
+<g id="arrow14" transform="translate(255.00001 -45)">
+<path visibility="inherit" stroke-width="0" fill="orange" d="M -70 109 L -70 101 L -60 105 L -70 109 " id="head"></path><line visibility="inherit" stroke="orange" stroke-width="2" x1="-105" y1="105" x2="-65" y2="105" id="shaft"></line>
+</g>
+<g id="text6" transform="translate(250.00001 60)">
+<g id="text6_textarea" >
+<g id="text6_textarea_words" >
+<g id="text6_textarea_words_marks" >
+<text visibility="inherit" stroke-width="0" fill="black" font-style="normal" font-weight="bold" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="m0" transform="translate(-2.022656249999997 -14.484375)scale(1)" y="4">Cross-tree</text><text visibility="inherit" stroke-width="0" fill="black" font-style="normal" font-weight="bold" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="m1" transform="translate(-19.358593749999997 1)scale(1)" y="4">Link</text>
+</g>
+
+</g>
+<g id="text6_textarea_widths" >
+
+</g>
+<g id="text6_textarea_lines" >
+
+</g>
+
+</g>
+
+</g>
+<g id="text7" transform="translate(250.00001 120)">
+<text visibility="inherit" stroke-width="0" fill="black" y="0" font-style="normal" font-weight="bold" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="singleLine">__name Edge</text>
+</g>
+<g id="circle" transform="translate(165.00001 -45)">
+<g id="circle_borderProperties" >
+
+</g>
+<circle visibility="inherit" stroke="black" stroke-width="1" fill="green" r="15" id="border"></circle>
+</g>
+<g id="circle1" transform="translate(165.00001 -90)">
+<g id="circle1_borderProperties" >
+
+</g>
+<circle visibility="inherit" stroke="black" stroke-width="1" fill="grey" r="15" id="border"></circle>
+</g>
+<g id="text8" transform="translate(225.83443 -90.83442)">
+<text visibility="inherit" stroke-width="0" fill="black" y="0" font-style="normal" font-weight="bold" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="singleLine">Object</text>
+</g>
+<g id="text9" transform="translate(300.00001 -45)">
+<text visibility="inherit" stroke-width="0" fill="black" y="0" font-style="normal" font-weight="bold" font-family="arial" font-size="12" alignment-baseline="central" text-anchor="middle" id="singleLine">Primitive Data (numbers, strings...)</text>
+</g>
+
+</g>
+</svg>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Image Generation via Prototype Trees">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/favicon.ico" />
+
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<script src = "docSupport.js"></script>
+
+<div class="topGrid">
+<div></div>
+<div ><span id ="prevSpan" class="button"> &lt;</span></div>
+<div><span class="textVar"><a style="color:black" href="../index.html">PrototypeJungle</a></span></div>
+<div></div>
+<div><span style="padding-top:0px"> <img  src="logo.svg" width="30" height="30" /></span></div>
+<div><span id="nextSpan" class="button"> &gt; </span></div>
+</div>
+<hr/>
+<div class="theGrid">
+<div></div>
+<div>
+
+<p class="title">dropCircles</p>
+
+<p> This module will be introduced via annotated code, which generates the image</p>
+ <p><img  src="https://kingdomofpattern.com/thumbs/drop_light.jpg" style="cursor:pointer"  width="400" height="400"/></p>
+ <p>Here's the code:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+import {rs as circlePP} from '/shape/circle.mjs';
+import {rs as basicP} from '/generators/basics.mjs';
+import {rs as addDropMethods} from '/mlib/dropCircles.mjs';
+
+let rs = basicP.instantiate();
+addDropMethods(rs);
+
+rs.setName('drop_light');
+let ht= 6000;
+let topParams = {width:ht,height:ht}
+Object.assign(rs,topParams);
+
+let dropParams = {dropTries:150}
+
+rs.initProtos = function () {
+  let circleP = this.circleP = circlePP.instantiate();
+  circleP.fill = 'black';
+  circleP['stroke-width'] = 0;
+}  
+
+rs.radiusGenerator= function (p) {
+  let ln = p.length()-400;
+  return 0.01*ln;
+ }
+
+rs.initialize = function () {
+  this.initProtos();
+  this.addRectangle({width:ht,height:ht,stroke_width:0,fill:'white'}); // defined in the basics module
+  let shapes = this.set('shapes',arrayShape.mk());
+  let drop =  this.generateCircleDrop(dropParams);
+  let {points,radii} = drop;
+  let ln  = points.length;
+  for (let i=0;i&lt;ln;i++) {
+    let crc = this.circleP.instantiate();
+    crc.dimension = 2*radii[i]; 
+    shapes.push(crc);
+    crc.moveto(points[i]);
+   }
+}
+
+export {rs};
+
+
+</pre>
+<p> Like all the other generators, <span class="textVar">generateCircleDrop({dropTries:integer,radius:number})</span> will take its parameters from <span class="textVar">this</span>, if not present in the params argument. </p>
+<p> The circleDrop algorithm drops  circles at random positions on the canvas. If a circle lands on top of another, it is thrown away, otherwise it is added.   
+If defined, <span class="userDefinedText">this.radiusGenerator(p:Point)</span> is used to compute the radius of each circle dropped from the randomly chosen point <span class="textVar">p</span> at which the drop attempt is made. If <span class="userDefinedText">this.radiusGenerator</span> returns a value that is less than or equal to zero, no drop attempt is made. If <span class="userDefinedText">this.radiusGenerator</span> is not defined,  then  the radius of each circle is the same, namely the value specified by the radius parameter passed to <span class="textVar">generateCircleDrop</span>.</p>
+<p><span class="textVar">generateCircleDrop</span> returns an object of the form <span class="textVar">{points:array of Point,radii:array of number}</span>, specifying the successful drops. The algorithm terminates when <span class="textVar">dropTries</span> successive attempts at a drop fail.</p>
+
+
+</div>
+</div>
+</body>
+</html>
+
+
+

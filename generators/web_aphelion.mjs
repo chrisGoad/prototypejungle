@@ -20,7 +20,7 @@ let topParams = {width:ht,height:ht,framePadding:0.1*ht};
 
 let dropParams = {dropTries:10,radius:30};
 
-let webParams = {webTries:1000,minConnectorLength:300,maxConnectorLength:600}
+let webParams = {webTries:1000,minConnectorLength:300,maxConnectorLength:600,lengthenBy:-0.2}
 
 let sphereParams ={sphereCenter:Point3d.mk(0,0,-0.4*wd), sphereDiameter:0.5*wd, focalPoint:Point3d.mk(0,0,wd), focalLength:10, cameraScaling:1000}
 
