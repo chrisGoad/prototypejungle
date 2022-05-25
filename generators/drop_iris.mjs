@@ -10,9 +10,8 @@ addRandomMethods(rs);
 addSegsetMethods(rs);
 
 rs.setName('drop_iris');
-let ht = 160;
- ht = 700;
- let ringRadius = 0.3 * 0.5 * ht;
+let ht = 700;
+let ringRadius = 0.3 * 0.5 * ht;
  
 let topParams = {saveState:0,width:ht,height:ht,numRows:20,numCols:30,segLength:10,framePadding:0.1*ht}
 
@@ -28,16 +27,11 @@ rs.initProtos = function () {
   this.lineP = linePP.instantiate();
   this.lineP.stroke = 'white';
   this.lineP['stroke-width'] = 2;
-  this.linePinvisible = linePP.instantiate();
-  this.linePinvisible.stroke = 'transparent';
-  this.linePinvisible['stroke-width'] = 0;
-
 }  
 
 rs.dropAt = function (p,rvs) {
   let {r,g,b} = rvs;
   let clr = `rgb(${r},${g},${b})`;
-  //let rs =  this.generateFan(Object.assign({startingPoint:p,stroke:clr},fanParams));
   let rs =  this.generateFan(Object.assign({startingPoint:p},fanParams));
   let lines = rs[1];
   lines.forEach((line) => line.stroke = clr);
@@ -59,13 +53,14 @@ rs.computeState  = function () {
 }
 
 rs.initialize = function () {
+  let {saveState,stateOpsDisabled} = this;
   this.initProtos();
-  ringParams.lineP = this.linePinvisible;
+  ringParams.lineP = this.lineP;
   this.addFrame();
-  if (this.saveState) {
+  if (this.saveState  || stateOpsDisabled) {
     this.setupColorGridsForShapes({step:10,min:100,max:240});
     this.saveTheState();
-    this.generateDrop();
+    this.generateDrop(dropParams);
   } else {
     this.getTheState(() => {
       this.generateDrop(dropParams);

@@ -37,14 +37,14 @@ rs.initProtos = function () {
   rectP2.height = .9*innerWidth;
 }
 rs.genEltDescription = function (n) {
-  // let {innerRows,deltaX,rectP1,rectP2,innerPresent1,innerPresent2,saveState,whichElts,whichShape1,whichShape2} = this;
+  // let {innerRows,deltaX,rectP1,rectP2,innerPresent1,innerPresent2,saveState,stateOpsDisabled,whichElts,whichShape1,whichShape2} = this;
    let {innerRows,deltaX,rectP1,rectP2,eltDState1,eltDState2,saveState} = this;
    let eltDState = n===1?eltDState1:eltDState2;
    let innerShapePs = [];// arrayShape.mk();
    let positions = this.genInnerGridPositions();
    let innerPresent = saveState?[]:eltDState[1];
    let whichShape;   
-   if (saveState) {
+   if (saveState  || stateOpsDisabled) {
      whichShape =  Math.random() < 0.5?1:2;
    } else {
      whichShape = eltDState[0];

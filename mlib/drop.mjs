@@ -286,7 +286,6 @@ item.genSegment = function (p,ln,angle,sepNext=0) {
   if (!p) {
     debugger;
   }
-  debugger;
   let vec = Point.mk(Math.cos(angle),Math.sin(angle));
   let e0,e1,end,rs;
 	e0 = p;
@@ -380,7 +379,6 @@ item.intersectsSomething = function (g) {
 }
 
 item.activeEnds = function () {
-  debugger;
   let ends = this.ends;
   let rs = [];
 	let cnt = 0;
@@ -406,7 +404,6 @@ item.addSegmentAtThisEnd = function (end) {
 	  cell = this.cellOf(end);
     rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
 	}
-  debugger;
   while (true) {
 		let dropStruct = this.dropAt(end,rvs);
 		let ifnd = 0;
@@ -483,7 +480,6 @@ item.addSegmentAtSomeEnd = function () {
 }
 
 item.addSegmentsAtEnds = function () {
-debugger;
   let maxEndTries = 100;
   let tries = 0; 
 	let maxDrops = this.dropParams.maxDrops;
@@ -502,8 +498,14 @@ debugger;
        
 
 item.addRandomSegment = function () {
+  let {numRows,randomGridsForShapes} = this;
+  let rvs;
   let p = this.genRandomPoint(); 
-  let dropStruct = this.dropAt(p);
+  if (numRows && randomGridsForShapes) {
+	  let cell = this.cellOf(p);
+    rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
+	}
+  let dropStruct = this.dropAt(p,rvs);
   let ifnd = 0;
   let sln=0;
   if (dropStruct) {
@@ -550,11 +552,10 @@ item.addNrandomSegments = function (n) {
       numAdded++;
     } else {  
 			tries++;
-			if (tries >= 50) {
+			/*if (tries >= 50) {
 				debugger;
-			}	
+			}	*/
       if (tries >= dropTries) {
-				debugger;
 				return numAdded;
 			}
     }
@@ -566,7 +567,6 @@ item.addRandomSegments = function () {
  // let {maxDrops,dropTries,maxLoops,segments,segLength,ends,shapes,fromEnds} = this;
    let {segments,ends,shapes} = this;
   let {maxDrops=Infinity,dropTries,maxLoops=Infinity,segLength,fromEnds} = this.dropParams;
-  debugger;
   if (!this.dropAt) {
     return;
   }
@@ -631,7 +631,6 @@ item.installDropStruct = function (dropStruct) {
   let ln = segments.length;
   let [segs,shapes] = dropStruct;
 	if (!Array.isArray(segs)) {
-    debugger;
 		let rect = segs;
 		let rectShape = shapes;
 		segments.push(rect);

@@ -1,6 +1,5 @@
 
 import {rs as linePP} from '/shape/line.mjs';
-import {rs as circlePP} from '/shape/circle.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
 import {rs as addPointMethods} from '/mlib/pointGen.mjs';	
 import {rs as addWebMethods} from '/mlib/web.mjs';	
@@ -10,18 +9,13 @@ addPointMethods(rs);
 addWebMethods(rs);
 
 rs.setName('web_diamond');
-let ht= 2000;
-ht = 3000;
+let ht= 3000;
 let nrc=64;
-let mcl = 1.6*(ht/nrc);
-mcl = 50
-//mcl = 0
+let mcl = 50
 let minc = 20;
-//minc = 70;
-//minc = 200;
 
-//let  topParams = {frameStroke:'rgb(52,52,52)',framePadding:0.1*ht,width:ht,height:ht,webTries:100,maxFringeTries:500, minConnectorLength:mcl, maxConnectorLength:mcl+minc, webTries:100};
-let  topParams = {frameStroke:'rgb(52,52,52)',framePadding:0.1*ht,width:ht,height:ht,webTries:100,maxFringeTries:500, minConnectorLength:mcl, maxConnectorLength:mcl+minc, webTries:1000,maxDrops:10000,lengthenBy:-0.01};
+
+let  topParams = {frameStroke:'rgb(52,52,52)',framePadding:0.1*ht,width:ht,height:ht,webTries:100, minConnectorLength:mcl, maxConnectorLength:mcl+minc, webTries:1000,maxDrops:10000,lengthenBy:-0.01};
 
 Object.assign(rs,topParams);
 
@@ -30,9 +24,6 @@ let gridParams =  {numRows:nrc,numCols:nrc};
 rs.initProtos = function () {	
   let lineP = this.lineP = linePP.instantiate();
   lineP['stroke-width'] = 7;
-  let circleP = this.circleP = circlePP.instantiate();
-  circleP.fill = 'white';
-  circleP.dimension = 10;
 }  
 
 const interpolate = function (v1,v2,f) {
@@ -56,8 +47,6 @@ const inCircle = function (p,d) {
 }
 
 rs.colorFromPoint = function (p) {
- // return 'green';  
-
   let w = this.width;
   if (inCircle(p,0.2  * w)) {
     return 'rgb(0,100,250)';
@@ -93,9 +82,7 @@ rs.initialize = function () {
   this.initProtos();
   this.addFrame();
   let points = this.gridPoints(gridParams);
- // this.placeShapesAtPoints(points,this.circleP);
- debugger;
-this.generateWeb({points});
+  this.generateWeb({points});
 }
 
 export {rs};

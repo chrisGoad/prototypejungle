@@ -57,10 +57,10 @@ rs.computeState  = function () {
 
 rs.initialize = function () {
   debugger;
-  let {saveState} = this;
+  let {saveState,stateOpsDisabled} = this;
   this.initProtos();
   this.addFrame();
-  if (saveState) {
+  if (saveState || stateOpsDisabled) {
     let rparams = {step:30,min:0,max:250}
     this.setupRandomGridForShapes('r', rparams);
     this.setupRandomGridForShapes('g', rparams);

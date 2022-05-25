@@ -8,7 +8,8 @@ import {rs as textPP} from '/shape/textOneLine.mjs';
 	//debugger;a
 const rs = function (item) {
 window.root = core.root;
-root = 3;
+item.stateOpsDisabled = 1; // for exported version
+//root = 3;
 item.setName = function (name,variant,jsonName) {
   let nameWithV = name+(variant?'_v_'+variant:'');
   let nameWithoutV= name;
@@ -337,18 +338,26 @@ item.getTheState = function (cb) {
 }
 
 item.saveTheState = function (cb) {
-  let {path} = this;
+  let {path,stateOpsDisabled} = this;
+  const next =
+    () => {
+      if (cb) {
+        cb();
+      } 
+   };
+    
+  if (stateOpsDisabled) {
+    next();
+    return;
+  }
   debugger;
   let state = this.computeState?this.computeState():null;
   if (state) {
     let jsn = JSON.stringify(state);
-    core.saveJson(path,jsn,function (err,rs) {
-      if (cb) {
-        cb();
-      } else {
-        debugger;
-      }
-    });
+    core.saveJson(path,jsn,
+      function (err,rs) {
+        next();
+      })
   }
 }
 
