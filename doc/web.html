@@ -26,7 +26,7 @@
 <div>
 
 <p class="title">Web</p>
-<p> A web is a set of lines drawn between given points, in such a way that intersections do not occur. </p>
+<p> This <a href="../mlib/web.mjs">module</a> builds webs, where a web is defined as a set of lines drawn between given points, in such a way that intersections do not occur. </p>
 
 <p> As customary, webs will be introduced via annotated code, which generates this image:</p>
  <p><img  src="https://kingdomofpattern.com/thumbs/web_wheel.jpg?alt=media" style="cursor:pointer"  width="300" height="300" /></p>
@@ -56,10 +56,8 @@ rs.initProtos = function () {
 }  
 
 rs.initialize = function () {
-  root.backFill = 'black';
   this.initProtos();
   let points = this.ringPoints(ringParams);
-  debugger;
   this.generateWeb(Object.assign(webParams,{points}));
   this.addFrame();
 }

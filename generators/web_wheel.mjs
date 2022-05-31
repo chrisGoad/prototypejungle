@@ -23,7 +23,6 @@ rs.initProtos = function () {
 }  
 
 rs.initialize = function () {
-  root.backFill = 'black';
   this.initProtos();
   let points = this.ringPoints(ringParams);
   this.generateWeb(Object.assign(webParams,{points}));

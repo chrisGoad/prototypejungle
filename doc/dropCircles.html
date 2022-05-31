@@ -27,7 +27,7 @@
 
 <p class="title">dropCircles</p>
 
-<p> This module will be introduced via annotated code, which generates the image</p>
+<p> This <a href="../mlib/dropCircles.mjs">module</a> will be introduced via annotated code, which generates the image</p>
  <p><img  src="https://kingdomofpattern.com/thumbs/drop_light.jpg" style="cursor:pointer"  width="400" height="400"/></p>
  <p>Here's the code:</p>
 <pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
@@ -72,8 +72,6 @@ rs.initialize = function () {
 }
 
 export {rs};
-
-
 </pre>
 <p> Like all the other generators, <span class="textVar">generateCircleDrop({dropTries:integer,radius:number})</span> will take its parameters from <span class="textVar">this</span>, if not present in the params argument. </p>
 <p> The circleDrop algorithm drops  circles at random positions on the canvas. If a circle lands on top of another, it is thrown away, otherwise it is added.   

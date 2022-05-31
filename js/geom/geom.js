@@ -854,7 +854,7 @@ LineSegment.intersect = function (line1) {
   }
   let ip = line1.end0.plus(d.times(t));// intersection point
   if (ip.difference(line0.end0).dotp(ip.difference(line0.end1))<=0) {
-    console.log('Intersection!');
+   // console.log('Intersection!');
     return ip;
   }
 	if (verbose) {
