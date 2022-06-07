@@ -1,37 +1,42 @@
 import {rs as circlePP} from '/shape/circle.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
 import {rs as addDropMethods} from '/mlib/circleDrops.mjs';
+import {rs as innerDrop} from '/generators/drop_circles_0.mjs';
 
 let rs = basicP.instantiate();
 addDropMethods(rs);
 
-rs.setName('drop_light');
-let ht= 6000;
-let topParams = {width:ht,height:ht}
+rs.setName('drop_circles_1');
+let ht= 2000;
+let topParams = {width:ht,height:ht,radius:100,framePadding:0.1*ht,frameStrokee:'white'}
 Object.assign(rs,topParams);
 
-let dropParams = {dropTries:150}
+rs.dropParams = {dropTries:150}
 
 rs.initProtos = function () {
   let circleP = this.circleP = circlePP.instantiate();
-  circleP.fill = 'black';
+  circleP.fill = 'white';
   circleP['stroke-width'] = 0;
 }  
 
 rs.generateCircleDrop= function (p) {
-  let ln = p.length()-400;
-  if (ln<=0) {
+  let {height:ht,radius} = this;
+  debugger;
+  let hht = 0.5*ht;
+  //let fr = (p.y + hht)/ht;
+  let d = p.length();
+  if (d>=hht) {
     return;
-  }
-  return {radius:0.01*ln}; 
- }
+  } 
+  return {radius}
+}
 
 rs.initialize = function () {
-  this.addRectangle({width:ht,height:ht,stroke_width:0,fill:'white'});
   this.initProtos();
+  let {dropParams} = this;
   this.addFrame();
   let drops =  this.generateCircleDrops(dropParams);
-  this.installCircleDrops(drops,this.circleP);
+  this.installCircleDrops(drops,innerDrop);
 }
 
 export {rs};

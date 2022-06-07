@@ -2,7 +2,6 @@
 
 const rs = function (rs)	{ 
 
-//let sqd = 128;
 let sqd = 48;
 sqd = 16;
 let ar = 2;

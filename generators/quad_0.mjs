@@ -1,5 +1,4 @@
-
-
+import {rs as circlePP} from '/shape/circle.mjs';
 import {rs as rectPP} from '/shape/rectangle.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
 import {rs as addQuadMethods} from '/mlib/quadTree.mjs';	
@@ -19,7 +18,25 @@ rs.initProtos = function () {
  this.rectP.stroke = 'yellow';
   this.rectP.fill = 'transparent';
   this.rectP['stroke-width'] = .1; 	
+    this.circleP =  circlePP.instantiate();
+  this.circleP.stroke = 'blue';
+  this.circleP.stroke = 'yellow';
+    this.circleP['stroke-width'] = .1; 	
 }  
+
+
+
+rs.computeFill = function (depth) { 
+   const shade = ()=> Math.floor(255*Math.random());
+   let v = shade();
+   let fill = `rgb(${v},0,${v})`;
+   return fill;
+}
+
+rs.chooseCircle = function (r,depth) {
+  return 1;
+  return Math.random() > 0.5;
+}
 
 rs.initialize = function () {
   let {width:wd,height:ht} = this;

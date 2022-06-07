@@ -10,7 +10,7 @@ addDropMethods(rs);
 addSegsetMethods(rs);
 rs.setName('drop_metal_2');
 let wd = 400;
-let topParams = {width:wd,height:wd,dropTries:40,numSegs:4,frameStroke:'white',framePadding:0.3*wd,circular:false}
+let topParams = {width:wd,height:wd,dropTries:40,numSegs:4,frameStroke:'white',framePadding:0.15*wd,circular:false}
 let dropParams = {dropTries:40}
 
 Object.assign(rs,topParams);
@@ -72,6 +72,7 @@ rs.initialDrop = function () {
 }
 
 rs.initialize = function () {
+  this.addFrame();
   let {circleP,circular} = this;
   this.setBackgroundColor(circular?'white':'black');
   this.initProtos();

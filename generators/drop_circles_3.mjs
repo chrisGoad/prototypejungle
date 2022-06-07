@@ -5,9 +5,9 @@ import {rs as addDropMethods} from '/mlib/circleDrops.mjs';
 let rs = basicP.instantiate();
 addDropMethods(rs);
 
-rs.setName('drop_circles_4');
+rs.setName('drop_circles_3');
 let ht= 1000;
-let topParams = {width:ht,height:ht,framePadding:0.1*ht,frameStrokee:'white'}
+let topParams = {width:ht,height:ht,framePadding:0.1*ht}
 Object.assign(rs,topParams);
 
 rs.dropParams = {dropTries:150,scale:0.5,radius:50}
@@ -18,40 +18,24 @@ rs.initProtos = function () {
   circleP['stroke-width'] = 0;
 }
 
-let ring0 = {innerRadius:200,outerRadius:300, center:Point.mk(-100,0)};
-let ring1 = {innerRadius:200,outerRadius:300, center:Point.mk(100,0)};
-let rd0 = 3;
-let rd1 = 6;
-
-const inRing = function(ring,p) {
-  let {innerRadius:inr,outerRadius:otr,center} = ring;
-  let d = p.distance(center);
-  return (inr <= d) && (d <= otr);
-}
-
 rs.generateCircleDrop= function (p) {
   let {height:ht} = this;
-  let in0 = inRing(ring0,p);
-  let in1 = inRing(ring1,p);
   let rd;
-  if (in0 && in1) {
-    rd = Math.random()<0.5?rd0:rd1;
-  } else if (in0) {
-    rd = rd0;
-  } else if (in1) {
-    rd = rd1;
-  } else {
-    return;
-  }
   let rc0= Point.mk(-300,0);
   let rc1= Point.mk(300,0);
   let d = p.length();
   if (d>500) {
     return;
   }
+  let fc = 0.01;
+  let mn = 2;
+  const radius_of = (rn) => (rn%2 === 0)?mn+(rn+2)*fc*((ht-200*rn)/2-p.x):mn+(rn+2)*fc*(p.x + (ht-200*rn)/2);
+  let irn = Math.floor(d/100); // ring number with 0 as innermost
+  let orn = 4 - irn;  // ring number with 0 as outermost
+  rd = radius_of(orn);
+  rd = Math.max(4,rd);
   return {radius:rd};
 }
-
 
 rs.initialize = function () {
   this.initProtos();
@@ -62,5 +46,6 @@ rs.initialize = function () {
 }
 
 export {rs};
+
 
 

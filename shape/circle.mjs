@@ -17,6 +17,12 @@ ui.hide(rs,['r']);
 
 rs.role = 'spot';
 rs.resizable = true;
+rs.setDimension = function (dim) {
+ this.dimension = dim;
+}
+rs.getDimension = function () {
+  return this.dimension;
+}
 
 
 rs.update =  () => {};

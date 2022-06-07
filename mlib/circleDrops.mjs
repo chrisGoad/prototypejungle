@@ -1,4 +1,4 @@
-// documented in https://prototypejungle.net/doc/dropCircles.html
+// documented in https://prototypejungle.net/doc/circleDrops.html
 
 const rs = function (rs) {
 
@@ -63,7 +63,7 @@ rs.generateCircleDrops = function (iparams) {
   //core.transferProperties(params,iparams,props);
   Object.assign(params,iparams);
   this.dropParams = params;
-  let {radius=10,maxLoops=Infinity,maxDrops=Infinity,dropTries} = params;
+  let {radius=10,maxLoops=Infinity,maxDrops=Infinity,dropTries,scale=1} = params;
   let cnt =0;
   let tries = 0;
   let drops = [];
@@ -71,7 +71,7 @@ rs.generateCircleDrops = function (iparams) {
   while ((cnt < maxLoops) && (drops.length < maxDrops)) {
     cnt++;
     let pnt = this.genRandomPoint();
-    let drop = this.generateDrop(pnt);
+    let drop = this.generateCircleDrop(pnt);
     if (!drop) {
       continue;
     } 
@@ -85,6 +85,9 @@ rs.generateCircleDrops = function (iparams) {
       }
     } else {
       drop.point = pnt;
+      if (!drop.dimension) {
+        drop.scale = scale;
+      }
       drops.push(drop);
       tries = 0;
     }
@@ -92,19 +95,15 @@ rs.generateCircleDrops = function (iparams) {
   return drops;
 }
 
-rs.generateDropCircles = function (p) {
+rs.generateDrop = function (p) {
   return {radius:this.dropParams.radius};
 }
 
-rs.stdDropCirclesInitialize = function (params) {
-  this.initProtos();
-  let {dropP=this.circleP,scale=1} = params;
-  this.addFrame();
+rs.installCircleDrops = function (drops,dropP) {
   let shapes = this.set('shapes',arrayShape.mk());
-  let drops =  this.generateCircleDrops(params);
   let ln  = drops.length;
   for (let i=0;i<ln;i++) {
-    let {point,radius,fill,dimension} = drops[i];
+    let {point,radius,fill,dimension,scale} = drops[i];
     let crc = dropP.instantiate();
     crc.setDimension(dimension?dimension:2*scale*radius);
     if (fill) {
@@ -117,7 +116,6 @@ rs.stdDropCirclesInitialize = function (params) {
     crc.moveto(point);
    }
 }
-
 }
 
 

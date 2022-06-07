@@ -5,7 +5,7 @@ import {rs as addDropMethods} from '/mlib/circleDrops.mjs';
 let rs = basicP.instantiate();
 addDropMethods(rs);
 
-rs.setName('drop_circles_4');
+rs.setName('drop_circles_2');
 let ht= 1000;
 let topParams = {width:ht,height:ht,framePadding:0.1*ht,frameStrokee:'white'}
 Object.assign(rs,topParams);
@@ -18,40 +18,36 @@ rs.initProtos = function () {
   circleP['stroke-width'] = 0;
 }
 
-let ring0 = {innerRadius:200,outerRadius:300, center:Point.mk(-100,0)};
-let ring1 = {innerRadius:200,outerRadius:300, center:Point.mk(100,0)};
-let rd0 = 3;
-let rd1 = 6;
-
-const inRing = function(ring,p) {
-  let {innerRadius:inr,outerRadius:otr,center} = ring;
-  let d = p.distance(center);
-  return (inr <= d) && (d <= otr);
-}
-
 rs.generateCircleDrop= function (p) {
   let {height:ht} = this;
-  let in0 = inRing(ring0,p);
-  let in1 = inRing(ring1,p);
   let rd;
-  if (in0 && in1) {
-    rd = Math.random()<0.5?rd0:rd1;
-  } else if (in0) {
-    rd = rd0;
-  } else if (in1) {
-    rd = rd1;
+  let hht = 0.5*ht;
+  let {x,y} = p;
+  let xa = x + hht;
+  let ya = y + hht;
+  let hSizes = [0,3,0,5,0,9,0];
+  let vSizes = [0,9,0,5,0,3,0];
+  let numS = hSizes.length;
+  let strh = Math.floor((numS*ya)/ht);
+  let strv = Math.floor((numS*xa)/ht);
+  const inStripe = (horizontal) => {
+    let xory = horizontal?ya:xa;
+    return Math.floor((tnumS*xory)/ht);
+  }
+  let vsz = vSizes[strv];
+  let hsz = hSizes[strh];
+  if (hsz && vsz) {
+    rd = Math.random()<0.5?vsz:hsz;
+  } else if (hsz) {
+    rd = hsz;
+  } else if (vsz) {
+    rd = vsz;
   } else {
     return;
   }
-  let rc0= Point.mk(-300,0);
-  let rc1= Point.mk(300,0);
-  let d = p.length();
-  if (d>500) {
-    return;
-  }
+  console.log('xa',xa,'ya',ya,'strh',strh,'strv',strv,'hsz',hsz,'vsz',vsz,'radius',rd);
   return {radius:rd};
 }
-
 
 rs.initialize = function () {
   this.initProtos();
@@ -62,5 +58,6 @@ rs.initialize = function () {
 }
 
 export {rs};
+
 
 
