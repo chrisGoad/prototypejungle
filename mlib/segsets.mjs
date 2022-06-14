@@ -225,12 +225,6 @@ item.wigglySegments = function (params) {
 }
 
 
-item.genOneSegment = function (p,direction) {
-  let {sepNext,segLength:len,lineExt=0} = this;
-  debugger;
-	let seg = this.genSegment(p,len,direction,sepNext);
-  return seg;
-}
 // a "unit" has the form [[segs],[lines]] Seeds are starter units
 item.genSingletonUnit =  function (lineP,p,direction,clr) {
   let {lineExt=0} = this;

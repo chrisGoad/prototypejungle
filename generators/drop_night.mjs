@@ -1,6 +1,6 @@
 import {rs as circlePP} from '/shape/circle.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
-import {rs as addDropMethods} from '/mlib/circleDrops.mjs';
+import {rs as addDropMethods} from '/mlib/drop.mjs';
 
 let rs = basicP.instantiate();
 addDropMethods(rs);
@@ -18,7 +18,7 @@ rs.initProtos = function () {
   circleP['stroke-width'] = 0;
 }  
 
-rs.generateCircleDrop = function (p) {
+rs.generateDrop = function (p) {
   let ht = this.height;
   let cfr = 0.05;
   let seaht = cfr*ht;
@@ -28,11 +28,18 @@ rs.generateCircleDrop = function (p) {
   }
   let theta = (Math.PI/4)*(ay - seaht)/(ht - seaht);
   let sint = Math.sin(theta);
+  if (sint <= 0) {
+    return;
+  }
   let dist = 1/sint;
   let rd = 100/dist;
   let fill =  (p.y<0)?'white':'black';
-  let dim = (p.y<0)?Math.min(4,rd):undefined;
-  return {radius:rd,fill,dimension:dim};
+  let dim = (p.y<0)?Math.min(4,rd):rd;
+  let crc = Circle.mk(rd);
+  let crcs = this.circleP.instantiate();
+  crcs.radius = 0.5*dim;
+  crcs.fill = fill;
+  return {geometries:[crc],shapes:[crcs]};
 }
  
 rs.initialize = function () {
@@ -46,8 +53,7 @@ rs.initialize = function () {
   this.addRectangle({width:wd,height:hht,position:Point.mk(0,qht),stroke_width:0,fill:'white'});
   let cfr =0.09;
   this.addRectangle({width:wd,height:cfr*ht,stroke_width:0,fill:'rgb(10,10,80)'});
-  let drops =  this.generateCircleDrops(dropParams);
-  this.installCircleDrops(drops,this.circleP);
+  this.generateDrops(dropParams);
 }
 
 export {rs};

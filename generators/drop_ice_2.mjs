@@ -1,5 +1,6 @@
 
 import {rs as linePP} from '/shape/line.mjs';
+import {rs as circlePP} from '/shape/circle.mjs';
 import {rs as basicsP} from '/generators/basics.mjs';
 import {rs as addDropMethods} from '/mlib/newDrop.mjs';
 import {rs as addSegsetMethods} from '/mlib/segsets.mjs';
@@ -19,6 +20,10 @@ rs.initProtos = function () {
   this.lineP = linePP.instantiate();
   this.lineP.stroke = 'yellow';
   this.lineP['stroke-width'] = .15;
+  this.circleP = circlePP.instantiate();
+  this.circleP.stroke = 'yellow';
+  this.circleP.fill = 'blue';
+  this.circleP['stroke-width'] = .15;
 }  
 
 rs.initialDrop = function () {
@@ -39,15 +44,21 @@ rs.segParams = function () {
 
 rs.generateDrop = function (p) {
   console.log('p',p);
+  if (Math.random() < 0.1) {
+    let crc = Circle.mk(2);
+    let crcs = this.genCircle(crc,this.circleP);
+    return {geometries:[crc],shapes:[crcs]};
+  }
   let p0 = Point.mk(0,0);
   let {minSeparation,lineP} = this;
   let {length,angle} = this.segParams();
   let seg = LineSegment.mkAngled(p0,angle,length);
-  let line = this.genLine(seg,lineP);
-  // lseg is minSeparation longer than the seg and line, meaning that lines extended by this much
-  // which intersect existing dropStructs are rejected as drop candidates
+  debugger;
   let lseg = LineSegment.mkAngled(p0,angle,length+minSeparation);
-  return {geometries:[lseg],shapes:[line]};
+  let ln = this.genLine(seg,lineP);
+  // the segment is minSeparation longer than the line, meaning that lines extended by this much
+  // which intersect existing dropStructs are rejected as drop candidates
+  return {geometries:[lseg],shapes:[ln]};
 }
  
 rs.initialize = function () {

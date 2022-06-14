@@ -32,34 +32,35 @@ rs.initialDrop = function () {
   let {width,height,lineP} = this; 
   let segs = this.rectangleSegments(width,height);
   let lines = segs.map((sg) => this.genLine(sg,lineP)); 
-  return [segs,lines];
+  return {geometries:segs,shapes:lines};
 }
 
-rs.genRectSegments = function (p) {
+rs.genRectSegments = function () {
   let sizes = [2,5,10,20,40];
   let which = Math.floor(Math.random()*5);
   let sz = sizes[which];
-  let segs = this.rectangleSegments(sz,sz,p);
+  let segs = this.rectangleSegments(sz,sz);
   return segs;
 }
 
-rs.dropAt = function (p) {
-  let wparams = {direction:0,zigzag:1,randomness:0,vertical:0,widths:[10,20,50],heightRatio:0.05,numSegs:15,pos:p};
-  let segs = (p.y < 0)?this.genRectSegments(p):this.wigglySegments(wparams);
+rs.generateDrop = function (p) {
+  //let wparams = {direction:0,zigzag:1,randomness:0,vertical:0,widths:[10,20,50],heightRatio:0.05,numSegs:15,pos:p};
+  let wparams = {direction:0,zigzag:1,randomness:0,vertical:0,widths:[10,20,50],heightRatio:0.05,numSegs:15};
+  let segs = (p.y < 0)?this.genRectSegments():this.wigglySegments(wparams);
   let lines = segs.map((sg) => this.genLine(sg,this.lineP));
   const genRGBval = function () {
     return 155 + Math.floor(Math.random()*100);
   }
   let v = genRGBval();
   let clr = `rgb(${v},${v},${v})`;
-  lines.forEach( (line) => line.stroke = clr);
-  return [segs,lines];
+  lines.forEach( (line) => line.stroke = clr);  
+  return {geometries:segs,shapes:lines};
 }
   
 rs.initialize = function () {
   this.addFrame();
   this.initProtos();
-  this.generateDrop(dropParams);
+  this.generateDrops(dropParams);
 }
 
 export {rs};

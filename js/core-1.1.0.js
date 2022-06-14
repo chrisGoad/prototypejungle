@@ -3033,7 +3033,6 @@ const httpPost = function (url,data,cb) {
 }
 
 const loadTopDefs = function (cb) {
-  debugger;
   afterLoadTop = cb;
   // binds globals to the modules
   loadjs('/topdefs.js');

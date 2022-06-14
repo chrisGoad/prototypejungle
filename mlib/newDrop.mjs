@@ -32,7 +32,8 @@ rs.via3d = function (p) {
 }
   
 rs.generateDrops = function (params) {
-  let {shapes,drops,numRows,randomGridsForShapes} = this;
+  debugger;
+  let {shapes,drops} = this;
   if (!shapes) { 
     shapes = this.set('shapes',arrayShape.mk());
   }
@@ -43,7 +44,7 @@ rs.generateDrops = function (params) {
     let idrop = this.initialDrop();
     let {geometries:igeoms,shapes:ishapes} =  idrop;
     drops = this.drops = igeoms;
-    ishapes.forEach((s) => shapes.push(s));
+    ishapes.forEach(s => shapes.push(s));
   }
   //core.transferProperties(params,this,props);
   //core.transferProperties(params,iparams,props);
@@ -51,16 +52,11 @@ rs.generateDrops = function (params) {
   let {maxLoops=Infinity,maxDrops=Infinity,dropTries} = params;
   let cnt =0;
   let tries = 0;
-  let rvs;
-
+  debugger;
   while ((cnt < maxLoops) && (drops.length < maxDrops)) {
     cnt++;
     let pnt = this.genRandomPoint();
-    if (numRows && randomGridsForShapes) {
-      let cell = this.cellOf(pnt);
-      rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
-    }
-    let drop = this.generateDrop(pnt,rvs);
+    let drop = this.generateDrop(pnt);
     if (!drop) {
       continue;
     } 

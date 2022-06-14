@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Image Generation via Prototype Trees">
+<title>PrototypeJungle</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<link rel="stylesheet" type="text/css"  href="spectrum.css"/>
+<link rel="icon" href="/favicon.ico" />
+
+</head>
+<body style="background-color:white;font-size:14pt"> 
+<script src = "docSupport.js"></script>
+
+<div class="topGrid">
+<div></div>
+<div ><span id ="prevSpan" class="button"> &lt;</span></div>
+<div><span class="textVar"><a style="color:black" href="../index.html">PrototypeJungle</a></span></div>
+<div></div>
+<div><span style="padding-top:0px"> <img  src="logo.svg" width="30" height="30" /></span></div>
+<div><span id="nextSpan" class="button"> &gt; </span></div>
+</div>
+<hr/>
+<div class="theGrid">
+<div></div>
+<div>
+
+<p class="title">Drop Forest</p>
+
+<p> This <a href="../mlib/dropForest.mjs">module</a> will be introduced via annotated code, which generates the image</p>
+ <p><img  src="https://kingdomofpattern.com/thumbs/drop_dandelion.jpg?alt=media" style="cursor:pointer"  width="400" height="400"/></p>
+ 
+
+<p> Here is the code:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+
+import {rs as linePP} from '/shape/line.mjs';
+import {rs as basicP} from '/generators/basics.mjs';
+import {rs as addDropMethods} from '/mlib/drop.mjs';
+import {rs as addForestDropMethods} from '/mlib/dropForest.mjs';
+
+let rs = basicP.instantiate();
+addDropMethods(rs);
+addForestDropMethods(rs);
+
+rs.setName('drop_dandelion');
+let ht = 360;
+let wd = 1* ht;
+
+let topParams = {width:wd,height:ht,framePadding:0.15*ht,stayWithin:Circle.mk(Point.mk(0,0),0.5*ht)};  
+
+let forestDropParams = {fromEnds:1, extendWhich:'first', sepNext:0.01, dropTries:10,
+  sepNext:0.1, maxDrops:Infinity, splitChance:.40, splitAmount:0.05*Math.PI, 
+  directionChange:0.0*Math.PI, randomDirectionChange:0.025*Math.PI, segLength:5,maxDrops:10000};
+
+let ringParams = {numSeeds:15,segLength:5,ringRadius:0.15 * 0.5 * wd};
+
+Object.assign(rs,topParams);
+
+rs.initProtos = function () {
+  this.lineP = linePP.instantiate();
+  this.lineP.stroke = 'white';
+  this.lineP['stroke-width'] = .5;
+}
+
+rs.initialForestDrop = function () {
+  let segs = this.ringSeeds(ringParams); 
+  let lines = segs.map((sg) =&gt; this.genLine(sg,this.lineP)); 
+  return {geometries:segs,shapes:lines};
+}
+
+rs.generateForestDrop = function (p) {
+  let sw = this.stayWithin;
+  let segs = this.generateFan(p);
+  let isegs = [];
+  segs.forEach( (s)=&gt;  {
+    if (sw.contains(s,p)) {
+      isegs.push(s);
+    }
+  });
+  let lines = isegs.map( s =&gt; this.genLine(s,this.lineP,forestDropParams.lineExt));
+  return {geometries:isegs,shapes:lines};
+}
+
+rs.initialize = function () {
+  this.initProtos();
+  this.addFrame();
+  this.generateForestDrops(forestDropParams);
+}
+
+export {rs};
+
+</pre>
+
+<p>This module resembles the drop module, except that only LineSegments may be dropped by dropGenerator, and that these segments  are dropped in such a way as to extend an already existing tree. In this mode, illustrated by the dandelion image just above, the current state consists of a set of trees (a forest) of segments. Each segment in the forest is either interior, meaning that its <span class = "textVar">end1</span> has been continued by one or more segments, or terminal, meaning that there is no continuing segment emerging from its <span class = "textVar">end1</span>.</p>
+<p> Here is an explanation of the parameters:</p>
+
+<p class="indent"><span class = "textVar">dropTries:number</span> : if this number of consectutive drops fail due to collision, terminate the algorithm.</p>
+<p class="indent"><span class = "textVar">maxDrops:number</span>: the maximum number of drop trials</p>
+<!--<p class="indent"><span class = "textVar">doNotExit:circle or rectangle</span>: reject drops any of whose segments straddle the inside and outside of the given geometric figure</p>
+<p class="indent"> Next, parameters to <span class = "textVar">generateFan</span>:</p>-->
+<p class="indent"> Note <span class = "userDefinedText">generateForestDrop</span>, relies on generateFan to do the core of its work:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold;color:rgb(200,0,0)" class="code">
+
+rs.generateForestDrop = function (p) {
+  let sw = this.stayWithin;
+  let segs = this.generateFan(p);
+  ...
+  return {geometries:isegs,shapes:lines};
+}
+</pre>
+
+<p class="indent"><span class = "textVar">generateFan</span>, which returns an array of LineSegments  extends the tree by either one or two segments (controlled by <span class = "textVar">splitChance</span>).  The segments, in either case, emanate from <span class = "textVar">startingPoint</span>, which will be a terminal node of the existing tree. In the latter case, it produces a branching of the tree, and in the former case not. Parameters to <span class = "textVar">generateFan</span> are:</p>
+<p class="indent"> <span class = "textVar">segLength:number</span>: the length of segments dropped.</p>
+<p class="indent"> <span class = "textVar">extendWhich:string</span>: which of the terminal nodes to extend. Possible values 'first', meaning the earliest added terminal node that has not yet been extended, 'random' meaning a randomly selected terminal node, and 'last' meaning the last added terminal node.</p>
+<p class="indent"> <span class = "textVar">sepNext</span>: the separation between the terminal node and the new segment(s)</p>
+<p class="indent"> <span class = "textVar">splitChance</span>: the chance that a split (two segments) rather than a linear continuation (one segment), will be chosen.</p>
+<p class="indent"> <span class = "textVar">splitAmount</span>: if a split is chosen, the angular difference between the two new segments.</p>
+<p class="indent"> <span class = "textVar">directionChange</span>: the direction of the new segment, or center of the new branch, relative to the terminal segment being extended</p>
+<p class="indent"> <span class = "textVar">randomDirectionChange</span>: a random value to be added to directionChange is chosen at random from the interval [<span class = "textVar">[-randomDirectionChange,randomDirectionChange]</span>]</p>
+<!--<p class="indent"> <span class = "textVar">lineExt</span>: the amount by which lineSegments should be extended to produce lines in the dropStruct. </p>-->
+
+<p class="indent"> Note that <span class = "textVar">initialForestDrop</span> relies on <span class = "textVar">ringSeeds</span> to do  its work:</p>
+<pre style="padding-left:20px;font-size:10pt;font-weight:bold" class="code">
+
+rs.initialForestDrop = function () {
+  let segs = this.ringSeeds(ringParams); 
+  let lines = segs.map((sg) =&gt; this.genLine(sg,this.lineP)); 
+  return {geometries:segs,shapes:lines};
+}
+
+</pre>
+<p> <span class = "textVar">ringSeeds</span> returns an array of LineSegments which play the role of seeds for starting the construction of a tree, thence the name.  The parameters to <span class = "textVar">ringSeeds</span> are:</p>
+
+<p class="indent"> <span class = "textVar">numSeeds:number</span>: <span class = "textVar">ringSeeds</span> generates a ring of outwardly directed segments, evenly placed around a ring. <span class = "textVar">numSeeds</span> is their count. </p>
+<p class="indent"> <span class = "textVar">segLength:number</span>: the length of segments dropped.</p>
+<p class="indent"> <span class = "textVar">ringRadius:number</span>: self-explanatory </p>
+
+
+</div>
+</div>
+</body>
+</html>
+
+
+

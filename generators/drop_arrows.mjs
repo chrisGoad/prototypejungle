@@ -15,7 +15,7 @@ rs.setName('drop_arrows');
 let ht = 400;
 let topParams = {width:ht,height:ht,framePadding:0.1*ht};
 
-let dropParams = {dropTries:40,segLength:2};
+let dropParams = {dropTries:40,segLength:2,maxDrops:60000};
 
 Object.assign(rs,topParams);
 
@@ -24,10 +24,10 @@ rs.initProtos = function () {
   this.lineP = linePP.instantiate();
   this.lineP.stroke = 'white';
   this.lineP['stroke-width'] = .1;
-  this.lineP['stroke-width'] = .6;
+  this.lineP['stroke-width'] = 1.6;
 }  
 
-rs.dropAt = function (p) {
+rs.generateDrop = function (p) {
   let {width,height,lineP} = this;
   let params = {direction:Math.PI/4,zigzag:1,randomness:0,vertical:0,widths:[10],heightRatio:0.05,numSegs:4,pos:p};
   let params1 = Object.assign({},params);
@@ -73,7 +73,6 @@ rs.dropAt = function (p) {
   }
   if (!fnd) {
     return null;
-    clr = 'transparent';
   }
   let segs;
   if (which === 0) {
@@ -90,14 +89,14 @@ rs.dropAt = function (p) {
     return 155 + Math.floor(Math.random()*100);
   }
   lines.forEach( (line) => line.stroke = clr);
-  return [segs,lines];
+  return {geometries:segs,shapes:lines}		;
 }
 
   
 rs.initialize = function () {
   this.addFrame();
   this.initProtos();
-  this.generateDrop(dropParams);
+  this.generateDrops(dropParams);
 }
 
 export {rs};

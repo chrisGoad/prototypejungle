@@ -109,7 +109,13 @@ item.cellOf  = function (p) {
   return {x:ix,y:iy};
 }
 
-
+item.genCircle = function (crc,circleP,scale=1) {
+   let {center,radius} = crc;
+   let rs = circleP.instantiate();
+   rs.radius = scale*radius;
+   rs.moveto(center);
+   return rs;
+ }
 
 item.genLine = function (sg,lineP,ext=0) {
   let {end0,end1} = sg;
@@ -136,6 +142,19 @@ item.genLine = function (sg,lineP,ext=0) {
   return line;
 }
 
+item.geom2shape = function (g,lineP,circleP,scale=1) {
+  if (Circle.isPrototypeOf(g)) {
+    return this.genCircle(g,circleP,scale);
+  }
+   if (LineSegment.isPrototypeOf(g)) {
+    return this.genLine(g,lineP);
+  }
+}
+
+item.geoms2shapes = function (gs,lineP,circleP,scale=1) {
+  return gs.map((g) => this.geom2shape(g,lineP,circleP,scale));
+}
+   
 item.addLine = function (params)  {
   let {lines,line,lineP,end0,end1,segment} =params;
 	if (!lines) {

@@ -5,7 +5,7 @@ import {rs as addDropMethods} from '/mlib/drop.mjs';
 let rs = basicP.instantiate();
 addDropMethods(rs);
 
-rs.setName('drop_circles2');
+rs.setName('drop_circles_12');
 let ht= 1000;
 let topParams = {width:ht,height:ht}
 Object.assign(rs,topParams);
@@ -41,7 +41,7 @@ rs.fillGenerator= function (p) {
 rs.generateDrop = function (p) {
   let rd = this.radiusGenerator(p);
   let crc = Circle.mk(rd);
-  let crcs = this.genCircle(crc,this.circleP,0.5);
+  let crcs = this.genCircle(crc,this.circleP,1);
   return {geometries:[crc],shapes:[crcs]};
 }
 

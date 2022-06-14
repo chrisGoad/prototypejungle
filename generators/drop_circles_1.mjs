@@ -1,6 +1,6 @@
 import {rs as circlePP} from '/shape/circle.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
-import {rs as addDropMethods} from '/mlib/circleDrops.mjs';
+import {rs as addDropMethods} from '/mlib/drop.mjs';
 import {rs as innerDrop} from '/generators/drop_circles_0.mjs';
 
 let rs = basicP.instantiate();
@@ -19,7 +19,7 @@ rs.initProtos = function () {
   circleP['stroke-width'] = 0;
 }  
 
-rs.generateCircleDrop= function (p) {
+rs.generateDrop= function (p) {
   let {height:ht,radius} = this;
   debugger;
   let hht = 0.5*ht;
@@ -28,15 +28,16 @@ rs.generateCircleDrop= function (p) {
   if (d>=hht) {
     return;
   } 
-  return {radius}
+  let crc = Circle.mk(radius);
+  let crcs = this.genCircle(crc,this.circleP);
+  return {geometries:[crc],shapes:[crcs]}
 }
 
 rs.initialize = function () {
   this.initProtos();
   let {dropParams} = this;
   this.addFrame();
-  let drops =  this.generateCircleDrops(dropParams);
-  this.installCircleDrops(drops,innerDrop);
+  let drops =  this.generateDrops(dropParams);
 }
 
 export {rs};
