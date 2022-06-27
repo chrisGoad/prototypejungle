@@ -41,13 +41,13 @@ rs.generateDrop= function (p) {
     return;
   } 
   let crc = Circle.mk(10);
-  let crcs = this.genCircle(crc,this.circleP);
+  let crcs = crc.toShape(this.circleP);
   return {geometries:[crc],shapes:[crcs]}
 }
 
 rs.initialForestDrop = function () {
   let segs = this.ringSeeds(ringParams); 
-  let lines = segs.map((sg) => this.genLine(sg,this.lineP)); 
+  let lines = segs.map((sg) => sg.toShape(this.lineP)); 
   return {geometries:segs,shapes:lines};
 }
 

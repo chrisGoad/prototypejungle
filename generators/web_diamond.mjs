@@ -15,11 +15,13 @@ let mcl = 50
 let minc = 20;
 
 
-let  topParams = {frameStroke:'rgb(52,52,52)',framePadding:0.1*ht,width:ht,height:ht,webTries:100, minConnectorLength:mcl, maxConnectorLength:mcl+minc, webTries:1000,maxDrops:10000,lengthenBy:-0.01};
+let  topParams = {frameStroke:'rgb(52,52,52)',framePadding:0.1*ht,width:ht,height:ht,};
 
 Object.assign(rs,topParams);
 
-let gridParams =  {numRows:nrc,numCols:nrc};
+let webParams = {webTries:100, minConnectorLength:mcl, maxConnectorLength:mcl+minc, webTries:1000,maxDropss:10000,lengthenBy:-0.01};
+
+let gridParams =  {width:ht,height:ht,numRows:nrc,numCols:nrc};
 
 rs.initProtos = function () {	
   let lineP = this.lineP = linePP.instantiate();
@@ -79,10 +81,12 @@ rs.pairFilter = function (i,j) {
 }
 
 rs.initialize = function () {
-  this.initProtos();
+  debugger;
+  this.initProtos();  
+  webParams.lineP = this.lineP;
   this.addFrame();
   let points = this.gridPoints(gridParams);
-  this.generateWeb({points});
+  this.generateWeb(Object.assign(webParams,{points}));
 }
 
 export {rs};

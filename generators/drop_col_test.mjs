@@ -32,13 +32,13 @@ rs.generateDrop= function (p) {
     let rd = 2 + 50*Math.random();
     let crc = Circle.mk(rd);
     crc.isDisk = 0;
-    let crcs = this.genCircle(crc,this.circleP);
+    let crcs = crc.toShape(this.circleP);
     return {geometries:[crc],shapes:[crcs]}
   } else {
     let angle = Math.random() * Math.PI/2;
     let length = 5 + 50*Math.random();
     let seg = LineSegment.mkAngled(p0,angle,length);
-    let ln = this.genLine(seg,this.lineP);
+    let ln = seg.toShape(this.lineP);
     return {geometries:[seg],shapes:[ln]}
   }
 }

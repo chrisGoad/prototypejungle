@@ -47,8 +47,10 @@ rs.shapeGenerator = function (rvs) {
 };
   
 rs.boundaryLineGenerator = function (end0,end1,rvs,cell) {
+debugger;
   let {blineP,showMissing,lines,updating,lineIndex} = this;
-  let line = this.genLine({end0:end0,end1:end1},blineP);
+  let sg = LineSegment.mk(end0,end1);
+  let line = sg.toShape(blineP);
   let c = rvs.color
   line.setEnds(end0,end1);
   line.stroke = `rgb(0,${Math.floor(c)},${Math.floor(c)})`;

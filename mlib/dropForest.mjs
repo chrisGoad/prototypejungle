@@ -1,4 +1,4 @@
-// documented in https://prototypejungle.net/doc/drop.html 
+// documented in https://prototypejungle.net/doc/dropForest.html 
 
 const rs = function (item) {
 
@@ -60,29 +60,35 @@ item.ringSeeds = function (iparams) {
   return segs;
 }
 
-item.sideSeeds = function (iparams) {
-  let props = ['width','height','lineP','numSeeds','data','sepNext','right']; 
-  let params = {};
-  core.transferProperties(params,this,props);
-  core.transferProperties(params,iparams,props);
-  let {width,height,lineP,numSeeds,data,sepNext,right} = params; 
+item.sideSeeds = function (params) {
+  let {width,height} = this;
+  let {numSeeds,data,sepNext,segLength:len,whichSide} = params; 
   let segs = [];
   let delta  = height/(numSeeds+1);
   let hw = width/2;
-  let cy = delta-hw;
-  for (let j=0;j<numSeeds;j++) {
-    let ip = Point.mk(right?hw:-hw,cy);
-    let seg =  this.genForestSegment(ip,len,right?Math.PI:0,sepNext);
-    let end = seg.end;
-    if (data) {
-      send.data = data;
+  const mkSeeds =  (side) => {
+   let cy = delta-hw;
+   let right = side === 'right';
+   for (let j=0;j<numSeeds;j++) {
+      let ip = Point.mk(right?hw:-hw,cy);
+      let seg =  this.genForestSegment(ip,len,right?Math.PI:0,sepNext);
+      let end = seg.end;
+      if (data) {
+        send.data = data;
+      }
+      end.seed = end;
+      segs.push(seg); 
+      cy += delta;
     }
-    end.seed = end;
-    segs.push(seg); 
-    cy += delta;
   }
-  let lines = segs.map((sg) => this.genLine(sg,lineP,lineExt)); 
-  return {geometries:segs,shapes:lines};
+  if (whichSide === 'both') {
+    mkSeeds('left');
+    mkSeeds('right');
+  } else {
+   mkSeeds(whichSide);
+  }
+ // let lines = segs.map((sg) => this.genLine(sg,lineP,lineExt)); 
+  return segs;
 }
 
 item.leftSideSeeds = function (params) {
@@ -114,7 +120,8 @@ item.randomSeeds = function (iparams) {
     let seg =  this.genForestSegment(ip,len,angle,sepNext);
     segs.push(seg); 
   }
-  let lines = segs.map((sg) => this.genLine(sg,lineP,lineExt)); 
+  let lines = segs.map((sg) => sg.toShape(lineP,lineExt)); 
+  //let lines = segs.map((sg) => this.genLine(sg,lineP,lineExt)); 
   return {geometries:segs,shapes:lines};
 }
 
@@ -154,7 +161,7 @@ item.gridSeeds = function (iparams) {
         fanAngles.forEach( (angle) => {
           let seg = this.genForestSegment(ip,len,angle,sepNext);
           segs.push(seg);
-          lines.push(this.genLine(seg,lineP,lineExt));
+          lines.push(seg.toShape(lineP,lineExt));
         });
       }
       xv += deltaX;
@@ -238,9 +245,13 @@ item.insideCanvas = function (p) {
   return (-hw < x) && (x < hw) && (-hh < y) && (y < hh);
 }
 
-item.segmentIntersects = function (seg) {
-  let {shapes,width,height} = this;
-  let {exclusionZones,doNotCross,doNotExit} = this.forestDropParams;
+item.segmentInCanvas = function (seg) {
+  let rect = this.canvasToRectangle();
+  return rect.contains(seg);
+}
+/*
+  let {width,height} = this;
+  let {doNotCross,doNotExit} = this.forestDropParams;
   let {end0,end1} = seg;
   if ((!this.insideCanvas(end0)) || (!this.insideCanvas(end1))) {
     return true;
@@ -280,6 +291,7 @@ item.segmentIntersects = function (seg) {
     }
   }
 }
+*/
 
 item.intersectsSomethingggg = function (g) {
   let {shapes,width,height,ignoreBefore:ibf} = this;
@@ -306,9 +318,10 @@ item.activeEnds = function () {
   return rs;
 }
 let loopCnt = 0;
+let totalTries = 0;
 item.addSegmentAtThisEnd = function (end) {
   let {shapes,ends,numRows,randomGridsForShapes,drops} = this;
-  let {maxDrops=Infinity,segLength,dropTries} = this.forestDropParams;
+  let {maxDrops=Infinity,segLength,dropTries,maxTotalTries=Infinity} = this.forestDropParams;
   if (!this.generateForestDrop) {
     return;
   }
@@ -318,7 +331,8 @@ item.addSegmentAtThisEnd = function (end) {
     cell = this.cellOf(end);
     rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
   }
-  while (true) {
+  while (totalTries < maxTotalTries) {
+   totalTries++; 
     loopCnt++;
     console.log('loops',loopCnt);	
     let dropStruct = this.generateForestDrop(end,rvs);
@@ -336,8 +350,7 @@ item.addSegmentAtThisEnd = function (end) {
         let nend = seg.end.plus(end);
         seg.end.copyto(nend);
        
-        //  if (this.segmentIntersects(seg)) {        
-      if (geometriesIntersect([seg],drops)) {
+      if (!this.segmentInCanvas(seg) || geometriesIntersect([seg],drops)) {
           ifnd = true;
           break;
         }
@@ -381,8 +394,8 @@ item.randomDirection = function (n) {
 }
 
 item.addSegmentAtSomeEnd = function () {
-  let {extendWhich} = this.forestDropParams;
-  while (true) {
+  let {extendWhich,maxTotalTries=Infinity} = this.forestDropParams;
+  while (totalTries<maxTotalTries) {
     let ae = this.activeEnds();
     let end;
     let ln = ae.length;
@@ -407,8 +420,8 @@ item.addSegmentAtSomeEnd = function () {
 item.addSegmentsAtEnds = function () {
   let maxEndTries = 100;
   let tries = 0; 
-  let {maxDrops=Infinity} = this.forestDropParams;
-  while (this.numDropped  < maxDrops) {
+  let {maxDrops=Infinity,maxTotalTries=Infinity,numDropped} = this.forestDropParams;
+  while ((this.numDropped  < maxDrops) && (totalTries < maxTotalTries)) {
     let ars = this.addSegmentAtSomeEnd();
     if (ars === 'noEndsLeft') {
       return ars;
@@ -476,13 +489,15 @@ rs.generateDrop = function (p) {
 }
 
 item.addRandomSegments = function () {
+  debugger;
   let {shapes,ends} = this;
-  let {maxDrops=Infinity,dropTries,maxLoops=Infinity,segLength,fromEnds} = this.forestDropParams;
+  let {maxDrops=Infinity,maxTotalTries=Infinity,dropTries,maxLoops=Infinity,segLength,fromEnds} = this.forestDropParams;
   if (!this.generateForestDrop) {
     return;
   }
   this.numDropped = 0;
   let tries = 0;
+  totalTries = 0;
   let endsVsNew = 1;
   let loops = 0;
   while (loops < maxLoops) {

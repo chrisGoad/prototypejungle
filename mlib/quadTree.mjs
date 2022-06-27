@@ -5,33 +5,84 @@ rs.extendQuadOneLevel = function (qd) {
    if (qd.UL) {
      return;
    }
+   let where = qd.where;
+   let root = qd.root;
    let rect = qd.rectangle;
    let {corner,extent} = rect;
    let {x:cx,y:cy} = corner;
    let hxt = extent.times(0.5);
    let {x:ex,y:ey} = hxt;
-   qd.UL = {rectangle:Rectangle.mk(corner.copy(),hxt)};
-   qd.UR = {rectangle:Rectangle.mk(Point.mk(cx+ex,cy),hxt.copy())};
-   qd.LL = {rectangle:Rectangle.mk(Point.mk(cx,cy+ey),hxt.copy())};
-   qd.LR = {rectangle:Rectangle.mk(Point.mk(cx+ex,cy+ey),hxt.copy())};
+   const nextQuad = (nm,corner,extent) => {
+     let rect = Rectangle.mk(corner,hxt.copy());
+     qd[nm] = {rectangle:rect,where:[...where,nm],root};
+   }
+   
+   nextQuad('UL',corner.copy());
+   nextQuad('UR',Point.mk(cx+ex,cy));
+   nextQuad('LL',Point.mk(cx,cy+ey));
+   nextQuad('LR',Point.mk(cx+ex,cy+ey));
+   return;
+    qd.UL = {rectangle:Rectangle.mk(corner.copy(),hxt),where:[...where,'UL']};
+   qd.UR = {rectangle:Rectangle.mk(Point.mk(cx+ex,cy),hxt.copy()),where:[...where,'UR']};
+   qd.LL = {rectangle:Rectangle.mk(Point.mk(cx,cy+ey),hxt.copy()),where:[...where,'LL']};
+   qd.LR = {rectangle:Rectangle.mk(Point.mk(cx+ex,cy+ey),hxt.copy()),where:[...where,'LR']};
  }
  
  
-rs.extendQuadNLevels = function (qd,params,i=0) {
-   let {levels,chance} = params;
-   if ((Math.random()>chance)&&(i>=3)) {
+ 
+rs.randomSplit = function (qd,ichance) {
+  let params = qd.root.params;
+  let {chance,alwaysSplitBefore,levels} = params;
+  if (!chance) {
+    chance = ichance;
+  }
+  let d = qd.where.length;
+  return (d<levels) && ((Math.random()<chance) || (d<alwaysSplitBefore));
+}
+
+rs.splitHere = function (qd) {
+  return this.randomSplit(qd);
+}
+  
+rs.extendQuadNLevels = function (qd,params) {
+  debugger;
+   let {shapes,numRows,randomGridsForShapes} = this;
+   let {where} = qd;
+   if (!shapes) {
+     shapes = this.set('shapes',arrayShape.mk());
+   }
+   if (!where) {
+     where = qd.where = [];
+     qd.root = qd;
+     qd.params = params;
+   }
+  // let params = qd.root.params;
+ //  let {levels,chance,startSplit=3} = params;
+
+ //  if (i===0){
+  //   qd.where = [];
+ //  }
+    let rect = qd.rectangle;
+    let pnt = rect.center();
+    let rvs;
+    if (numRows && randomGridsForShapes) {
+      let cell = this.cellOf(pnt);
+      rvs = this.randomValuesAtCell(randomGridsForShapes,cell.x,cell.y);
+    }
+   let split = this.splitHere(qd,rvs);
+   if (!split) {
      return;
    }
    this.extendQuadOneLevel(qd);
-   if ((i+1) >= levels) {
-     return;
-   }
-   this.extendQuadNLevels(qd.UL,params,i+1);
-   this.extendQuadNLevels(qd.UR,params,i+1);
-   this.extendQuadNLevels(qd.LL,params,i+1);
-   this.extendQuadNLevels(qd.LR,params,i+1);
+ //  if ((i+1) >= levels) {
+ //    return;
+ //  }
+   this.extendQuadNLevels(qd.UL);//,i+1);
+   this.extendQuadNLevels(qd.UR);//,i+1);
+   this.extendQuadNLevels(qd.LL);//,i+1);
+   this.extendQuadNLevels(qd.LR);//,i+1);
  }
- 
+ /*
  rs.rectangleToRectangle  = function (r,depth) {
    let {shapes,levels}= this;
    if (!shapes) {
@@ -55,9 +106,6 @@ rs.extendQuadNLevels = function (qd,params,i=0) {
    if (!shapes) {
      shapes = this.set('shapes',arrayShape.mk());
    }
-   /*if (shapes.length >= 7000) {
-     return;
-   }*/
    let lastLevel;// = depth===levels;
    let {extent,corner} = r;
    let c = r.center();
@@ -105,6 +153,11 @@ rs.rectangleToShape  = function (r,depth) {
    this.rectangleToRectangle(r,depth);
   }
 }
+
+ rs.displayCell = function (qd,depth) {
+   this.rectangleToCircle(qd.rectangle,depth);
+ }
+ */
  
  rs.displayQuad = function (qd,depth=0) {
    let {shapes} = this;
@@ -115,7 +168,8 @@ rs.rectangleToShape  = function (r,depth) {
      this.displayQuad(qd.LR,depth+1);
      return;
    }
-   this.rectangleToShape(qd.rectangle,depth);
+   this.displayCell(qd,depth);
+   //this.rectangleToShape(qd.rectangle,depth);
 }
 }
 

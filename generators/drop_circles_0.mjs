@@ -50,7 +50,8 @@ rs.generateDrop= function (p) {
       }
       console.log('ring','fr',fr,'i',i,'szi',szi,'rd',rd);
       let crc = Circle.mk(rd);
-      let crcs = this.genCircle(crc,circleP,0.5);
+      //let crcs = crc.toShape(circleP,0.5);
+      let crcs = crc.toShape(circleP,0.5);
       return {geometries:[crc],shapes:[crcs]};
     }
     cT = cT+inc;

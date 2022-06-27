@@ -41,7 +41,7 @@ rs.fillGenerator= function (p) {
 rs.generateDrop = function (p) {
   let rd = this.radiusGenerator(p);
   let crc = Circle.mk(rd);
-  let crcs = this.genCircle(crc,this.circleP,0.5);
+  let crcs = crc.toShape(this.circleP,0.5);
   return {geometries:[crc],shapes:[crcs]};
 }
 

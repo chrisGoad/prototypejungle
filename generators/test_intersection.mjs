@@ -25,8 +25,8 @@ rs.initialize = function () {
   let sg = LineSegment.mk(Point.mk(-2,14),Point.mk(2,15));
   let crc = Circle.mk(Point.mk(0,14),10); //intersects
   //let crc = Circle.mk(Point.mk(0,16),10);
-  let ln = this.genLine(sg,this.lineP);
-  let crcs = this.genCircle(crc,this.circleP);	
+  let ln = sg.toShape(this.lineP);
+  let crcs = crc.toShape(this.circleP);	
   //crcs.moveto(Point.mk(-20,-20));
 
   let shapes = this.set('shapes',ArrayNode.mk());

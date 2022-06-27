@@ -22,10 +22,11 @@ let  webParams = {minConnectorLength:0.5*ht,maxConnectorLength:1.2*ht,webTries:1
 
 Object.assign(rs,topParams);
 
-let  gridParams = {numRows:2,numCols:200}
+let  gridParams = {width:wd,height:ht,numRows:2,numCols:200}
 
 rs.initialize = function (clr) { 
   this.initProtos(clr);
+  webParams.lineP = this.lineP;
   let points = this.gridPoints(gridParams);
   this.generateWeb(Object.assign({points},webParams));
 }

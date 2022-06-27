@@ -48,7 +48,7 @@ rs.initialize = function () {
   let shapes = this.set('shapes',arrayShape.mk());
   let circles = this.allCircles();
   circles.forEach((c) => {
-    let circs = this.genCircle(c,circleP);
+    let circs = c.toShape(circleP);
     shapes.push(circs);
   });
 }

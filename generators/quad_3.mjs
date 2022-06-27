@@ -8,8 +8,9 @@ addQuadMethods(rs);
 rs.setName('quad_3',2);
 
 let wd = 100;
-let topParams = {width:wd,height:wd,levels:7,chance:0.8,framePadding:0.1*wd}
+let topParams = {width:wd,height:wd,framePadding:0.1*wd}
 Object.assign(rs,topParams);
+let quadParams = {levels:7,chance:0.8,alwaysSplitBefore:3};
 
 rs.initProtos = function () {
   this.circleP =  circlePP.instantiate();
@@ -24,9 +25,21 @@ rs.computeFill = function (depth) {
    return fill;
 }
 
-rs.chooseCircle = function () {
-  return 1;
-}
+
+ rs.displayCell  = function (qd) {
+   let {shapes,levels,circleP}= this;
+   let rect = qd.rectangle;
+   let c = rect.center();
+   let {extent} = rect;
+   let {x:ex,y:ey} = extent;
+   let crc = Circle.mk(0.4*ex);
+   let shape = crc.toShape(circleP);
+   //shape.dimension = 0.7*ex;
+   shape.fill = this.computeFill();
+   this.shapes.push(shape);
+   shape.moveto(c);
+ //  shape.update();
+ }   
 
 rs.initialize = function () {
   let {width:wd,height:ht} = this;
@@ -34,7 +47,8 @@ rs.initialize = function () {
   this.initProtos();
   let r = Rectangle.mk(Point.mk(-0.5*wd,-0.5*ht),Point.mk(wd,ht));
   let qd = {rectangle:r};
-  this.extendQuadNLevels(qd,this);
+  debugger;
+  this.extendQuadNLevels(qd,quadParams);
   this.displayQuad(qd);
 }	
 

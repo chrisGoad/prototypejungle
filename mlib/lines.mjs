@@ -7,7 +7,7 @@ let defaults = {angleMax:90,angleMin:-90};
 Object.assign(rs,defaults);
 
 item.segmentToLineFunction = function (seg,lineP) {
-  let line = this.genLine(seg,lineP);
+  let line = seg.toShape(lineP);
   line.show();
   return line;
 }

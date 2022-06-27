@@ -29,7 +29,7 @@ rs.generateDrop= function (p) {
     return;
   } 
   let crc = Circle.mk(radius);
-  let crcs = this.genCircle(crc,this.circleP);
+  let crcs = crc.toShape(this.circleP);
   return {geometries:[crc],shapes:[crcs]}
 }
 

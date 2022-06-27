@@ -34,7 +34,7 @@ debugger;
   let segs = this.rectangleSegments(width,height); // rectangleSegments is defined in segsets.mjs
   let seg0 = LineSegment.mk(Point.mk(0,-hht),Point.mk(0,-qht));
   segs.push(seg0);
-  let lines = segs.map((sg) => this.genLine(sg,lineP));  
+  let lines = segs.map((sg) => sg.toShape(lineP));  
   return {geometries:segs,shapes:lines};
 }
 
@@ -50,7 +50,7 @@ rs.generateDrop = function (p) {
   console.log('p',p);
   if (Math.random() < 0.1) {
     let crc = Circle.mk(4);
-    let crcs = this.genCircle(crc,this.circleP);
+    let crcs = crc.toShape(this.circleP);
     return {geometries:[crc],shapes:[crcs]};
   }
   let p0 = Point.mk(0,0);
@@ -59,7 +59,7 @@ rs.generateDrop = function (p) {
   let seg = LineSegment.mkAngled(p0,angle,length);
   debugger;
   let lseg = LineSegment.mkAngled(p0,angle,length+minSeparation);
-  let ln = this.genLine(seg,lineP);
+  let ln = seg.toShape(lineP);
   // the segment is minSeparation longer than the line, meaning that lines extended by this much
   // which intersect existing dropStructs are rejected as drop candidates
   return {geometries:[lseg],shapes:[ln]};

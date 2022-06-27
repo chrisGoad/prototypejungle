@@ -31,7 +31,7 @@ rs.segParams = function () {
 rs.initialDrop = function () {
   let {width,height,lineP} = this; 
   let segs = this.rectangleSegments(width,height);
-  let lines = segs.map((sg) => this.genLine(sg,lineP)); 
+  let lines = segs.map((sg) => sg.toShape(lineP)); 
   return {geometries:segs,shapes:lines};
 }
 
@@ -47,7 +47,7 @@ rs.generateDrop = function (p) {
   //let wparams = {direction:0,zigzag:1,randomness:0,vertical:0,widths:[10,20,50],heightRatio:0.05,numSegs:15,pos:p};
   let wparams = {direction:0,zigzag:1,randomness:0,vertical:0,widths:[10,20,50],heightRatio:0.05,numSegs:15};
   let segs = (p.y < 0)?this.genRectSegments():this.wigglySegments(wparams);
-  let lines = segs.map((sg) => this.genLine(sg,this.lineP));
+  let lines = segs.map((sg) => sg.toShape(this.lineP));
   const genRGBval = function () {
     return 155 + Math.floor(Math.random()*100);
   }

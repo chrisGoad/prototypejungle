@@ -10,14 +10,27 @@ addWeb(pnts,lineP) drops lines between points pnts[i], pnts[j],  where (1) pairF
 let defaults = {webTries:5,maxLoops:Infinity};
 
 Object.assign(rs,defaults);
-
+rs.r2a = 180/(Math.PI);;
 rs.pairFilter = function (i,j) {
-  let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0} = this.webParameters;
+  let {maxConnectorLength:mxCln,minConnectorLength:mnCln=0,angleMax,angleMin,r2a} = this.webParameters;
   let {cPoints} = this;
   let pi = cPoints[i];
   let pj = cPoints[j];
-  let d = pi.distance(pj);
-  return (mnCln < d) && (d < mxCln);
+  let vec = pj.difference(pi);
+  let d = vec.length();
+  if ((d < mnCln) || (mxCln < d)) {
+    return;
+  }
+  if (typeof angleMin === 'number') {
+    let ar = Math.atan2(vec.y,vec.x);
+    let a = ar*this.r2a;
+    const angleIn = (offset) => {
+      let ao = a + offset;
+      return (angleMin < ao) && (ao < angleMax);
+    }
+    return angleIn(-180) || angleIn(0) ||angleIn(180);
+  }
+  return 1;
 }
 
 rs.singletonFilter = function (i) {
@@ -43,7 +56,7 @@ rs.initWeb = function (pnts) {
 }
 
 rs.addSegs = function (lineP) {
-  let {connectSegs,webParameters} = this;
+  let {connectSegs,webParameters,shapes} = this;
   let {lengthenBy=0}  = webParameters;
   let ln = connectSegs.length;
   for (let i=0;i<ln;i++) {
@@ -58,12 +71,13 @@ rs.addSegs = function (lineP) {
     let ssg = sg;
     ssg.index0 = sg.index0;
     ssg.index1 = sg.index1;
-    let line = this.genLine(ssg,lineP);
+    let line = ssg.toShape(lineP);
     let {end0,end1} = ssg;
     if (this.colorFromPoint) {
       line.stroke = this.colorFromPoint(end0);
     }
-    this.installLine(line);    
+    shapes.push(line);
+  //  this.installLine(line);    
   }
 }  
 
@@ -108,11 +122,11 @@ rs.rnearsIndex2NearsIndexViaIndexOf = function (nears,rnears,ri) {
     
   
   
-rs.generateWeb = function (iparams) {
-  let props = ['points','lineP','minConnectorLength','maxConnectorLength','webTries','lengthenBy','maxLoops'];
+rs.generateWeb = function (params) {
+ /* let props = ['points','lineP','minConnectorLength','maxConnectorLength','webTries','lengthenBy','maxLoops'];
   let params = {};
   core.transferProperties(params,this,props);
-  core.transferProperties(params,iparams,props);
+  core.transferProperties(params,iparams,props);*/
   this.webParameters = params;
   let {points:pnts,lineP,minConnectorLength,maxConnectorLength,webTries,lengthenBy=-0.1,maxLoops=Infinity} = params;
   if (pnts) {

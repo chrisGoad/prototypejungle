@@ -1,7 +1,7 @@
 import {rs as circlePP} from '/shape/circle.mjs';
 import {rs as linePP} from '/shape/line.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
-import {rs as addDropMethods} from '/mlib/newDrop.mjs';
+import {rs as addDropMethods} from '/mlib/drop.mjs';
 
 let rs = basicP.instantiate();
 addDropMethods(rs);
@@ -49,14 +49,17 @@ rs.generateDrop= function (p) {
   let vec = Point.mk(Math.cos(dir),Math.sin(dir)).times(hsgl);
   let lsg = LineSegment.mk(vec.times(-1),vec);
   //let lsg = LineSegment.mk(Point.mk(-hsgl,0)),Point.mk(hsgl,0));
-  let gs;
+  let gs,shs;
   if (Math.random()<0.75) {
     gs = [crc];
+    let crcs = crc.toShape(circleP);
+    shs = [crcs];
   } else {
-    gs = [lsg]
+    gs = [lsg];
+    let lsgs = lsg.toShape(lineP);
+    shs = [lsgs];
   }
-  let shapes = this.geoms2shapes(gs,lineP,circleP,1);
-  let drop = {geometries:gs,shapes:shapes}
+  let drop = {geometries:gs,shapes:shs}
   return drop;
 }
 
@@ -70,7 +73,7 @@ rs.initialize = function () {
   let ns = 5;
   let intv = ht/5;
   let sg = LineSegment.mk(Point.mk(-hht,200),Point.mk(hht,200))
-  let sgs = this.geom2shape(sg,lineP,circleP,1);
+  let sgs = sg.toShape(lineP,1);
    // shapes.push(sgs);
 
 /*
@@ -80,8 +83,8 @@ rs.initialize = function () {
     let sg2 = LineSegment.mk(Point.mk(-hht,sght+0.2*intv),Point.mk(hht,sght))
     drops.push(sg);
     drops.push(sg2);
-    let sgs = this.geom2shape(sg,lineP,circleP,1);
-    let sgs2 = this.geom2shape(sg2,lineP,circleP,1);
+    let sgs = sg.toShape(lineP);
+    let sgs2 = sg2.toShape(lineP);
     shapes.push(sgs);
     shapes.push(sgs2);
   }*/

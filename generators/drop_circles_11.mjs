@@ -55,13 +55,13 @@ rs.generateDrop= function (p) {
     let seg = LineSegment.mkAngled(p0,angle,length);
     debugger;
     let lseg = LineSegment.mkAngled(p0,angle,length+minSeparation);
-    let ln = this.genLine(seg,lineP);
+    let ln = seg.toShape(lineP);
     return {geometries:[lseg],shapes:[ln]}; 
   }       
   let rd = 4;
   //console.log('ring','fr',fr,'i',i,'szi',szi,'rd',rd);
   let crc = Circle.mk(rd);
-  let crcs = this.genCircle(crc,circleP,0.5);
+  let crcs = crc.toShape(circleP,0.5);
   return {geometries:[crc],shapes:[crcs]};
 }
 

@@ -14,7 +14,8 @@ let wd = 1* ht;
 
 let topParams = {width:wd,height:ht,framePadding:0.15*ht,stayWithin:Circle.mk(Point.mk(0,0),0.5*ht)};  
 
-let forestDropParams = {fromEnds:1, extendWhich:'first', sepNext:0.01, dropTries:10, sepNext:0.1, maxDrops:Infinity, splitChance:.40, splitAmount:0.05*Math.PI, directionChange:0.0*Math.PI, randomDirectionChange:0.025*Math.PI, segLength:5,maxDrops:10000};
+//let forestDropParams = {fromEnds:1, extendWhich:'first', sepNext:0.01, dropTries:10, sepNext:0.1, maxDrops:Infinity, splitChance:.40, splitAmount:0.05*Math.PI, //directionChange:0.0*Math.PI, randomDirectionChange:0.025*Math.PI, segLength:5,maxDrops:10000};
+let forestDropParams = {fromEnds:1, extendWhich:'first', dropTries:10, sepNext:0.1, maxDrops:Infinity, splitChance:.40, splitAmount:0.05*Math.PI, directionChange:0.0*Math.PI, randomDirectionChange:0.025*Math.PI, segLength:5,maxDrops:10000};
 
 let ringParams = {numSeeds:15,ringRadius:0.15 * 0.5 * wd};
 
@@ -28,7 +29,7 @@ rs.initProtos = function () {
 
 rs.initialForestDrop = function () {
   let segs = this.ringSeeds(ringParams); 
-  let lines = segs.map((sg) => this.genLine(sg,this.lineP)); 
+  let lines = segs.map((sg) => sg.toShape(this.lineP)); 
   return {geometries:segs,shapes:lines};
 }
 
@@ -42,7 +43,8 @@ rs.generateForestDrop = function (p) {
       isegs.push(s);
     }
   });
-  let lines = isegs.map( s => this.genLine(s,this.lineP,forestDropParams.lineExt));
+  //let lines = isegs.map( s => this.genLine(s,this.lineP,forestDropParams.zub));
+  let lines = isegs.map( s => s.toShape(this.lineP));
   return {geometries:isegs,shapes:lines};
 }
 

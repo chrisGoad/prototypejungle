@@ -84,7 +84,7 @@ rs.generateDrop = function (p) {
   } else if (which === 3) {
     segs = this.wigglySegments(params3);
   }
-  let lines = segs.map((sg) => this.genLine(sg,lineP));
+  let lines = segs.map((sg) => sg.toShape(lineP));
   const genRGBval = function () {
     return 155 + Math.floor(Math.random()*100);
   }

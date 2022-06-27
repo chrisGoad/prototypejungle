@@ -24,6 +24,7 @@ rs.initProtos = function () {
 
 rs.initialize = function () {
   this.initProtos();
+  webParams.lineP = this.lineP;
   let points = this.ringPoints(ringParams);
   this.generateWeb(Object.assign(webParams,{points}));
   this.addFrame();

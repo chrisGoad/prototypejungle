@@ -2,7 +2,7 @@
 import {rs as linePP} from '/shape/line.mjs';
 import {rs as circlePP} from '/shape/circle.mjs';
 import {rs as basicP} from '/generators/basics.mjs';
-import {rs as addDropMethods} from '/mlib/dropCircles.mjs';
+import {rs as addDropMethods} from '/mlib/drop.mjs';
 import {rs as addWebMethods} from '/mlib/web.mjs';
 import {rs as addSphereMethods} from '/mlib/sphere.mjs';
 let rs = basicP.instantiate();
@@ -16,9 +16,9 @@ let ht= 2000;
 ht = 6000;
 let wd = ht;
 
-let topParams = {width:ht,height:ht,framePadding:0.1*ht};
+let topParams = {width:ht,height:ht,framePadding:0.1*ht,radius:30};
 
-let dropParams = {dropTries:10,radius:30};
+let dropParams = {dropTries:10};
 
 let webParams = {webTries:1000,minConnectorLength:300,maxConnectorLength:600,lengthenBy:-0.2}
 
@@ -35,11 +35,17 @@ rs.initProtos = function () {
   let circleP = this.circleP = circlePP.instantiate();
 
 }  
- 
+rs.generateDrop = function (p) {
+  let crc = Circle.mk(this.radius);
+  return {geometries:[crc],shapes:[]};
+}
+
 rs.initialize = function () {
   this.initProtos();
+  webParams.lineP = this.lineP;
   let {focalPoint,focalLength,cameraScaling,lineP} = this;
-  let pnts = this.generateCircleDrop(dropParams).points;
+  let drops = this.generateDrops(dropParams);
+  let pnts = drops.map((c) => c.center);
   this.camera = geom.Camera.mk(focalPoint,focalLength,cameraScaling,'z');
   let points = this.pointsTo3dAndBack(pnts);
   this.generateWeb(Object.assign({points},webParams));

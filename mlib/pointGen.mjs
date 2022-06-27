@@ -93,11 +93,11 @@ const interpolatePoints = function (end0,end1,fr) {
 	return rs;
 }
 	
-rs.gridPoints = function (iparams) {
- let params = {};
+rs.gridPoints = function (params) {
+ /*let params = {};
  	let props = ['width','height','numRows','numCols','left','right','k','missingRows','missingCols','jiggle','pos'];
   core.transferProperties(params,this,props);
-  core.transferProperties(params,iparams,props);
+  core.transferProperties(params,iparams,props);*/	
 	let {width,height,numRows,numCols,left:ileft,right:iright,k=1,missingRows=0,missingCols=0,jiggle=0,pos=Point.mk(0,0)} = params;
 	const doJiggle = function (p) {
 		if (jiggle) {

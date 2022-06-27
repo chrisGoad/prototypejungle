@@ -32,7 +32,7 @@ rs.initialDrop = function () {
 debugger;
   let {width,height,lineP} = this;
   let segs = this.rectangleSegments(width,height); // rectangleSegments is defined in segsets.mjs
-  let lines = segs.map((sg) => this.genLine(sg,lineP));  
+  let lines = segs.map((sg) => sg.toShape(lineP));  
   return {geometries:segs,shapes:[]};
 }
 
@@ -63,7 +63,7 @@ rs.generateDrop = function (p,rvs) {
     let seg = LineSegment.mkAngled(p0,angle,length);
     debugger;
     let lseg = LineSegment.mkAngled(p0,angle,length+minSeparation);
-    let ln = this.genLine(seg,lineP);
+    let ln = seg.toShape(lineP);
     ln .stroke = clr;
     ln['stroke-width'] = .3;
     // the segment is minSeparation longer than the line, meaning that lines extended by this much
@@ -71,7 +71,7 @@ rs.generateDrop = function (p,rvs) {
     return {geometries:[lseg],shapes:[ln]};
   } else {
     let crc = Circle.mk(1);
-    let crcs = this.genCircle(crc,this.circleP,0.5);
+    let crcs = crc.toShape(this.circleP,0.5);
     crcs .fill = clr;
 
     return {geometries:[crc],shapes:[crcs]};

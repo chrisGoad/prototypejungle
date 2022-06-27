@@ -227,10 +227,10 @@ item.wigglySegments = function (params) {
 
 // a "unit" has the form [[segs],[lines]] Seeds are starter units
 item.genSingletonUnit =  function (lineP,p,direction,clr) {
-  let {lineExt=0} = this;
+  let {lineExt=1} = this;
 	let seg = this.genOneSegment(p,direction);
 	//let ln = this.genLine(seg.end0,seg.end1,sepNext);
-	let ln = this.genLine(seg,lineP,lineExt);
+	let ln = seg.toShape(lineP,lineExt);
   if (clr) {
 		ln.stroke = clr;//'white';//clr;
   }

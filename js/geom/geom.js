@@ -176,6 +176,13 @@ Interval.intersectsInterval = function (intv) {
 	return !ni;
 }
 
+Interval.containsInterval = function (intv) {
+	let {lb,ub} = this;
+	let {lb:lb1,ub:ub1} = intv;
+	let rs = (lb <= lb1) && (ub1 <= ub);
+	return rs;
+}
+
 Point.setCoords = function (x,y) {
   this.set("x",x);
   this.set("y",y);
@@ -654,7 +661,7 @@ Line.toEquation = function () {
 }
 // needs fixing - does not work
 Line.nearestPoint = function (p) {
-	debugger;
+	//debugger;
 	let {point} = this;
   let {direction} = this;
 	let tpnt = point.plus(direction);
@@ -761,8 +768,10 @@ LineSegment.lengthen = function (ln) {
 	let {end0,end1} = this;
 	let cntr = end0.plus(end1).times(0.5);
 	let vc= end1.difference(end0);
+  let vln = vc.length();
 	let hvc = vc.times(0.5);
-	let nvc = vc.normalize();
+	//let nvc = vc.normalize();
+	let nvc = vc.times(1/vln);
 	let nhvc = hvc.plus(nvc.times(0.5*ln));
 	let nend0 = cntr.difference(nhvc);
 	let nend1 = cntr.plus(nhvc);
@@ -800,7 +809,7 @@ LineSegment.intersectsCircle = function (crc) {
   let e0in = de0<r;
   let e1in = de1<r;
   if ((!crc.isDisk) && e0in && e1in) {
-    debugger;
+    //debugger;
     return 0;  // crc contains this
   }
   if (e0in !== e1in) {
@@ -1074,10 +1083,12 @@ Circle.intersectsCircle = function (crc) {
 	if (d > (tr + cr)) {
     return 0;
   }
-  if ((!crc.isDisk) && ((d+cr)<tr)) {
+  //if ((!crc.isDisk) && ((d+cr)<tr)) {
+  if ((!crc.isDisk) && ((d+tr)<cr)) {
     return 0; // crc contains this
   }
-   if ((!this.isDisk) && ((d+tr)<cr)) {
+  // if ((!this.isDisk) && ((d+tr)<cr)) {
+   if ((!this.isDisk) && ((d+cr)<tr)) {
     return 0; // this contains crc
   }
   return 1;
@@ -1089,6 +1100,9 @@ Circle.intersects = function (target) {
     return this.intersectsCircle(target);
   }
   if (LineSegment.isPrototypeOf(target)) {
+    return target.intersectsCircle(this);
+  }
+   if (Rectangle.isPrototypeOf(target)) {
     return target.intersectsCircle(this);
   }
 }
@@ -1126,12 +1140,25 @@ Circle.intersectLine = function (point,vec) {
 }
 
 Circle.containsPoint = function (point) {
+  if (!point) {
+   debugger;
+  }
   let v = point.difference(this.center);
   let {x,y}= v;
   let r = this.radius;
   return (x*x + y*y) < r*r;
 }
 
+Circle.containsRectangle = function (rect) {
+  let corners = rect.corners();
+  for (let i=0;i<4;i++) {
+    if (!this.containsPoint(corners[i])) {
+      return 0;
+    } 
+  }
+  return 1;
+ }
+ 
 Circle.containsLineSegment = function (s,p) {
   if (p) {
     return this.contains(s.end0.plus(p)) && this.contains(s.end1.plus(p));
@@ -1142,7 +1169,7 @@ Circle.containsLineSegment = function (s,p) {
 
 
 Circle.contains = function (g,p) {
-debugger;
+//debugger;
  if (Point.isPrototypeOf(g)) {
    return this.containsPoint(g);
  }
@@ -1316,14 +1343,65 @@ Rectangle.intersectsRectangle = function (rect) {
 	let yb1 = rect.yBounds();
 	let xi = xb0.intersectsInterval(xb1);
 	let yi = yb0.intersectsInterval(yb1);
-	let rs = xi && yi;
-	if (!rs) {
-		debugger;
-		xi = xb0.intersectsInterval(xb1);
-	 yi = yb0.intersectsInterval(yb1);
-		
-	}
+  let rs;
+  if (this.isSolid) {
+	  rs = xi && yi;
+    return rs;
+  }
+  let thisContainsRect = xb0.containsInterval(xb1) && yb0.containsInterval(yb1);
+  let rectContainsThis = xb1.containsInterval(xb0) && yb1.containsInterval(yb0);
+  rs = xi && yi && !thisContainsRect && !rectContainsThis;
 	return rs;
+}
+
+Rectangle.intersectsCircle = function (crc) {
+  let corners = this.corners();
+/*  let cc0 = crc.containsPoint(corners[0]);
+  if (cc0 && crc.isDisk) {
+    return 1;
+  }
+  for (let i=1;i<4;i++) {
+    let diffv = crc.containsPoint(corners[i]) !== cc0;
+    if (diffv) {
+     return 1;
+    }    
+  } */ 
+  let cr = crc.containsRectangle(this);
+  if (cr) {
+    return  crc.isSolid;
+  }
+  let {center,radius} = crc;
+  let {x:cx,y:cy} = center;
+  let {corner,extent}  = this;
+  let {x:ilbx,y:ilby} = corner;
+  let farCorner = corner.plus(extent);
+  let {x:iubx,y:iuby} = farCorner;
+  let lbx = (ilbx<iubx)?ilbx:iubx;
+  let ubx = (ilbx<iubx)?iubx:ilbx;
+  let lby = (ilby<iuby)?ilby:iuby;
+  let uby = (ilby<iuby)?iuby:ilby;
+  let lcx = cx - radius;
+  let lcy = cy - radius;
+  let ucx = cx + radius;
+  let ucy = cy + radius;
+  let abvubx = lcx > ubx;
+  let abvuby = lcy > uby;
+  let blwlbx = ucx < lbx;
+  let blwlby = ucy < lby;
+  if (abvubx || abvuby || blwlbx || blwlby) {
+    return 0;
+  } 
+  if (this.isSolid) { 
+    return 1;
+  }
+  let abvlbx = lcx > lbx;
+  let abvlby = lcy > lby;
+  let blwubx = ucx < ubx;
+  let blwuby = ucy < uby;
+ 
+   // console.log('lbx',lbx,'ubx',ubx,'lcx',lcx,'ucx',ucx,'lby',lby,'uby',uby,'lcy',lcy,'ucy',ucy);
+  return !(abvlbx && abvlby && blwubx && blwuby); // the circle is not inside the rectangle
+  //return !abvx && !abvy && !blwx && !blwy; // the circle is inside the rectangle
 }
 
 Rectangle.intersectsLineSegment = function (seg) {
@@ -1331,7 +1409,7 @@ Rectangle.intersectsLineSegment = function (seg) {
 	let yb0 = this.yBounds();
 	let xb1 = seg.xBounds();
 	let yb1 = seg.yBounds();
-	if ((!xb0.intersectsInterval(xb1)) || (!yb0.intersectsInterval(yb1))) {
+	if ((!xb0.intersectsInterval(xb1))&& (!yb0.intersectsInterval(yb1))) {
 		return false;
 	}
 	let {end0,end1} = seg;
@@ -1341,7 +1419,7 @@ Rectangle.intersectsLineSegment = function (seg) {
 // now the hard case
   let sides = this.sides();
 	debugger;
-	let rs = seg.intersect(sides[0]) || seg.intersect(sides[1]) || seg.intersect(sides[2]) || seg.intersect(sides[3]);
+	let rs = seg.intersect(sides[0])&& seg.intersect(sides[1])&& seg.intersect(sides[2])&& seg.intersect(sides[3]);
   return rs;
 }
  Rectangle.intersects = function (g) {
@@ -1350,6 +1428,9 @@ Rectangle.intersectsLineSegment = function (seg) {
 	 } 
    if (LineSegment.isPrototypeOf(g)) {
 		 return this.intersectsLineSegment(g);
+	 }  
+   if (Circle.isPrototypeOf(g)) {
+		 return this.intersectsCircle(g);
 	 } 
 	 error('unsupported case for Rectangle.intersects');
  }
@@ -1650,7 +1731,7 @@ Rectangle.contains = function (g) {
    return this.containsPoint(g);
  }
  if (LineSegment.isPrototypeOf(g)) {
-   return this.containsRectangle(g);
+   return this.containsLineSegment(g);
  }
  if (Rectangle.isPrototypeOf(g)) {
    return this.containsRectangle(g);
@@ -1794,6 +1875,12 @@ const moveBy = function (g,p) {
      let c = g.center;
      let np = c.plus(p);
      g.center = np;
+     return g;
+  }
+  if (Rectangle.isPrototypeOf(g)) {
+     let c = g.corner;
+     let nc = c.plus(p);
+     g.corner = nc;
      return g;
   }
   if (LineSegment.isPrototypeOf(g)) {

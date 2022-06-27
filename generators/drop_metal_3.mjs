@@ -40,7 +40,7 @@ rs.dropAt = function (p) {
   let p1 = Point.mk(p1x,p1y);
   let p0 = Point.mk(-p1x,-p1y);
   let sg = LineSegment.mk(p0.plus(p),p1.plus(p));
-  let line = this.genLine(sg,lineP);
+  let line = sg.toShape(lineP);
  /* const genRGBval = function () {
     return 155 + Math.floor(Math.random()*100);
   }
@@ -53,7 +53,7 @@ rs.dropAt = function (p) {
 rs.initialDrop = function () {
   let {width,height,lineP} = this; 
   let segs = this.rectangleSegments(width,height);
-  let lines = segs.map((sg) => this.genLine(sg,lineP)); 
+  let lines = segs.map((sg) => sg.toShape(lineP)); 
   return [segs,lines];
 }
 

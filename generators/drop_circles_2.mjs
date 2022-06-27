@@ -47,7 +47,7 @@ rs.generateDrop= function (p) {
   }
   console.log('xa',xa,'ya',ya,'strh',strh,'strv',strv,'hsz',hsz,'vsz',vsz,'radius',rd);
   let crc = Circle.mk(rd);
-  let crcs = this.genCircle(crc,this.circleP);
+  let crcs = crc.toShape(this.circleP);
   return {geometries:[crc],shapes:[crcs]}
 }
 

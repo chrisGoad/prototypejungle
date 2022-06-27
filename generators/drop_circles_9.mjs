@@ -40,9 +40,8 @@ rs.generateDrop= function (p) {
   rd = Math.max(4,rd);
   rd = 5+Math.random() * radius;
   let crc = Circle.mk(Point.mk(0,0),rd);
-  let gs = [crc];
-  let shapes = this.geoms2shapes(gs,null,circleP,0.5);
-  let drop = {geometries:gs,shapes:shapes}
+  let crcs = crc.toShape(circleP,0.5);
+  let drop = {geometries:[crc],shapes:[crcs]}
   return drop;
 }
 
@@ -61,13 +60,13 @@ rs.initialize = function () {
     let sg2 = LineSegment.mk(Point.mk(-hht,sght+0.2*intv),Point.mk(hht,sght))
     drops.push(sg);
     drops.push(sg2);
-    let sgs = this.geom2shape(sg,lineP,circleP,1);
-    let sgs2 = this.geom2shape(sg2,lineP,circleP,1);
+    let sgs = sg.toShape(lineP,circleP);
+    let sgs2 = sg2.toShape(lineP);
     shapes.push(sgs);
     shapes.push(sgs2);
   }
   let crc = Circle.mk(Point.mk(0.5*ht,-5),radius);
-  let crcs = this.geom2shape(crc,null,circleP,1);
+  let crcs = crc.toShape(circleP);
   //let sgs = this.geom2shape(sg,lineP,circleP,1);
   shapes.push(crcs);
   //shapes.push(sgs);

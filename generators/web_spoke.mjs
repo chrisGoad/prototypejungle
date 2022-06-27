@@ -13,7 +13,7 @@ rs.setName('web_spoke');
 let webParams,gridParams;
 
 rs.computeParams = function (ht,dir) { // height and direction of the spoke
-  webParams = {minConnectorLength:0.5*ht,maxConnectorLength:2.2*ht,webTries:100};
+  webParams = {minConnectorLength:0.5*ht,maxConnectorLength:2.2*ht,webTries:100,lineP:this.lineP};
   gridParams = {initialPos:Point.mk(0,0),initialDirection:dir,width:ht,step:0.35*ht,delta:0.02*Math.PI,numSteps:70};
 }
 

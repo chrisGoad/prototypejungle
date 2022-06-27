@@ -88,8 +88,8 @@ rs.generateDrop = function (p) {
    let crc = Circle.mk(10);
    let seg = LineSegment.mkAngled(p0,angle,length);
    let lseg = LineSegment.mkAngled(p0,angle,length+10);
-   let ln = this.genLine(seg,this.lineP);
-   let crcs = this.genCircle(crc,this.circleP,0.5);
+   let ln = seg.toShape(this.lineP);
+   let crcs = crc.toShape(this.circleP,0.5);
    crcs.fill = 'white';
    crcs.stroke = 'blue';
   if (wr%2) {
@@ -109,7 +109,7 @@ rs.initialize = function () {
   this.circles = circles;
   circles.forEach((c) => drops.push(c));
   circles.forEach((c) => {
-    let circs = this.genCircle(c,circleP);
+    let circs = c.toShape(circleP);
     shapes.push(circs);
   });
   this.generateDrops(dropParams);
