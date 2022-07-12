@@ -1,5 +1,6 @@
 // documented in https://prototypejungle.net/doc/basics.html
 
+import {rs as circlePP} from '/shape/circle.mjs';
 import {rs as rectPP} from '/shape/rectangle.mjs';
 import {rs as shadedRectPP} from '/shape/shadedRectangle.mjs';
 import {rs as textPP} from '/shape/textOneLine.mjs';
@@ -61,7 +62,28 @@ item.addRectangle  = function (iparams) {
 	rect.show();
   return rect;
 }
-
+item.numCircs = 0;
+item.addCircle  = function (params) {
+  if (!params) {
+    return;
+  }
+  let p0 = Point.mk(0,0);
+  let {fill='transparent',stroke,stroke_width=0,position=p0,radius} = params;
+  let crc  = this.set('crc'+this.numCircs,circlePP.instantiate());
+  this.numCircs = this.numCircs + 1;
+  crc.fill = fill;
+  if (stroke) {
+    circ.stroke = stroke;
+  }
+  if (typeof stroke_width === 'number') {
+    crc['stroke-width'] = stroke_width;
+  } 
+  crc.dimension  = 2*radius;
+ 
+ // rect.update();
+	//rect.show();
+  return crc;
+}
 // add a stripe around the image, to control the size of the jpg when saved
 item.addFrame = function (params) {
   let {width,height} = this;
@@ -87,16 +109,6 @@ item.addFrame = function (params) {
   let rect =  this.addRectangle({width,height,fill:frf,stroke:frs,strokeWidth:fswd,position:pos});
   return rect;
 }
-
-
-item.installLine = function (line) {
-  this.shapes.push(line);
-  line.show();
-  line.update();
-  this.numDropped++;
-  return line;
-}
-
 
 
 item.cellOf  = function (p) {
@@ -238,7 +250,9 @@ item.assignValues = function (vls) {
 }
     
 item.getTheState = function (cb) {
-  let {path} = this;
+  let {path:ipath} = this;
+  let idx = ipath.indexOf('_i_');
+  let path = (idx>0)? ipath.substring(0,idx)+'.json':ipath;
   debugger;
   core.httpGet(path, (error,json) => {
     debugger;

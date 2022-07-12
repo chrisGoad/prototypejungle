@@ -5,28 +5,33 @@ import {rs as basicsP} from '/generators/basics.mjs';
 import {rs as addDropMethods} from '/mlib/drop.mjs';
 import {rs as addSegsetMethods} from '/mlib/segsets.mjs';
 import {rs as addRandomMethods} from '/mlib/boundedRandomGrids.mjs';
+import {rs as addWebMethods} from '/mlib/web.mjs';	
 
 let rs = basicsP.instantiate();
 
 addDropMethods(rs);
 addRandomMethods(rs);
 addSegsetMethods(rs);
-rs.setName('drop_on_top');
-let wd = 100;
-let nr = 50;
-let topParams = {saveState:0,stateOpsDisabled:0,width:wd,height:wd,numRows:nr,numCols:nr,minSeparation:2,frameStrokee:'white',framePadding:20,//};
+addWebMethods(rs);
+rs.setName('drop_on_top_2');
+let wd = 160;
+let nr = 100;
+let topParams = {saveState:1,stateOpsDisabled:0,width:wd,height:wd,numRows:nr,numCols:nr,minSeparation:2,frameStrokee:'white',framePadding:20,circleScale:.5,//};
  //initialDropColor:'rgb(200,200,255)',finalDropColor:'rgb(0,0,100,255)'};
- initialDropColor:'rgb(255,255,0)',finalDropColor:'rgb(0,0,255)'};
+ initialDropColor:'rgb(255,255,255)',finalDropColor:'rgb(255,255,255)'};
 //let dropParams = {dropTries:100,maxDrops:4000}
 let dropParams = {dropTries:100,maxDrops:10000};
 //dropParams = {dropTries:0,maxDrops:0}
+let  webParams = {webTries:1000,minConnectorLength:0,maxConnectorLength:2*(wd/nr)};
 
 Object.assign(rs,topParams);
 
 
 rs.initProtos = function () {
   this.lineP = linePP.instantiate();
-  this.lineP.stroke = 'black';
+  this.lineP.stroke = 'white';
+  this.lineP.stroke = 'transparent';
+  this.lineP.stroke = 'rgb(200,200,200)';
   this.lineP['stroke-width'] = .3; 
   this.circleP = circlePP.instantiate();
   this.circleP.fill = 'white';
@@ -36,6 +41,7 @@ rs.initProtos = function () {
 
 
 rs.initialDrop = function (side) {
+  let {circleScale:cs} = this;
   let crca = [];
   let crcsa = [];
 debugger;
@@ -78,7 +84,7 @@ debugger;
     let p = c.plus(Point.mk(disp,0));
     ipositions.push(p);
     let crc = Circle.mk(p,1);
-    let crcs = crc.toShape(circleP,1);
+    let crcs = crc.toShape(circleP,cs);
     debugger;
     crcs.fill = this.initialDropColor;
     //crc.aboriginal = 1;
@@ -94,7 +100,8 @@ debugger;
     }
   }
   debugger;
-  return {geometries:crca,shapes:crcsa};
+  //return {geometries:crca,shapes:crcsa};
+  return {geometries:crca,shapes:[]};
 }
 /*
 rs.initialDrop = function () {
@@ -113,7 +120,7 @@ rs.segParams = function (np) {
 
   
 rs.generateDrop= function (p) {
-  let {height:ht,radius,positions,saveState,finalDropColor} = this;
+  let {height:ht,radius,positions,saveState,finalDropColor,circleScale:cs} = this;
  /* if (p.x>=0) {
     return;
   }*/
@@ -124,9 +131,10 @@ rs.generateDrop= function (p) {
   //let fr = (p.y + hht)/ht;
   let d = p.length();*/
   let crc = Circle.mk(1);
-  let crcs = crc.toShape(this.circleP);
+  let crcs = crc.toShape(this.circleP,cs);
   	crcs . fill = finalDropColor;
-  return {geometries:[crc],shapes:[crcs]}
+  //return {geometries:[crc],shapes:[crcs]}
+  return {geometries:[crc],shapes:[]}
 }
 
 
@@ -136,13 +144,25 @@ rs.computeState  = function () {
 }
 
 rs.initialize = function () {
+  let {positions,ipositions}= this;
   this.initProtos();
+  webParams.lineP = this.lineP;
   this.addFrame();
+ //  this.addRectangle({width:0.5*wd,height:wd,position:Point.mk(-0.25*wd,0),stroke_width:0,fill:'rgb(0,0,100)'});
+  // this.addRectangle({width:0.5*wd,height:wd,position:Point.mk(0.25*wd,0),stroke_width:0,fill:'rgb(100,0,0)'});
+   this.addRectangle({width:wd,height:wd,position:Point.mk(0,0),stroke_width:0,fill:'rgb(0,0,100)'});
+   this.addRectangle({width:0.666*wd,height:0.666*wd,position:Point.mk(0,0),stroke_width:0,fill:'rgb(40,40,140)'});
+  // this.addRectangle({width:0.333*wd,height:0.333*wd,position:Point.mk(0,0),stroke_width:0,fill:'rgb(200,100,0)'});
+   //this.addRectangle({width:0.333*wd,height:0.333*wd,position:Point.mk(0,0),stroke_width:0,fill:'rgb(80,80,180)'});
+   this.addRectangle({width:0.333*wd,height:0.333*wd,position:Point.mk(0,0),stroke_width:0,fill:'rgb(0,0,180)'});
   //this.setupRandomGridForShapes('v',{step:10,min:160,max:255});
   //this.setupRandomGridForShapes('which',{step:0.3,min:0,max:1});
  if (this.saveState) {
     this.positions = [];
     this.generateDrops(dropParams);
+    let points = this.ipositions.concat(this.positions);  
+    this.generateWeb(Object.assign(webParams,{points}));
+
     debugger;
     this.saveTheState();
   } else {
@@ -155,6 +175,5 @@ rs.initialize = function () {
 }
 
 export {rs};
-
 
 

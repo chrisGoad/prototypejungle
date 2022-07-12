@@ -32,7 +32,7 @@ rs.getParam = function (cell,prop) {
 		return propv;
 	}
   if (rowParams) {
-    propv == rowParams[prop]
+    propv = rowParams[prop]
   }
 	return propv!==undefined?propv:globalParams[prop]
 }

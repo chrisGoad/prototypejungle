@@ -53,7 +53,7 @@ rs.initialForestDrop = function () {
 
 rs.generateForestDrop = function (p) {
   let segs = this.generateFan(p);
-  let lines = segs.map( s => this.genLine(s,this.lineP,forestDropParams.lineExt));
+  let lines = segs.map( s => s.toShape(this.lineP));
   return {geometries:segs,shapes:lines};
 }
 

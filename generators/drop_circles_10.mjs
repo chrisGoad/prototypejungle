@@ -6,7 +6,7 @@ import {rs as addDropMethods} from '/mlib/drop.mjs';
 let rs = basicP.instantiate();
 addDropMethods(rs);
 
-rs.setName('drop_circles_9');
+rs.setName('drop_circles_10');
 let ht= 1000;
 let topParams = {width:ht,height:ht,framePadding:0.1*ht,radius:20}
 Object.assign(rs,topParams);

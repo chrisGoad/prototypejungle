@@ -12,10 +12,10 @@ addDropMethods(rs);
 rs.setName('quad_drop');
 
 let wd = 1000;
-let topParams = {width:wd,height:wd,gap:.1,fractal:1,framePadding:0.1*wd}
+let topParams = {width:wd,height:wd,gap:.1,fractal:0,framePadding:0.1*wd}
 Object.assign(rs,topParams);
 
-let quadParams = {levels:4,chance:0.8,alwaysSplitBefore:1}
+let quadParams = {levels:4,chance:0.8,alwaysSplitBefore:2}
 
 rs.dropParams = {dropTries:3500,maxDrops:1000000}
 rs.dropParams = {dropTries:35,maxDrops:10000}

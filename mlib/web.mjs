@@ -77,7 +77,6 @@ rs.addSegs = function (lineP) {
       line.stroke = this.colorFromPoint(end0);
     }
     shapes.push(line);
-  //  this.installLine(line);    
   }
 }  
 

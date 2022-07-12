@@ -1254,7 +1254,15 @@ Rectangle.mk = function (a0,a1) {
   return rs;
 }
 
-Rectangle.mkCentered = function (center,extent) {
+Rectangle.mkCentered = function (icenter,iextent) {
+  let center,extent;
+  if (iextent === undefined) {
+    center = Point.mk(0,0);
+    extent = icenter;
+  } else {
+    center = icenter;
+    extent = iextent;
+  }
 	let {x,y} = extent;
 	let {x:cx,y:cy} = center;
 	let corner = Point.mk(cx-0.5*x,cy - 0.5*y);
@@ -1356,16 +1364,6 @@ Rectangle.intersectsRectangle = function (rect) {
 
 Rectangle.intersectsCircle = function (crc) {
   let corners = this.corners();
-/*  let cc0 = crc.containsPoint(corners[0]);
-  if (cc0 && crc.isDisk) {
-    return 1;
-  }
-  for (let i=1;i<4;i++) {
-    let diffv = crc.containsPoint(corners[i]) !== cc0;
-    if (diffv) {
-     return 1;
-    }    
-  } */ 
   let cr = crc.containsRectangle(this);
   if (cr) {
     return  crc.isSolid;

@@ -5,8 +5,9 @@
 
 import {rs as rectPP} from '/shape/rectangle.mjs';
 import {rs as basicsP} from '/generators/basics.mjs';
+debugger;
 import {rs as gridDecoP} from '/generators/grid_deco.mjs';
-
+debugger;
 let rs = basicsP.instantiate();
 	
   

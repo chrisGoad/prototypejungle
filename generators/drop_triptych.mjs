@@ -17,13 +17,13 @@ rs.dropParams = {dropTries:3500,maxDrops:10000}
 
 rs.initProtos = function () {
   let circleP = this.circleP = circlePP.instantiate();
-  circleP.fill = 'rgba(0,0,100,0.3)';
-  circleP.stroke = 'white';
-  circleP['stroke-width'] = 1;
+  circleP.fill = 'rgba(0,0,200,0.3)';
+  circleP.stroke = 'rgb(200,200,200)';
+  circleP['stroke-width'] = 2;
   let rectP = this.rectP = rectPP.instantiate();
-  rectP.fill = 'rgba(100,0,0,0.3)';
-  rectP.stroke = 'white';
-  rectP['stroke-width'] = 1;
+  rectP.fill = 'rgba(200,0,0,0.3)';
+  rectP.stroke = 'rgb(200,200,200)';
+  rectP['stroke-width'] = 2;
 }  
 
 rs.initialDrop = function () {
@@ -74,6 +74,7 @@ rs.generateDrop= function (p) {
      geom = Rectangle.mk(Point.mk(-r,-r),Point.mk(2*r,2*r))
      shp = geom.toShape(this.rectP);
    }
+   shp['stroke-width'] = 1+1*fry;
    return {geometries:[geom],shapes:[shp]}
  }
 

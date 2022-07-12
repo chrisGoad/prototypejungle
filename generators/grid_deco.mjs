@@ -10,7 +10,7 @@ import {rs as rectPP} from '/shape/rectangle.mjs';
 import {rs as basicsP} from '/generators/basics.mjs';
 import {rs as addGridMethods} from '/mlib/grid.mjs';
 import {rs as addRandomMethods} from '/mlib/boundedRandomGrids.mjs';
-import {rs as addParamsByCellMethods} from '/mlib/ParamsByCell.mjs';
+import {rs as addParamsByCellMethods} from '/mlib/paramsByCell.mjs';
 
 let rs = basicsP.instantiate();
 
@@ -62,6 +62,63 @@ sizeMap:{0:2,1:2,2:2,3:3,4:4,5:0,6:0}
 };
 
 
+rs.pByC = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,maxSizeFactor:2,genCircles:0,genPolygons:0,
+	 opacityMap:{0:0.4,1:0.4,2:0.4,3:0.4,4:0.4,5:0.4,6:0.4},
+	  colorMap:{0: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
+	            1: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
+		          2:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+	            3:(r,g,b,opacity) => `rgba(0,${b},${b},${opacity})`,
+		          4:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+		          5:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+	            6:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`},
+		sizeMap: {0:1,1:1,2:1,3:1,4:1,5:1,6:1},
+		};
+rs.colorSetter = function (shape,fc,cell) {
+  debugger;
+	let colorMap = this.getParam(cell,'colorMap');
+	if (!colorMap) {
+		debugger;
+	}
+	let opacityMap = this.getParam(cell,'opacityMap');
+	let r = 200 + Math.random() * 55;
+	let g = 100 +Math.random() * 155;
+	let b = 100 + Math.random() * 155;
+	//console.log('fc' , fc);
+	//r = 225;
+	//g = 170;
+	//b = 170;
+	let colorF = colorMap[fc];
+	let opacity = opacityMap[fc];
+	let fill = colorF(r,g,b,opacity,cell);
+	if (shape.setFill) {
+		shape.setFill(fill);
+	} else {
+	  shape.fill = fill;
+	}
+	//console.log(fill);
+}
+
+rs.sizeFactor = function ( cell) {
+	let numRows = this.numRows;
+	let {x,y} = cell;
+	if ((x===63) && (y===63)) {
+		debugger;
+	}
+	let szPower = this.getParam(cell,'sizePower');
+	let maxSizeFactor = this.getParam(cell,'maxSizeFactor');
+	//let px = numPowers(x+1,szPower);
+	let px = this.numPowers(x,szPower);
+	let sf;
+	if (numRows === 1) {
+		sf = Math.min(px,maxSizeFactor);
+	} else {
+  	//let py = this.numPowers(y+1,szPower);
+  	let py = this.numPowers(y,szPower);
+	  sf =  Math.min(px,py,maxSizeFactor);
+	}
+	//console.log('x',x,'sf',sf);
+	return sf;
+}
 rs.paramsByCelll = function (cell) {
   return this.pByC;
 }
@@ -128,6 +185,20 @@ rs.pByC = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,maxSizeF
 	            6:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`},
 		sizeMap: {0:1,1:1,2:1,3:1,4:1,5:1,6:1},
 		};
+
+let rr=
+rs.pByC = {randomizingFactor:0,sizePower:2,widthFactor:1,heightFactor:1,maxSizeFactor:2,genCircles:0,genPolygons:0,
+	 opacityMap:{0:0.4,1:0.4,2:0.4,3:0.4,4:0.4,5:0.4,6:0.4},
+	  colorMap:{0: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
+	            1: (r,g,b,opacity) => `rgba(${r},0,0,${opacity})`,
+		          2:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+	            3:(r,g,b,opacity) => `rgba(0,${b},${b},${opacity})`,
+		          4:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+		          5:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`,
+	            6:(r,g,b,opacity) => `rgba(255,255,255,${opacity})`},
+		sizeMap: {0:1,1:1,2:1,3:1,4:1,5:1,6:1},
+		};
+    
 let wd = 300;
 let topParams = {saveImage:true,numRows:ar*sqd,numCols:ar*sqd,width:wd,height:wd,backFill:'rgb(200,2,2)',backgroundPadding:0.1*wd,pointJiggle:3,
 ordinalMap: {0:0,1:1,2:2,3:3,4:4,5:4,6:6,7:7}}
@@ -174,7 +245,7 @@ rs.sizeFactor = function ( cell) {
 	return sf;
 }
 
-
+debugger;
 rs.colorSetter = function (shape,fc,cell) {
 	let colorMap = this.getParam(cell,'colorMap');
 	if (!colorMap) {
@@ -198,7 +269,7 @@ rs.colorSetter = function (shape,fc,cell) {
 	}
 	//console.log(fill);
 }
-
+debugger;
 
 rs.ordinalGenerator = function (cell) {
 	let fc = this.sizeFactor(cell);
@@ -342,6 +413,7 @@ rs.shapeUpdater = function (shape,rvs,cell,center) {
 	 // shape.width = fszx;
 	 // shape.height= sz.y;
 	//}
+  debugger;
 	this.colorSetter(shape,sz.fc,cell);
 	if (nshape) {
 		nshape.update();
